@@ -57,7 +57,6 @@ addOverlayListener('PartyChanged', (e) => {
   }
 
   // default nickname should be here
-
   for (const party of e.party) {
     const v = nameToJobEnum[party.job];
     if (v) {
