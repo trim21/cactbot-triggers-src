@@ -1,22 +1,21 @@
 const path = require("path");
-const webpack = require("webpack");
-const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   mode: "production",
   entry: {
     raidboss: "./src/raidboss/index.ts",
   },
+  devtool: "inline-source-map",
   optimization: {
     minimize: false,
-    chunkIds: "named"
+    chunkIds: "named",
   },
   output: {
     filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
   },
   resolve: {
-    extensions: ['.ts', '.js'],
+    extensions: [".ts", ".js"],
   },
   module: {
     rules: [
@@ -24,28 +23,22 @@ module.exports = {
         test: /\.(js|mjs|cjs|ts)$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
-          options: {
-            presets: [
-              [
-                "@babel/preset-env",
-                {
-                  targets: {
-                    chrome: "98",
-                  },
-                },
-              ],
-              ["@babel/preset-typescript"],
-            ],
-          },
+          loader: "swc-loader",
+          // options: {
+          //   parseMap: true,
+          //   sourceMaps: true,
+          //   inputSourceMap: true,
+          // },
         },
         resolve: {
-          fullySpecified: false
-        }
-      }
+          fullySpecified: false,
+        },
+      },
     ],
   },
-  plugins: [
-    new webpack.CleanPlugin(),
-  ],
+  cache: {
+    type: "filesystem",
+    allowCollectingMemory: true,
+    name: "cactbot-user",
+  },
 };

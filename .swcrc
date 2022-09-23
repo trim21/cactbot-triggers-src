@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json.schemastore.org/swcrc",
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "dynamicImport": false
+    },
+    "target": "es2020",
+    "loose": false,
+    "externalHelpers": false
+  },
+  "env": {
+    "targets": {
+      "chrome": "102"
+    }
+  },
+  "sourceMaps": true,
+  "minify": false
+}

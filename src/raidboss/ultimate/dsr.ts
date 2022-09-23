@@ -1,5 +1,5 @@
-import type { RaidbossData } from 'cactbot/data';
-import type { TriggerSet } from 'cactbot/trigger';
+import type { RaidbossData } from "cactbot/data";
+import type { TriggerSet } from "cactbot/trigger";
 
 interface DSRData extends RaidbossData {
   tower: number[];
@@ -8,18 +8,29 @@ interface DSRData extends RaidbossData {
 const triggerSet: TriggerSet<DSRData> = {
   zoneId: ZoneId.DragonsongsRepriseUltimate,
   initData() {
-    console.log('龙诗个人触发器初始化');
-    return {tower: []};
+    console.log("龙诗个人触发器初始化");
+    return { tower: [] };
   },
   triggers: [
     {
-      id: 'DSR 收集tower',
-      type: 'StartsUsing',
-      netRegex: NetRegexes.startsUsing({id: ['6717', '6718', '6719', '671A']}),
+      id: "DSR 收集tower",
+      type: "StartsUsing",
+      netRegex: NetRegexes.startsUsing({
+        id: ["6717", "6718", "6719", "671A"],
+      }),
       preRun: (data, matches) => {
         // 左上0 右上1
         // 左下3 右下2
-        let location = Math.round(2 - 2 * Math.atan2(parseFloat(matches.x) - 100, parseFloat(matches.y) - 100) / Math.PI) % 4;
+        let location =
+          Math.round(
+            2 -
+              (2 *
+                Math.atan2(
+                  parseFloat(matches.x) - 100,
+                  parseFloat(matches.y) - 100
+                )) /
+                Math.PI
+          ) % 4;
         let id = parseInt(matches.id, 16);
         let wantID = id - 26390;
         data.tower[location] = wantID;
@@ -46,7 +57,7 @@ const triggerSet: TriggerSet<DSRData> = {
         }
       },
     },
-  ]
+  ],
 };
 
 export default triggerSet;
