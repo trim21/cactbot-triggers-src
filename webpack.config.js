@@ -24,11 +24,6 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: "swc-loader",
-          // options: {
-          //   parseMap: true,
-          //   sourceMaps: true,
-          //   inputSourceMap: true,
-          // },
         },
         resolve: {
           fullySpecified: false,
