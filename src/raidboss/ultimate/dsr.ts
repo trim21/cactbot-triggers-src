@@ -8,14 +8,15 @@ interface DSRData extends RaidbossData {
 const triggerSet: TriggerSet<DSRData> = {
   zoneId: ZoneId.DragonsongsRepriseUltimate,
   initData() {
-    return { tower: [] }
+    console.log('龙诗个人触发器初始化');
+    return {tower: []};
   },
   triggers: [
     {
       id: 'DSR 收集tower',
       type: 'StartsUsing',
-      netRegex: NetRegexes.startsUsing({ id: ['6717', '6718', '6719', '671A'] }),
-      run: (data, matches) => {
+      netRegex: NetRegexes.startsUsing({id: ['6717', '6718', '6719', '671A']}),
+      preRun: (data, matches) => {
         // 左上0 右上1
         // 左下3 右下2
         let location = Math.round(2 - 2 * Math.atan2(parseFloat(matches.x) - 100, parseFloat(matches.y) - 100) / Math.PI) % 4;
@@ -25,27 +26,27 @@ const triggerSet: TriggerSet<DSRData> = {
       },
       alertText: (data) => {
         if (data.tower.filter(Boolean).length !== 4) {
-          return
+          return;
         }
 
         if (data.tower[0] >= 2) {
-          return `原地 ${data.tower[0]}`
+          return `原地 ${data.tower[0]}`;
         }
 
         if (data.tower[1] >= 3) {
-          return `左 ${data.tower[1]}`
+          return `左 ${data.tower[1]}`;
         }
 
         if (data.tower[3] >= 3) {
-          return `右 ${data.tower[3]}`
+          return `右 ${data.tower[3]}`;
         }
 
         if (data.tower[2] >= 3) {
-          return `对穿 ${data.tower[2]}`
+          return `对穿 ${data.tower[2]}`;
         }
       },
     },
   ]
-}
+};
 
 export default triggerSet;

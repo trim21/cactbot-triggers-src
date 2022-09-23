@@ -11,9 +11,14 @@ import _ZoneInfo from '../../cactbot/resources/zone_info';
 import _RaidbossOptions from '../../cactbot/ui/raidboss/raidboss_options';
 import type { RaidbossData } from 'cactbot/data';
 import type { TriggerSet } from 'cactbot/trigger';
+import {
+  addOverlayListener as _addOverlayListener
+} from '../cactbot/resources/overlay_plugin_api';
 
 declare global {
+  const addOverlayListener: typeof _addOverlayListener;
   const Options: {
+    PlayerNicks: Record<string, string>;
     Triggers: {
       push<T extends RaidbossData>(item: TriggerSet<T>)
     };
