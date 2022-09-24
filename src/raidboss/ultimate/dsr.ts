@@ -1,5 +1,8 @@
 import type { RaidbossData } from 'cactbot/data';
 import type { TriggerSet } from 'cactbot/trigger';
+import { Mark } from '../namazu';
+
+const DisablePostNamazu = true;
 
 interface DSRData extends RaidbossData {
   tower: Array<{
@@ -12,7 +15,6 @@ interface DSRData extends RaidbossData {
 const triggerSet: TriggerSet<DSRData> = {
   zoneId: ZoneId.DragonsongsRepriseUltimate,
   initData() {
-    console.log('龙诗个人触发器初始化');
     return {tower: []};
   },
   triggers: [
@@ -101,6 +103,18 @@ const triggerSet: TriggerSet<DSRData> = {
           return `对穿 ${tower[2]}`;
         }
       },
+    },
+    {
+      id: 'DSR 死宣科技',
+      disabled: DisablePostNamazu,
+      type: 'GainsEffect',
+      netRegex: NetRegexes.gainsEffect({effectId: 'BA0'}),
+      run(data, match) {
+        const name = (match.target);
+        Mark({MarkType: 'attack1', Name: name}).then(r => {
+          console.log(r);
+        });
+      }
     },
   ],
 };
