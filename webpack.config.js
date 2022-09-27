@@ -4,6 +4,7 @@ module.exports = {
   mode: "production",
   entry: {
     raidboss: "./src/raidboss/index.ts",
+    test: "./src/test.ts",
   },
   devtool: "inline-source-map",
   optimization: {
@@ -15,7 +16,7 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
   },
   resolve: {
-    extensions: [".ts", ".js"],
+    extensions: [".mts", ".ts", ".mjs", ".js"],
   },
   module: {
     rules: [

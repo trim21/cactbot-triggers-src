@@ -1,10 +1,10 @@
-const port = 2019;  //鲶鱼精邮差所监听的端口
+const port = 2020;  //鲶鱼精邮差所监听的端口
 
-export async function Command(data: string) {
-  return call('Command', data);
+export function Command(data: string): void {
+  call('Command', data);
 }
 
-type MarkType = 'attack1' |
+export type MarkType = 'attack1' |
   'attack2' |
   'attack3' |
   'attack4' |
@@ -24,11 +24,12 @@ type Mark = ({
   LocalOnly?: boolean;
 }) & ({ ActorID: number; } | { Name: string; });
 
-export async function Mark(data: Mark) {
-  return call('Mark', JSON.stringify(data));
+export function Mark(data: Mark): void {
+  call('Mark', JSON.stringify(data));
 }
 
 async function call(command: 'Command' | 'Mark', data: string) {
+  console.log(command, data);
   return await fetch(`http://127.0.0.1:${port}/${command}`, {
     method: 'POST',
     mode: 'no-cors',
@@ -37,3 +38,8 @@ async function call(command: 'Command' | 'Mark', data: string) {
   });
 }
 
+export function clearMark() {
+  for (let index = 1; index < 9; index++) {
+    Command(`/mk clear <${index}>`);
+  }
+}
