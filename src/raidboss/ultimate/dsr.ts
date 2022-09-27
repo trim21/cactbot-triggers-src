@@ -2,15 +2,14 @@ import { clearMark, Command, Mark, MarkType } from '../namazu';
 import { Matches, NetMatches } from 'cactbot/net_matches';
 import NetRegexes from '../../../cactbot/resources/netregexes';
 import { UnreachableCode } from '../../../cactbot/resources/not_reached';
-import type {
-  Data as RaidbossData,
+import {
+  Data as BaseData,
 } from '../../../cactbot/ui/raidboss/data/06-ew/ultimate/dragonsongs_reprise_ultimate';
 import { defineTrigger, UserTriggerSet } from '../cactbot';
 
 const EnablePostNamazu = false;
 
 interface DSRData {
-  // phase: string;
   marked: boolean;
   nameToJobID?: Record<string, number>,
   p5Lightning: Array<{ name: string, jobID: number }>;
@@ -24,7 +23,7 @@ interface DSRData {
 
 const DisablePostNamazu = !EnablePostNamazu;
 
-export default defineTrigger<DSRData, RaidbossData>({
+export default defineTrigger<DSRData, BaseData>({
   zoneId: ZoneId.DragonsongsRepriseUltimate,
   initData() {
     return {
@@ -243,7 +242,7 @@ const jobOrder: Record<number, number> = Object.fromEntries([
 
 console.log(jobOrder);
 
-const getHeadmarkerId = (data: DSRData & RaidbossData, matches: NetMatches['HeadMarker'], firstDecimalMarker?: number) => {
+const getHeadmarkerId = (data: BaseData, matches: NetMatches['HeadMarker'], firstDecimalMarker?: number) => {
   // If we naively just check !data.decOffset and leave it, it breaks if the first marker is 00DA.
   // (This makes the offset 0, and !0 is true.)
   if (data.decOffset === undefined) {
