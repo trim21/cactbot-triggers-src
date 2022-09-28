@@ -4,7 +4,6 @@ module.exports = {
   mode: "production",
   entry: {
     raidboss: "./src/raidboss/index.ts",
-    test: "./src/test.ts",
   },
   devtool: "inline-source-map",
   optimization: {

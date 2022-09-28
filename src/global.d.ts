@@ -1,21 +1,25 @@
-import _Conditions from '../../cactbot/resources/conditions';
-import _ContentType from '../../cactbot/resources/content_type';
-import _NetRegexes from '../../cactbot/resources/netregexes';
-import _Regexes from '../../cactbot/resources/regexes';
-import { Responses as _Responses } from '../../cactbot/resources/responses';
-import _Outputs from '../../cactbot/resources/outputs';
-import _Util from '../../cactbot/resources/util';
-import _ZoneId from '../../cactbot/resources/zone_id';
-import _ZoneInfo from '../../cactbot/resources/zone_info';
-import type { RaidbossData } from 'cactbot/data';
-import type { TriggerSet } from 'cactbot/trigger';
+import _Conditions from '@trim21/cactbot-types/resources/conditions';
+import _ContentType from '@trim21/cactbot-types/resources/content_type';
+import _NetRegexes from '@trim21/cactbot-types/resources/netregexes';
+import _Regexes from '@trim21/cactbot-types/resources/regexes';
+import {
+  Responses as _Responses
+} from '@trim21/cactbot-types/resources/responses';
+import _Outputs from '@trim21/cactbot-types/resources/outputs';
+import _Util from '@trim21/cactbot-types/resources/util';
+import _ZoneId from '@trim21/cactbot-types/resources/zone_id';
+import _ZoneInfo from '@trim21/cactbot-types/resources/zone_info';
+import type { RaidbossData } from '@trim21/cactbot-types/types/data';
+import type { TriggerSet } from '@trim21/cactbot-types/types/trigger';
+import { IOverlayHandler } from '@trim21/cactbot-types/types/event';
 
 declare global {
+  const callOverlayHandler: IOverlayHandler;
   // const addOverlayListener: typeof addOverlayListener;
   const Options: {
     PlayerNicks: Record<string, string>;
     Triggers: {
-      push<T extends RaidbossData>(item: TriggerSet<T>)
+      push<T extends RaidbossData>(item: Omit<TriggerSet<T>, 'initData'> & { initData(): Partial<T> })
     };
   };
   // Global variables
