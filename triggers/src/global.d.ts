@@ -2,9 +2,7 @@ import _Conditions from 'cactbot/resources/conditions';
 import _ContentType from 'cactbot/resources/content_type';
 import _NetRegexes from 'cactbot/resources/netregexes';
 import _Regexes from 'cactbot/resources/regexes';
-import {
-  Responses as _Responses
-} from 'cactbot/resources/responses';
+import { Responses as _Responses } from 'cactbot/resources/responses';
 import _Outputs from 'cactbot/resources/outputs';
 import _Util from 'cactbot/resources/util';
 import _ZoneId from 'cactbot/resources/zone_id';
@@ -19,7 +17,7 @@ declare global {
   const Options: {
     PlayerNicks: Record<string, string>;
     Triggers: {
-      push<T extends RaidbossData>(item: Omit<TriggerSet<T>, 'initData'> & { initData(): Partial<T> })
+      push<T extends RaidbossData>(item: Omit<TriggerSet<T>, 'initData'> & { initData(): Partial<T> });
     };
   };
   // Global variables

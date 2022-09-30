@@ -1,21 +1,21 @@
-const path = require("path");
+const path = require('path');
 
 module.exports = {
-  mode: "production",
+  mode: 'production',
   entry: {
-    raidboss: "./src/raidboss/index.ts",
+    raidboss: './src/raidboss/index.ts',
   },
-  devtool: "inline-source-map",
+  devtool: 'inline-source-map',
   optimization: {
     minimize: false,
-    chunkIds: "named",
+    chunkIds: 'named',
   },
   output: {
-    filename: "[name].js",
-    path: path.resolve(__dirname, "dist"),
+    filename: '[name].js',
+    path: path.resolve(__dirname, 'dist'),
   },
   resolve: {
-    extensions: [".mts", ".ts", ".mjs", ".js"],
+    extensions: ['.mts', '.ts', '.mjs', '.js'],
   },
   module: {
     rules: [
@@ -23,7 +23,7 @@ module.exports = {
         test: /\.(js|mjs|cjs|ts)$/,
         exclude: /node_modules/,
         use: {
-          loader: "swc-loader",
+          loader: 'swc-loader',
         },
         resolve: {
           fullySpecified: false,
@@ -32,8 +32,8 @@ module.exports = {
     ],
   },
   cache: {
-    type: "filesystem",
+    type: 'filesystem',
     allowCollectingMemory: true,
-    name: "cactbot-user",
+    name: 'cactbot-user',
   },
 };
