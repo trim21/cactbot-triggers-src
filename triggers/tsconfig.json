@@ -1,15 +1,5 @@
 {
-  "ts-node": {
-    "compiler": "ttypescript",
-    "esm": true
-  },
   "compilerOptions": {
-    "plugins": [
-      {
-        "transform": "@zoltu/typescript-transformer-append-js-extension/output/index.js",
-        "after": true
-      }
-    ],
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
     /* Basic Options */
     // "incremental": true,                         /* Enable incremental compilation */
@@ -17,7 +7,10 @@
     /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', 'ES2021', or 'ESNEXT'. */
     "module": "ES2020",
     /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
-    "lib": ["DOM", "ES6"],
+    "lib": [
+      "DOM",
+      "ES6"
+    ],
     /* Specify library files to be included in the compilation. */
     "allowJs": true,
     /* Allow javascript files to be compiled. */
@@ -82,11 +75,12 @@
     // "experimentalDecorators": true,              /* Enables experimental support for ES7 decorators. */
     // "emitDecoratorMetadata": true,               /* Enables experimental support for emitting type metadata for decorators. */
     /* Advanced Options */
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     /* Skip type checking of declaration files. */
     "forceConsistentCasingInFileNames": true
     /* Disallow inconsistently-cased references to the same file. */
   },
-  "include": ["src/"],
-  "exclude": ["./cactbot"]
+  "include": [
+    "./src/"
+  ]
 }
