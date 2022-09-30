@@ -19,6 +19,7 @@
   "private": true,
   "scripts": {
     "format": "prettier -w ./triggers/",
+    "triggers": "yarn workspace triggers",
     "build": "yarn workspaces run build",
     "update-submodules": "git submodule foreach git pull"
   }
