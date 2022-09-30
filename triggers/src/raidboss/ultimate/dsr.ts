@@ -1,10 +1,10 @@
 import { clearMark, Mark, MarkType } from '../namazu';
-import type { NetMatches } from '@trim21/cactbot-types/types/net_matches';
-import { UnreachableCode } from '@trim21/cactbot-types/resources/not_reached';
+import type { NetMatches } from 'cactbot/types/net_matches';
+import { UnreachableCode } from 'cactbot/resources/not_reached';
 import type {
   Data as BaseData,
-} from '@trim21/cactbot-types/ui/raidboss/data/06-ew/ultimate/dragonsongs_reprise_ultimate';
-import { defineTrigger } from '@trim21/cactbot-types';
+} from 'cactbot/ui/raidboss/data/06-ew/ultimate/dragonsongs_reprise_ultimate';
+import { defineTrigger } from '../user_trigger';
 
 const EnablePostNamazu = false;
 

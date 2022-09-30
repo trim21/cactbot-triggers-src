@@ -1,4 +1,4 @@
-import type { EventMap, EventType } from '@trim21/cactbot-types/types/event';
+import type { EventMap, EventType } from 'cactbot/types/event';
 
 type IAddOverlayListener = <T extends EventType>(
   event: T,
