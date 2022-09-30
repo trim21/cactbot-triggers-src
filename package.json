@@ -2,11 +2,6 @@
   "name": "cactbot-user-typescript-template",
   "version": "1.0.0",
   "description": "Generate user config files for cactbot with TypeScript",
-  "author": {
-    "name": "Maiko Tan",
-    "email": "maiko.tan.coding@gmail.com",
-    "url": "https://github.com/MaikoTan"
-  },
   "prettier": {
     "printWidth": 120,
     "singleQuote": true,
