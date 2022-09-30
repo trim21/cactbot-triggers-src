@@ -17,7 +17,7 @@ declare global {
   const Options: {
     PlayerNicks: Record<string, string>;
     Triggers: {
-      push<T extends RaidbossData>(item: Omit<TriggerSet<T>, 'initData'> & { initData(): Partial<T> });
+      push<T extends RaidbossData>(item: Omit<TriggerSet<T>, 'initData'> & { initData(): Partial<T> }): void;
     };
   };
   // Global variables
