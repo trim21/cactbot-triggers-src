@@ -23,14 +23,19 @@ module.exports = {
       {
         test: /\.m?[jt]s$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'esbuild-loader',
-          options: {
-            loader: 'ts',
-            target: 'chrome103',
-            charset: 'utf8',
+        use: [
+          {
+            loader: 'esbuild-loader',
+            options: {
+              loader: 'js',
+              target: 'chrome103',
+              charset: 'utf8',
+            },
           },
-        },
+          {
+            loader: 'ts-loader',
+          }
+        ],
         resolve: {
           fullySpecified: false,
         },
