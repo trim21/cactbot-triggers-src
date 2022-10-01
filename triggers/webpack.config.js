@@ -1,5 +1,4 @@
 const path = require('path');
-const _ = require('esbuild-loader');
 
 module.exports = {
   mode: 'production',
@@ -27,14 +26,11 @@ module.exports = {
           {
             loader: 'esbuild-loader',
             options: {
-              loader: 'js',
+              loader: 'ts',
               target: 'chrome103',
               charset: 'utf8',
             },
           },
-          {
-            loader: 'ts-loader',
-          }
         ],
         resolve: {
           fullySpecified: false,

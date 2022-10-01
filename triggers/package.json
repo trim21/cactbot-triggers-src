@@ -22,7 +22,6 @@
     "webpack-cli": "^4.8.0"
   },
   "dependencies": {
-    "cactbot": "^0.27.12",
-    "ts-loader": "^9.4.1"
+    "cactbot": "^0.27.12"
   }
 }
