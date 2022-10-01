@@ -1,4 +1,5 @@
 const path = require('path');
+const _ = require('esbuild-loader');
 
 module.exports = {
   mode: 'production',
@@ -23,7 +24,12 @@ module.exports = {
         test: /\.m?[jt]s$/,
         exclude: /node_modules/,
         use: {
-          loader: 'swc-loader',
+          loader: 'esbuild-loader',
+          options: {
+            loader: 'ts',
+            target: 'chrome103',
+            charset: 'utf8',
+          },
         },
         resolve: {
           fullySpecified: false,

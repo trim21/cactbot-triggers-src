@@ -31,13 +31,13 @@ export default defineTrigger<DSRData, BaseData>({
   },
   triggers: [
     {
-      id: 'DSR p2 八人塔',
+      id: 'DSR p3 八人塔',
       type: 'StartsUsing',
       netRegex: NetRegexes.startsUsing({
         id: ['6717', '6718', '6719', '671A'],
       }),
       preRun: (data, matches) => {
-        let id = parseInt(matches.id, 16);
+        const id = parseInt(matches.id, 16);
         const num = id - 26390;
 
         const targetID = parseInt(matches.targetId, 16);
@@ -195,19 +195,11 @@ const jobOrder: Record<number, number> = Object.fromEntries(
   ].map((v, i) => [v, i])
 );
 
-console.log(jobOrder);
-
-const getHeadmarkerId = (data: BaseData, matches: NetMatches['HeadMarker'], firstDecimalMarker?: number) => {
-  // If we naively just check !data.decOffset and leave it, it breaks if the first marker is 00DA.
-  // (This makes the offset 0, and !0 is true.)
+const getHeadmarkerId = (data: BaseData, matches: NetMatches['HeadMarker']) => {
   if (data.decOffset === undefined) {
-    // This must be set the first time this function is called in DSR Headmarker Tracker.
-    if (firstDecimalMarker === undefined) throw new UnreachableCode();
-    data.decOffset = parseInt(matches.id, 16) - firstDecimalMarker;
+    // 内置触发器会设置
+    throw new UnreachableCode();
   }
-  // The leading zeroes are stripped when converting back to string, so we re-add them here.
-  // Fortunately, we don't have to worry about whether or not this is robust,
-  // since we know all the IDs that will be present in the encounter.
   return (parseInt(matches.id, 16) - data.decOffset).toString(16).toUpperCase().padStart(4, '0');
 };
 
