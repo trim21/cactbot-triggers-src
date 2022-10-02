@@ -40,7 +40,6 @@ module.exports = {
   },
   cache: {
     type: 'filesystem',
-    allowCollectingMemory: true,
     name: 'cactbot-user',
   },
 };
