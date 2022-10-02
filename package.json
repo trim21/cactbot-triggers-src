@@ -13,7 +13,7 @@
   ],
   "private": true,
   "scripts": {
-    "format": "prettier -w ./triggers/",
+    "format": "prettier -w ./",
     "cactbot": "yarn workspace cactbot",
     "triggers": "yarn workspace triggers",
     "build": "CI=1 yarn workspace cactbot build && yarn workspace triggers build",
