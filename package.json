@@ -16,7 +16,7 @@
     "format": "prettier -w ./triggers/",
     "cactbot": "yarn workspace cactbot",
     "triggers": "yarn workspace triggers",
-    "build": "yarn workspaces run build",
+    "build": "CI=1 yarn workspace cactbot build && yarn workspace triggers build",
     "update-submodules": "git submodule foreach git pull"
   },
   "devDependencies": {
