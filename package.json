@@ -1,5 +1,5 @@
 {
-  "name": "cactbot-user-typescript-template",
+  "name": "cactbot-triggers",
   "version": "1.0.0",
   "description": "Generate user config files for cactbot with TypeScript",
   "prettier": {
