@@ -4,7 +4,7 @@ import { UnreachableCode } from 'cactbot/resources/not_reached';
 import type { Data as BaseData } from 'cactbot/ui/raidboss/data/06-ew/ultimate/dragonsongs_reprise_ultimate';
 import { defineTrigger } from '../user_trigger';
 
-const EnablePostNamazu = false;
+const EnablePostNamazu = true;
 
 interface DSRData {
   marked: boolean;
@@ -33,9 +33,7 @@ export default defineTrigger<DSRData, BaseData>({
     {
       id: 'DSR p3 八人塔',
       type: 'StartsUsing',
-      netRegex: NetRegexes.startsUsing({
-        id: ['6717', '6718', '6719', '671A'],
-      }),
+      netRegex: NetRegexes.startsUsing({ id: ['6717', '6718', '6719', '671A'] }),
       preRun: (data, matches) => {
         const id = parseInt(matches.id, 16);
         const num = id - 26390;
@@ -95,11 +93,15 @@ export default defineTrigger<DSRData, BaseData>({
       id: 'DSR P5 一运 雷点名',
       disabled: DisablePostNamazu,
       type: 'Ability',
-      netRegex: NetRegexes.ability({ id: '6B8F', source: 'Darkscale' }),
+      netRegex: NetRegexes.ability({ id: '6B8F', source: '暗鳞黑龙' }),
       run(data, matches: NetMatches['Ability']) {
+        console.log('一运 雷点名', matches.target);
+
         if (data.nameToJobID === undefined) {
           data.nameToJobID = Object.fromEntries(data.party.details.map((v) => [v.name, v.job]));
         }
+
+        console.log('一运 雷点名', data.p5Lightning.length);
 
         data.p5Lightning.push({
           name: matches.target,
@@ -178,18 +180,18 @@ const jobOrder: Record<number, number> = Object.fromEntries(
     40, //'贤者',
     28, //'学者',
 
-    22, //'龙骑',
     34, //'武士',
+    22, //'龙骑',
 
     30, //'忍者',
     20, //'武僧',
-    25, //'黑魔',
     39, //'钐刀',
 
     23, //'诗人',
     31, //'机工',
     38, //'舞者',
 
+    25, //'黑魔',
     35, //'赤魔',
     27, //'召唤',
   ].map((v, i) => [v, i])
