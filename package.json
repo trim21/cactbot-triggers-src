@@ -16,10 +16,11 @@
     "format": "prettier -w ./",
     "cactbot": "yarn workspace cactbot",
     "triggers": "yarn workspace triggers",
-    "build": "CI=1 yarn workspace cactbot build && yarn workspace triggers build",
+    "build": "cross-env CI=1 yarn workspace cactbot build && yarn workspace triggers build",
     "update-submodules": "git submodule foreach git pull"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "prettier": "^2.7.1"
   }
 }

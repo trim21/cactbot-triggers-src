@@ -1,10 +1,10 @@
 import { clearMark, Mark, MarkType } from '../namazu';
 import type { NetMatches } from 'cactbot/types/net_matches';
-import { UnreachableCode } from 'cactbot/resources/not_reached';
 import type { Data as BaseData } from 'cactbot/ui/raidboss/data/06-ew/ultimate/dragonsongs_reprise_ultimate';
 import { defineTrigger } from '../user_trigger';
-
-const EnablePostNamazu = true;
+import { PluginCombatantState } from 'cactbot/types/event';
+import { DisablePostNamazu } from '../config';
+import { getHeadmarkerId, jobSorter } from '../utils';
 
 interface DSRData {
   marked: boolean;
@@ -15,9 +15,9 @@ interface DSRData {
     num: number;
     targetID: number;
   }>;
+  WhiteDragon: PluginCombatantState | undefined;
+  fire: number;
 }
-
-const DisablePostNamazu = !EnablePostNamazu;
 
 export default defineTrigger<DSRData, BaseData>({
   zoneId: ZoneId.DragonsongsRepriseUltimate,
@@ -27,6 +27,9 @@ export default defineTrigger<DSRData, BaseData>({
       tower: [],
       p5Lightning: [],
       p5DeadCall: [],
+      WhiteDragon: undefined,
+      data: 0,
+      fire: 0,
     };
   },
   triggers: [
@@ -72,6 +75,39 @@ export default defineTrigger<DSRData, BaseData>({
         }
       },
     },
+    //
+    // {
+    //   id: 'DSR p6 火球',
+    //   type: 'AddedCombatant',
+    //   netRegex: NetRegexes.addedCombatantFull({ npcBaseId: '13238' }),
+    //   suppressSeconds: 1,
+    //   promise: async (data) => {
+    //     const WhiteDragon = await callOverlayHandler({ call: 'getCombatants' });
+    //     data.WhiteDragon = WhiteDragon.combatants.filter((boss) => boss.BNpcNameID === 4954 && boss.BNpcID == 12613)[0];
+    //     return;
+    //   },
+    //   alertText: (data, matches, output) => {
+    //     if ((data.fire = (data.fire) + 1) === 2) {
+    //       let posX = data.WhiteDragon.PosX;
+    //       let 安全位置 = ['左上安全', '左下安全', '右下安全', '右上安全'];
+    //       let 安全点;
+    //       if (posX >= 100 && +matches.y > 106) 安全点 = 0;
+    //       if (posX >= 100 && +matches.y < 106) 安全点 = 1;
+    //       if (posX <= 91 && +matches.y > 106) 安全点 = 3;
+    //       if (posX <= 91 && +matches.y < 106) 安全点 = 2;
+    //
+    //       if (getCamera() !== undefined) {
+    //         安全点 = (安全点 + getCamera(4) + 4) % 4;
+    //       }
+    //       return 安全位置[安全点];
+    //       if (posX >= 100 && +matches.y > 106) return '左上安全';
+    //       if (posX >= 100 && +matches.y < 106) return '左下安全';
+    //       if (posX <= 91 && +matches.y > 106) return '右上安全';
+    //       if (posX <= 91 && +matches.y < 106) return '右下安全';
+    //     }
+    //   },
+    // },
+
     {
       id: 'DSR 古代爆震，清除标记',
       disabled: DisablePostNamazu,
@@ -95,13 +131,9 @@ export default defineTrigger<DSRData, BaseData>({
       type: 'Ability',
       netRegex: NetRegexes.ability({ id: '6B8F', source: '暗鳞黑龙' }),
       run(data, matches: NetMatches['Ability']) {
-        console.log('一运 雷点名', matches.target);
-
         if (data.nameToJobID === undefined) {
           data.nameToJobID = Object.fromEntries(data.party.details.map((v) => [v.name, v.job]));
         }
-
-        console.log('一运 雷点名', data.p5Lightning.length);
 
         data.p5Lightning.push({
           name: matches.target,
@@ -162,48 +194,6 @@ export default defineTrigger<DSRData, BaseData>({
     },
   ],
 });
-
-function jobSorter<T extends { jobID: number }>(a: T, b: T): number {
-  return jobOrder[a.jobID] - jobOrder[b.jobID];
-}
-
-const jobOrder: Record<number, number> = Object.fromEntries(
-  [
-    21, // '战士',
-    32, //'DK',
-
-    37, //'枪刃',
-    19, //'骑士',
-
-    24, //'白魔',
-    33, //'占星',
-    40, //'贤者',
-    28, //'学者',
-
-    34, //'武士',
-    22, //'龙骑',
-
-    30, //'忍者',
-    20, //'武僧',
-    39, //'钐刀',
-
-    23, //'诗人',
-    31, //'机工',
-    38, //'舞者',
-
-    25, //'黑魔',
-    35, //'赤魔',
-    27, //'召唤',
-  ].map((v, i) => [v, i])
-);
-
-const getHeadmarkerId = (data: BaseData, matches: NetMatches['HeadMarker']) => {
-  if (data.decOffset === undefined) {
-    // 内置触发器会设置
-    throw new UnreachableCode();
-  }
-  return (parseInt(matches.id, 16) - data.decOffset).toString(16).toUpperCase().padStart(4, '0');
-};
 
 // Due to changes introduced in patch 5.2, overhead markers now have a random offset
 // added to their ID. This offset currently appears to be set per instance, so

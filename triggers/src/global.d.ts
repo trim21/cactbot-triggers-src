@@ -10,8 +10,12 @@ import _ZoneInfo from 'cactbot/resources/zone_info';
 import type { RaidbossData } from 'cactbot/types/data';
 import type { TriggerSet } from 'cactbot/types/trigger';
 import { IOverlayHandler } from 'cactbot/types/event';
+import type { EventMap, EventType } from 'cactbot/types/event';
+
+type IAddOverlayListener = <T extends EventType>(event: T, cb: EventMap[T]) => void;
 
 declare global {
+  const addOverlayListener: IAddOverlayListener;
   const callOverlayHandler: IOverlayHandler;
   // const addOverlayListener: typeof addOverlayListener;
   const Options: {

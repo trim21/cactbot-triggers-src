@@ -1,9 +1,3 @@
-import type { EventMap, EventType } from 'cactbot/types/event';
-
-type IAddOverlayListener = <T extends EventType>(event: T, cb: EventMap[T]) => void;
-
-declare const addOverlayListener: IAddOverlayListener;
-
 export const nameToJobEnum: Record<number, string> = {
   1: '剑术师',
   2: '格斗家',
