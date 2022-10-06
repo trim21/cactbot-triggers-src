@@ -1,5 +1,5 @@
 <template>
-  <div class='container'>
+  <div class='container' v-if='loaded'>
     <div class='row'>
       <div class='col-3'>
         <h1>职业排序</h1>
@@ -34,17 +34,17 @@ import draggable from 'vuedraggable';
 
 import util from 'cactbot/resources/util';
 
-import { defaultConfig, loadConfig } from './config';
+import { configKey, defaultConfig, loadConfig } from './config';
 import { nameToJobEnum } from '../job';
 
 
 type vueJobData = {
   id: string;
-  order: number;
   name: string;
 }
 
 type Data = {
+  loaded: boolean,
   enablePostNamazu: boolean;
   jobOrder: vueJobData[];
 }
@@ -57,23 +57,29 @@ export default defineComponent({
     console.log('app init');
     const c = defaultConfig();
     return {
+      loaded: false,
       enablePostNamazu: c.enablePostNamazu,
       jobOrder: jobConfigToVueJobData(c.jobOrder),
     };
   },
   created() {
-    const that = this;
+    const vm = this;
     loadConfig().then(c => {
-      that.jobOrder = jobConfigToVueJobData(c.jobOrder);
-      that.enablePostNamazu = c.enablePostNamazu;
+      vm.jobOrder = jobConfigToVueJobData(c.jobOrder);
+      vm.enablePostNamazu = c.enablePostNamazu;
+      vm.loaded = true;
     });
   },
   watch: {
     enablePostNamazu() {
-      configChange(this.$data);
+      if (this.loaded) {
+        configChange(this.$data);
+      }
     },
     jobOrder() {
-      configChange(this.$data);
+      if (this.loaded) {
+        configChange(this.$data);
+      }
     },
   },
   methods: {
@@ -103,19 +109,20 @@ function jobConfigToVueJobData(jobOrder: Record<string, number>): vueJobData[] {
     .sort((a, b) => a.order - b.order);
 }
 
+console.log(jobConfigToVueJobData(defaultConfig().jobOrder));
+
 function VueJobDataToJobConfig(jobOrder: vueJobData[]): Record<string, number> {
-  return Object.fromEntries(jobOrder.map(x => [x.id, x.order]));
+  return Object.fromEntries(jobOrder.map((x, i) => [x.id, i]));
 }
 
-async function configChange(data: Data) {
-  await callOverlayHandler({
-    call: 'saveData', key: 'trim21-triggers-config', data: {
-      ...data,
-      jobOrder: VueJobDataToJobConfig(data.jobOrder),
-    },
-  });
+async function configChange(v: Data) {
+  const data = JSON.parse(JSON.stringify(v));
+  data.jobOrder = VueJobDataToJobConfig(data.jobOrder);
+
+  await callOverlayHandler({ call: 'saveData', key: configKey, data });
   await callOverlayHandler({ call: 'cactbotReloadOverlays' });
   console.log('data change', JSON.stringify(data));
 }
+
 </script>
 

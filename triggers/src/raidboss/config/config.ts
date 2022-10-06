@@ -3,6 +3,7 @@ export interface Config {
   jobOrder: Record<string, number>;
 }
 
+export const configKey = 'trim21-triggers-config.02';
 
 export function defaultConfig(): Config {
   const jobOrder: Record<number, number> = Object.fromEntries([
@@ -36,8 +37,8 @@ export function defaultConfig(): Config {
 }
 
 export async function loadConfig(): Promise<Config> {
-  const data = await callOverlayHandler({ call: 'loadData', key: 'trim21-triggers-config' });
-  if (data) {
+  const data = await callOverlayHandler({ call: 'loadData', key: configKey });
+  if (data?.data) {
     return data.data as Config;
   }
 
