@@ -8,3 +8,7 @@ export function getHeadmarkerId(data: { decOffset?: number }, matches: { id: str
   return (parseInt(matches.id, 16) - data.decOffset).toString(16).toUpperCase().padStart(4, '0');
 }
 
+
+export function sleep(time: number) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}

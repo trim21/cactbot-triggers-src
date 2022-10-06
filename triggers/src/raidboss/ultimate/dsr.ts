@@ -1,9 +1,24 @@
-import { clearMark, Mark, MarkType } from '../namazu';
+import { clearMark, Command, Mark, MarkType } from '../namazu';
 import type { NetMatches } from 'cactbot/types/net_matches';
 import type { Data as BaseData } from 'cactbot/ui/raidboss/data/06-ew/ultimate/dragonsongs_reprise_ultimate';
 import { defineTrigger } from '../user_trigger';
 import config, { sortByJobID } from '../config';
-import { getHeadmarkerId } from '../utils';
+import { getHeadmarkerId, sleep } from '../utils';
+import { PluginCombatantState } from 'cactbot/types/event';
+
+/*
+
+(0, 0)      (100, 0)    (+x, 0)
+               A
+
+
+(0, 100)   (100, 100)
+
+
+
+(0, +y)
+ */
+
 
 interface DSRData {
   marked: boolean;
@@ -14,19 +29,27 @@ interface DSRData {
     num: number;
     targetID: number;
   }>;
+
+  WhiteDragon: undefined | PluginCombatantState;
+
+  p6Fire: number;
+
+  p6FireSeparation: string[]; // 十字火 分散
+  p6FireSharing: string[]; // 十字火 分摊
 }
 
 export default defineTrigger<DSRData, BaseData>({
   zoneId: ZoneId.DragonsongsRepriseUltimate,
-  initData() {
+  initData(): DSRData {
     return {
       marked: false,
       tower: [],
       p5Lightning: [],
       p5DeadCall: [],
+      p6FireSeparation: [],
+      p6FireSharing: [],
       WhiteDragon: undefined,
-      data: 0,
-      fire: 0,
+      p6Fire: 0,
     };
   },
   triggers: [
@@ -72,38 +95,50 @@ export default defineTrigger<DSRData, BaseData>({
         }
       },
     },
-    //
-    // {
-    //   id: 'DSR p6 火球',
-    //   type: 'AddedCombatant',
-    //   netRegex: NetRegexes.addedCombatantFull({ npcBaseId: '13238' }),
-    //   suppressSeconds: 1,
-    //   promise: async (data) => {
-    //     const WhiteDragon = await callOverlayHandler({ call: 'getCombatants' });
-    //     data.WhiteDragon = WhiteDragon.combatants.filter((boss) => boss.BNpcNameID === 4954 && boss.BNpcID == 12613)[0];
-    //     return;
-    //   },
-    //   alertText: (data, matches, output) => {
-    //     if ((data.fire = (data.fire) + 1) === 2) {
-    //       let posX = data.WhiteDragon.PosX;
-    //       let 安全位置 = ['左上安全', '左下安全', '右下安全', '右上安全'];
-    //       let 安全点;
-    //       if (posX >= 100 && +matches.y > 106) 安全点 = 0;
-    //       if (posX >= 100 && +matches.y < 106) 安全点 = 1;
-    //       if (posX <= 91 && +matches.y > 106) 安全点 = 3;
-    //       if (posX <= 91 && +matches.y < 106) 安全点 = 2;
-    //
-    //       if (getCamera() !== undefined) {
-    //         安全点 = (安全点 + getCamera(4) + 4) % 4;
-    //       }
-    //       return 安全位置[安全点];
-    //       if (posX >= 100 && +matches.y > 106) return '左上安全';
-    //       if (posX >= 100 && +matches.y < 106) return '左下安全';
-    //       if (posX <= 91 && +matches.y > 106) return '右上安全';
-    //       if (posX <= 91 && +matches.y < 106) return '右下安全';
-    //     }
-    //   },
-    // },
+
+    {
+      id: 'DSR p6 火球',
+      type: 'AddedCombatant',
+      netRegex: NetRegexes.addedCombatantFull({ npcBaseId: '13238' }),
+      suppressSeconds: 1,
+      promise: async (data) => {
+        const WhiteDragon = await callOverlayHandler({ call: 'getCombatants' });
+        data.WhiteDragon = WhiteDragon.combatants.filter((boss) => boss.BNpcNameID === 4954 && boss.BNpcID == 12613)[0];
+      },
+      alertText: (data, matches) => {
+        data.p6Fire++;
+        if (data.p6Fire === 2) {
+          if (data.WhiteDragon === undefined) {
+            Command('/e 圣龙数据为空');
+            return;
+          }
+          let posX = data.WhiteDragon.PosX;
+
+          // 二火位置
+          const y = parseFloat(matches.y);
+
+          // 右半场俯冲
+          if (posX >= 100 && y > 106) {
+            Command('/p 左上安全 (A为12点)');
+            return '左上安全';
+          }
+          if (posX >= 100 && y < 106) {
+            Command('/p 左下安全 (A为12点)');
+            return '左下安全';
+          }
+
+          // 左半场俯冲
+          if (posX <= 91 && y > 106) {
+            Command('/p 右上安全 (A为12点)');
+            return '右上安全';
+          }
+          if (posX <= 91 && y < 106) {
+            Command('/p 右下安全 (A为12点)');
+            return '右下安全';
+          }
+        }
+      },
+    },
 
     {
       id: 'DSR 古代爆震，清除标记',
@@ -111,7 +146,7 @@ export default defineTrigger<DSRData, BaseData>({
       type: 'StartsUsing',
       netRegex: NetRegexes.startsUsing({
         id: '63C6',
-        source: 'King Thordan',
+        source: '骑神托尔丹',
         capture: false,
       }),
       condition: (data) => data.phase === 'thordan2',
@@ -132,15 +167,15 @@ export default defineTrigger<DSRData, BaseData>({
           data.nameToJobID = Object.fromEntries(data.party.details.map((v) => [v.name, v.job]));
         }
 
-        data.p5Lightning.push({
-          name: matches.target,
-          jobID: data.nameToJobID[matches.target],
-        });
+        data.p5Lightning.push({ name: matches.target, jobID: data.nameToJobID[matches.target] });
 
         if (data.p5Lightning.length === 2) {
           data.p5Lightning.sort(sortByJobID);
-          Mark({ Name: data.p5Lightning[0].name, MarkType: 'stop1' });
-          Mark({ Name: data.p5Lightning[1].name, MarkType: 'stop2' });
+          (async () => {
+            await Mark({ Name: data.p5Lightning[0].name, MarkType: 'stop1' });
+            await sleep(100);
+            await Mark({ Name: data.p5Lightning[1].name, MarkType: 'stop2' });
+          })();
           data.marked = true;
         }
       },
@@ -174,19 +209,73 @@ export default defineTrigger<DSRData, BaseData>({
           data.nameToJobID = Object.fromEntries(data.party.details.map((v) => [v.name, v.job]));
         }
 
-        data.p5DeadCall.push({
-          name: matches.target,
-          jobID: data.nameToJobID[matches.target],
-        });
+        data.p5DeadCall.push({ name: matches.target, jobID: data.nameToJobID[matches.target] });
 
         if (data.p5DeadCall.length === 4) {
           data.p5DeadCall.sort(sortByJobID);
 
-          data.p5DeadCall.forEach((el, index) => {
-            Mark({ Name: el.name, MarkType: `attack${index + 1}` as MarkType });
-          });
+          (async () => {
+            for (let i = 0; i < data.p5DeadCall.length; i++) {
+              await sleep(100);
+              await Mark({ Name: data.p5DeadCall[i].name, MarkType: `attack${i + 1}` as MarkType });
+            }
+          })();
+
           data.marked = true;
         }
+      },
+    },
+    {
+      id: 'DSR p6 十字火 收集点名',
+      type: 'GainsEffect',
+      netRegex: NetRegexes.gainsEffect({
+        effectId: [
+          'AC6', // 分散
+          'AC7', // 分摊
+        ],
+        capture: true,
+      }),
+      alertText(data, matches) {
+        if (matches.target !== data.me) {
+          return;
+        }
+
+        if (matches.effectId === 'AC6') {
+          return '分散';
+        }
+        if (matches.effectId === 'AC7') {
+          return '分摊';
+        }
+      },
+      run: (data, matches: NetMatches['GainsEffect']) => {
+        if (matches.effectId === 'AC6') {
+          data.p6FireSeparation.push(matches.target);
+        }
+
+        if (matches.effectId === 'AC7') {
+          data.p6FireSharing.push(matches.target);
+        }
+
+
+        if (data.p6FireSharing.length + data.p6FireSeparation.length !== 6) {
+          return;
+        }
+
+
+        data.p6FireSeparation.forEach((name, index) => {
+          Mark({ Name: name, MarkType: `attack${index + 1}` as MarkType });
+        });
+
+        data.p6FireSharing.forEach((name, index) => {
+          Mark({ Name: name, MarkType: `bind${index + 1}` as MarkType });
+        });
+
+        data.party.details.map(x => x.name)
+          .filter(x => !data.p6FireSeparation.includes(x))
+          .filter(x => !data.p6FireSharing.includes(x))
+          .forEach((name, i) => {
+            Mark({ Name: name, MarkType: `stop${i + 1}` as MarkType });
+          });
       },
     },
   ],

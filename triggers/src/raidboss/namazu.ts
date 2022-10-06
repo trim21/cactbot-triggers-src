@@ -1,7 +1,7 @@
 const port = 2020; //鲶鱼精邮差所监听的端口
 
-export function Command(data: string): void {
-  call('Command', data);
+export async function Command(data: string): Promise<void> {
+  await call('Command', data);
 }
 
 export type MarkType =
@@ -25,8 +25,8 @@ type Mark = {
   LocalOnly?: boolean;
 } & ({ ActorID: number } | { Name: string });
 
-export function Mark(data: Mark): void {
-  call('Mark', JSON.stringify(data));
+export async function Mark(data: Mark): Promise<void> {
+  await call('Mark', JSON.stringify(data));
 }
 
 async function call(command: 'Command' | 'Mark', data: string) {
@@ -39,8 +39,8 @@ async function call(command: 'Command' | 'Mark', data: string) {
   });
 }
 
-export function clearMark() {
+export async function clearMark() {
   for (let index = 1; index < 9; index++) {
-    Command(`/mk clear <${index}>`);
+    await Command(`/mk clear <${index}>`);
   }
 }

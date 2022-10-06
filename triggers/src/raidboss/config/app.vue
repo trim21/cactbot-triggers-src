@@ -20,7 +20,7 @@
         <div class='row'>
           <div class='form-check'>
             <input class='form-check-input' type='checkbox' v-model='enablePostNamazu' id='flexCheckDefault'>
-            <label class='form-check-label' for='flexCheckDefault'> 启用鲶鱼精 </label>
+            <label class='form-check-label' for='flexCheckDefault'> 启用鲶鱼精队友功能 </label>
           </div>
         </div>
       </div>
