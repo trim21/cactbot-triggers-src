@@ -14,9 +14,17 @@ import type { EventMap, EventType } from 'cactbot/types/event';
 
 type IAddOverlayListener = <T extends EventType>(event: T, cb: EventMap[T]) => void;
 
+
+interface OverlayHandler {
+  (msg: { call: 'saveData'; key: string; data: unknown }): Promise<void>;
+
+  <T = unknown>(msg: { call: 'loadData'; key: string; }): Promise<({ data: T } | undefined)>;
+}
+
 declare global {
+  const callOverlayHandler: OverlayHandler & IOverlayHandler;
+
   const addOverlayListener: IAddOverlayListener;
-  const callOverlayHandler: IOverlayHandler;
   // const addOverlayListener: typeof addOverlayListener;
   const Options: {
     PlayerNicks: Record<string, string>;
