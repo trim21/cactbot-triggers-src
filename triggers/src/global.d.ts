@@ -18,7 +18,7 @@ type IAddOverlayListener = <T extends EventType>(event: T, cb: EventMap[T]) => v
 interface OverlayHandler {
   (msg: { call: 'saveData'; key: string; data: unknown }): Promise<void>;
 
-  <T = unknown>(msg: { call: 'loadData'; key: string; }): Promise<({ data: T } | undefined)>;
+  <T = unknown>(msg: { call: 'loadData'; key: string; }): Promise<({ data?: T } | undefined)>;
 }
 
 declare global {
