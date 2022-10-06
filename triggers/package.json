@@ -12,6 +12,7 @@
     "format": "prettier -w ./",
     "prebuild": "rimraf ./dist/",
     "build": "webpack --config webpack.triggers.config.js --config webpack.ui.config.js",
+    "postbuild": "cp ./src/raidboss/raidboss.css ./dist/raidboss.css",
     "start:ui": "webpack --config webpack.ui.config.js --watch",
     "update-submodules": "git submodule foreach git pull"
   },
