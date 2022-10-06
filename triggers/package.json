@@ -12,11 +12,11 @@
     "format": "prettier -w ./",
     "prebuild": "rimraf ./dist/",
     "build": "webpack --config webpack.triggers.config.js --config webpack.ui.config.js",
-    "postbuild": "cp ./src/raidboss/raidboss.css ./dist/raidboss.css",
     "start:ui": "webpack --config webpack.ui.config.js --watch",
     "update-submodules": "git submodule foreach git pull"
   },
   "devDependencies": {
+    "@types/lodash-es": "^4.17.6",
     "esbuild": "^0.15.10",
     "esbuild-loader": "^2.20.0",
     "html-webpack-plugin": "^5.5.0",
@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "cactbot": "^0.27.12",
+    "lodash-es": "^4.17.21",
     "vue": "^3.2.40",
     "vuedraggable": "^4.1.0"
   }

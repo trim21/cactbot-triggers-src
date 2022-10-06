@@ -8,7 +8,7 @@ module.exports = {
   performance: {
     hints: false,
   },
-  entry: { main: './src/raidboss/config/index.ts' },
+  entry: { main: './src/raidboss/config/main.ts' },
   output: {
     path: path.resolve(__dirname, './dist/ui/'),
     filename: 'main.js',

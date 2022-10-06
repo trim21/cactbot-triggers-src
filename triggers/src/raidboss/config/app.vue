@@ -34,7 +34,7 @@ import draggable from 'vuedraggable';
 
 import util from 'cactbot/resources/util';
 
-import { configKey, defaultConfig, loadConfig } from './config';
+import { overlayPluginKey, defaultConfig, loadConfigFromOverlayPlugin, sortByJobID } from './index';
 import { nameToJobEnum } from '../job';
 
 
@@ -63,8 +63,8 @@ export default defineComponent({
     };
   },
   created() {
-    loadConfig().then(c => {
-      c.sortByJob([{ jobID: 1 }, { jobID: 2 }]);
+    loadConfigFromOverlayPlugin().then(c => {
+      [{ jobID: 1 }, { jobID: 2 }].sort(sortByJobID);
       this.jobOrder = jobConfigToVueJobData(c.jobOrder);
       this.enablePostNamazu = c.enablePostNamazu;
       this.loaded = true;
@@ -119,7 +119,7 @@ async function configChange(v: Data) {
   const data = JSON.parse(JSON.stringify(v));
   data.jobOrder = VueJobDataToJobConfig(data.jobOrder);
 
-  await callOverlayHandler({ call: 'saveData', key: configKey, data });
+  await callOverlayHandler({ call: 'saveData', key: overlayPluginKey, data });
   await callOverlayHandler({ call: 'cactbotReloadOverlays' });
   console.log('data change', JSON.stringify(data));
 }
