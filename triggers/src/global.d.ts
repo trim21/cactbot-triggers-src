@@ -37,3 +37,5 @@ declare global {
   // options of modules
   // const RaidbossOptions: typeof _RaidbossOptions;
 }
+
+

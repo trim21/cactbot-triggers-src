@@ -1,4 +1,4 @@
-import { jobOrder } from './config';
+import { jobOrder } from './config/config';
 import { UnreachableCode } from 'cactbot/resources/not_reached';
 
 export function getHeadmarkerId(data: { decOffset?: number }, matches: { id: string }) {
