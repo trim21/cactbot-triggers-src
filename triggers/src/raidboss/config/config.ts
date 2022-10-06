@@ -1,6 +1,17 @@
-export interface Config {
+export class Config {
   enablePostNamazu: boolean;
   jobOrder: Record<string, number>;
+
+  constructor({ enablePostNamazu, jobOrder }: {
+    enablePostNamazu: boolean; jobOrder: Record<string, number>;
+  }) {
+    this.enablePostNamazu = enablePostNamazu;
+    this.jobOrder = jobOrder;
+  }
+
+  sortByJob<T extends { jobID: number }>(arr: T[]): T[] {
+    return arr.sort((a, b) => this.jobOrder[a.jobID] - this.jobOrder[b.jobID]);
+  }
 }
 
 export const configKey = 'trim21-triggers-config.02';
@@ -33,13 +44,13 @@ export function defaultConfig(): Config {
     27, // 召唤,
   ].map((v, i) => [v, i]));
 
-  return { enablePostNamazu: true, jobOrder };
+  return new Config({ enablePostNamazu: true, jobOrder });
 }
 
 export async function loadConfig(): Promise<Config> {
   const data = await callOverlayHandler({ call: 'loadData', key: configKey });
   if (data?.data) {
-    return data.data as Config;
+    return new Config(data.data as unknown as any);
   }
 
   return defaultConfig();

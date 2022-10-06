@@ -63,11 +63,11 @@ export default defineComponent({
     };
   },
   created() {
-    const vm = this;
     loadConfig().then(c => {
-      vm.jobOrder = jobConfigToVueJobData(c.jobOrder);
-      vm.enablePostNamazu = c.enablePostNamazu;
-      vm.loaded = true;
+      c.sortByJob([{ jobID: 1 }, { jobID: 2 }]);
+      this.jobOrder = jobConfigToVueJobData(c.jobOrder);
+      this.enablePostNamazu = c.enablePostNamazu;
+      this.loaded = true;
     });
   },
   watch: {

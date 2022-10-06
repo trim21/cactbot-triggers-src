@@ -3,7 +3,7 @@ import type { NetMatches } from 'cactbot/types/net_matches';
 import type { Data as BaseData } from 'cactbot/ui/raidboss/data/06-ew/ultimate/dragonsongs_reprise_ultimate';
 import { defineTrigger } from '../user_trigger';
 import { Config } from '../config/config';
-import { getHeadmarkerId, jobSorter } from '../utils';
+import { getHeadmarkerId } from '../utils';
 
 interface DSRData {
   marked: boolean;
@@ -139,7 +139,7 @@ export default defineTrigger<DSRData, BaseData>((config: Config) => {
           });
 
           if (data.p5Lightning.length === 2) {
-            data.p5Lightning.sort(jobSorter);
+            config.sortByJob(data.p5Lightning);
             Mark({ Name: data.p5Lightning[0].name, MarkType: 'stop1' });
             Mark({ Name: data.p5Lightning[1].name, MarkType: 'stop2' });
             data.marked = true;
@@ -181,7 +181,7 @@ export default defineTrigger<DSRData, BaseData>((config: Config) => {
           });
 
           if (data.p5DeadCall.length === 4) {
-            data.p5DeadCall.sort(jobSorter);
+            config.sortByJob(data.p5DeadCall);
 
             data.p5DeadCall.forEach((el, index) => {
               Mark({ Name: el.name, MarkType: `attack${index + 1}` as MarkType });

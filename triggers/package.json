@@ -11,7 +11,7 @@
   "scripts": {
     "format": "prettier -w ./",
     "prebuild": "rimraf ./dist/",
-    "build": "webpack --config webpack.triggers.config.js",
+    "build": "webpack --config webpack.triggers.config.js --config webpack.ui.config.js",
     "start:ui": "webpack --config webpack.ui.config.js --watch",
     "update-submodules": "git submodule foreach git pull"
   },
