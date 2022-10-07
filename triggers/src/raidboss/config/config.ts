@@ -3,16 +3,17 @@ import isEqual from 'lodash-es/isEqual';
 export const overlayPluginKey = 'trim21-triggers-config.02';
 const localStorageKey = 'trim21-triggers-config.02';
 
-export type Index = {
+export type Config = {
   enablePostNamazu: boolean;
   jobOrder: Record<string, number>;
+  partyNotification: boolean;
 }
 
 export function sortByJobID(a: { jobID: number }, b: { jobID: number }) {
   return config.jobOrder[a.jobID] - config.jobOrder[b.jobID];
 }
 
-export function defaultConfig(): Index {
+export function defaultConfig(): Config {
   const jobOrder: Record<number, number> = Object.fromEntries([
     21, // 战士,
     32, // DK,
@@ -40,11 +41,11 @@ export function defaultConfig(): Index {
     27, // 召唤,
   ].map((v, i) => [v, i]));
 
-  return { enablePostNamazu: true, jobOrder };
+  return { partyNotification: true, enablePostNamazu: true, jobOrder };
 }
 
 
-function loadConfigFromLocalStorage(): Index {
+function loadConfigFromLocalStorage(): Config {
   const raw = localStorage.getItem(localStorageKey);
 
   if (!raw) {
@@ -55,10 +56,10 @@ function loadConfigFromLocalStorage(): Index {
 }
 
 
-export async function loadConfigFromOverlayPlugin(): Promise<Index> {
+export async function loadConfigFromOverlayPlugin(): Promise<Config> {
   const data = await callOverlayHandler({ call: 'loadData', key: overlayPluginKey });
   if (data?.data) {
-    return data.data as unknown as Index;
+    return data.data as unknown as Config;
   }
 
   return defaultConfig();
@@ -67,6 +68,7 @@ export async function loadConfigFromOverlayPlugin(): Promise<Index> {
 
 const config = loadConfigFromLocalStorage();
 export default config;
+export const echoPrefix = config.partyNotification ? '/p' : '/e';
 
 loadConfigFromOverlayPlugin().then(c => {
   if (!isEqual(c, config)) {
@@ -74,4 +76,14 @@ loadConfigFromOverlayPlugin().then(c => {
     localStorage.setItem(localStorageKey, JSON.stringify(c));
     location.reload();
   }
+
+  if (config.enablePostNamazu) {
+    console.log('启用鲶鱼精');
+  }
+
+  if (config.partyNotification) {
+    console.log('启用小队指挥');
+  }
 });
+
+

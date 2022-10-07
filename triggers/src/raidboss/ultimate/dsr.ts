@@ -2,8 +2,8 @@ import { clearMark, Command, Commands, Mark, MarkType } from '../namazu';
 import type { NetMatches } from 'cactbot/types/net_matches';
 import type { Data as BaseData } from 'cactbot/ui/raidboss/data/06-ew/ultimate/dragonsongs_reprise_ultimate';
 import { defineTrigger } from '../user_trigger';
-import config, { sortByJobID } from '../config';
-import { getHeadmarkerId, sleep } from '../utils';
+import config, { echoPrefix, sortByJobID } from '../config/config';
+import { getHeadmarkerId, p, sleep } from '../utils';
 import { PluginCombatantState } from 'cactbot/types/event';
 import { jobIDToShow } from '../job';
 
@@ -109,7 +109,7 @@ export default defineTrigger<DSRData, BaseData>({
         data.WhiteDragon = WhiteDragon.combatants.filter((boss) => boss.BNpcNameID === 4954 && boss.BNpcID == 12613)[0];
       },
       alertText: (data, matches) => {
-        const prefix = '/e 十字火| ';
+        const prefix = `${echoPrefix} 十字火| `;
         data.p6Fire++;
         if (data.p6Fire === 2) {
           if (data.WhiteDragon === undefined) {
@@ -199,11 +199,11 @@ export default defineTrigger<DSRData, BaseData>({
 
         if (data.p5Lightning.length === 2) {
           data.p5Lightning.sort(sortByJobID);
-          (async () => {
+          p(async () => {
             await Mark({ Name: data.p5Lightning[0].name, MarkType: 'stop1' });
             await sleep(100);
             await Mark({ Name: data.p5Lightning[1].name, MarkType: 'stop2' });
-          })();
+          });
           data.marked = true;
         }
       },
@@ -256,11 +256,11 @@ export default defineTrigger<DSRData, BaseData>({
             }
           }
 
-          (async () => {
-            await Command(`/e 死宣| ${deadCall.join(' ')}`);
+          p(async () => {
+            await Command(`${echoPrefix} 死宣| ${deadCall.join(' ')}`);
             await sleep(100);
-            await Command(`/e 无死| ${nonDeadCall.join(' ')}`);
-          })();
+            await Command(`${echoPrefix} 无死| ${nonDeadCall.join(' ')}`);
+          });
         }
       },
     },
@@ -300,21 +300,28 @@ export default defineTrigger<DSRData, BaseData>({
           return;
         }
 
+        p(async function() {
+          await sleep(800);
+          for (let index = 0; index < data.p6FireSeparation.length; index++) {
+            await Mark({ Name: data.p6FireSeparation[index], MarkType: `attack${index + 1}` as MarkType });
+            await sleep(100);
+          }
 
-        data.p6FireSeparation.forEach((name, index) => {
-          Mark({ Name: name, MarkType: `attack${index + 1}` as MarkType });
+          for (let index = 0; index < data.p6FireSharing.length; index++) {
+            const name = data.p6FireSharing[index];
+            await Mark({ Name: name, MarkType: `bind${index + 1}` as MarkType });
+            await sleep(100);
+          }
+
+          const names = data.party.details.map(x => x.name)
+            .filter(x => !data.p6FireSeparation.includes(x))
+            .filter(x => !data.p6FireSharing.includes(x));
+
+          for (let i = 0; i < names.length; i++) {
+            await Mark({ Name: names[i], MarkType: `stop${i + 1}` as MarkType });
+            await sleep(100);
+          }
         });
-
-        data.p6FireSharing.forEach((name, index) => {
-          Mark({ Name: name, MarkType: `bind${index + 1}` as MarkType });
-        });
-
-        data.party.details.map(x => x.name)
-          .filter(x => !data.p6FireSeparation.includes(x))
-          .filter(x => !data.p6FireSharing.includes(x))
-          .forEach((name, i) => {
-            Mark({ Name: name, MarkType: `stop${i + 1}` as MarkType });
-          });
       },
     },
   ],

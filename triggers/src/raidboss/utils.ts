@@ -12,3 +12,9 @@ export function getHeadmarkerId(data: { decOffset?: number }, matches: { id: str
 export function sleep(time: number) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
+
+export function p(h: () => Promise<any>) {
+  h().catch(e => {
+    console.log('promise error', e);
+  });
+}

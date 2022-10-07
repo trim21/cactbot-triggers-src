@@ -14,7 +14,6 @@ addOverlayListener('PartyChanged', (e) => {
       playerNicks[party.name] = v;
     }
   }
-  console.log(JSON.stringify(playerNicks));
 });
 
 console.log('enable name to job');

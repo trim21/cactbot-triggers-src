@@ -19,8 +19,14 @@
         </div>
         <div class='row'>
           <div class='form-check'>
-            <input class='form-check-input' type='checkbox' v-model='enablePostNamazu' id='flexCheckDefault'>
-            <label class='form-check-label' for='flexCheckDefault'> 启用鲶鱼精队友功能 </label>
+            <input class='form-check-input' type='checkbox' v-model='config.enablePostNamazu' id='flexCheckDefault'>
+            <label class='form-check-label' for='flexCheckDefault'> 启用鲶鱼精 </label>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='form-check'>
+            <input class='form-check-input' type='checkbox' v-model='config.partyNotification' id='partyNotification'>
+            <label class='form-check-label' for='partyNotification'> 启用队内指挥 </label>
           </div>
         </div>
       </div>
@@ -34,7 +40,7 @@ import draggable from 'vuedraggable';
 
 import util from 'cactbot/resources/util';
 
-import { overlayPluginKey, defaultConfig, loadConfigFromOverlayPlugin, sortByJobID } from './index';
+import { overlayPluginKey, defaultConfig, loadConfigFromOverlayPlugin, sortByJobID, Config } from './config';
 import { jobIDToCN } from '../job';
 
 
@@ -45,7 +51,7 @@ type vueJobData = {
 
 type Data = {
   loaded: boolean,
-  enablePostNamazu: boolean;
+  config: Config;
   jobOrder: vueJobData[];
 }
 
@@ -58,7 +64,7 @@ export default defineComponent({
     const c = defaultConfig();
     return {
       loaded: false,
-      enablePostNamazu: c.enablePostNamazu,
+      config: c,
       jobOrder: jobConfigToVueJobData(c.jobOrder),
     };
   },
@@ -66,15 +72,19 @@ export default defineComponent({
     loadConfigFromOverlayPlugin().then(c => {
       [{ jobID: 1 }, { jobID: 2 }].sort(sortByJobID);
       this.jobOrder = jobConfigToVueJobData(c.jobOrder);
-      this.enablePostNamazu = c.enablePostNamazu;
-      this.loaded = true;
+      this.config = c;
+      setTimeout(() => {
+        this.loaded = true;
+      }, 100);
     });
   },
   watch: {
-    enablePostNamazu() {
-      if (this.loaded) {
-        configChange(this.$data);
-      }
+    config: {
+      handler() {
+        if (this.loaded) {
+          configChange(this.$data);
+        }
+      }, deep: true,
     },
     jobOrder() {
       if (this.loaded) {
@@ -116,8 +126,8 @@ function VueJobDataToJobConfig(jobOrder: vueJobData[]): Record<string, number> {
 }
 
 async function configChange(v: Data) {
-  const data = JSON.parse(JSON.stringify(v));
-  data.jobOrder = VueJobDataToJobConfig(data.jobOrder);
+  const data = JSON.parse(JSON.stringify(v.config));
+  data.jobOrder = VueJobDataToJobConfig(v.jobOrder);
 
   await callOverlayHandler({ call: 'saveData', key: overlayPluginKey, data });
   await callOverlayHandler({ call: 'cactbotReloadOverlays' });
