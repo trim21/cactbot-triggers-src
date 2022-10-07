@@ -1,3 +1,5 @@
+import { sleep } from './utils';
+
 const port = 2020; //鲶鱼精邮差所监听的端口
 
 export async function Command(data: string): Promise<void> {
@@ -42,5 +44,13 @@ async function call(command: 'Command' | 'Mark', data: string) {
 export async function clearMark() {
   for (let index = 1; index < 9; index++) {
     await Command(`/mk clear <${index}>`);
+  }
+}
+
+
+export async function Commands(commands: string[]): Promise<void> {
+  for (const cmd of commands) {
+    await Command(cmd);
+    await sleep(100);
   }
 }

@@ -1,4 +1,4 @@
-import { nameToJobEnum } from './job';
+import { jobIDToCN } from './job';
 
 const playerNicks: Record<string, string> = (Options.PlayerNicks = {});
 
@@ -9,7 +9,7 @@ addOverlayListener('PartyChanged', (e) => {
 
   // default nickname should be here
   for (const party of e.party) {
-    const v = nameToJobEnum[party.job];
+    const v = jobIDToCN[party.job];
     if (v) {
       playerNicks[party.name] = v;
     }

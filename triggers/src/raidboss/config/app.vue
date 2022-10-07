@@ -35,7 +35,7 @@ import draggable from 'vuedraggable';
 import util from 'cactbot/resources/util';
 
 import { overlayPluginKey, defaultConfig, loadConfigFromOverlayPlugin, sortByJobID } from './index';
-import { nameToJobEnum } from '../job';
+import { jobIDToCN } from '../job';
 
 
 type vueJobData = {
@@ -105,7 +105,7 @@ export default defineComponent({
 
 function jobConfigToVueJobData(jobOrder: Record<string, number>): vueJobData[] {
   return Object.entries(jobOrder)
-    .map(([id, order]) => ({ id, order, name: nameToJobEnum[id] }))
+    .map(([id, order]) => ({ id, order, name: jobIDToCN[id] }))
     .sort((a, b) => a.order - b.order);
 }
 

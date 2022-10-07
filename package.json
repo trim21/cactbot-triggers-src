@@ -13,6 +13,7 @@
   ],
   "private": true,
   "scripts": {
+    "emu": "static ./cactbot/dist/ --port=8082",
     "format": "prettier -w ./",
     "cactbot": "yarn workspace cactbot",
     "triggers": "yarn workspace triggers",
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
+    "node-static": "^0.7.11",
     "prettier": "^2.7.1"
   }
 }

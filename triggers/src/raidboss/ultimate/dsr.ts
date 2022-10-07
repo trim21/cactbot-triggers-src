@@ -1,10 +1,11 @@
-import { clearMark, Command, Mark, MarkType } from '../namazu';
+import { clearMark, Command, Commands, Mark, MarkType } from '../namazu';
 import type { NetMatches } from 'cactbot/types/net_matches';
 import type { Data as BaseData } from 'cactbot/ui/raidboss/data/06-ew/ultimate/dragonsongs_reprise_ultimate';
 import { defineTrigger } from '../user_trigger';
 import config, { sortByJobID } from '../config';
 import { getHeadmarkerId, sleep } from '../utils';
 import { PluginCombatantState } from 'cactbot/types/event';
+import { jobIDToShow } from '../job';
 
 /*
 
@@ -19,12 +20,14 @@ import { PluginCombatantState } from 'cactbot/types/event';
 (0, +y)
  */
 
+//  用于跟两个汉字对齐，7个空格
+const sep = '       ';
 
 interface DSRData {
   marked: boolean;
   nameToJobID?: Record<string, number>;
   p5Lightning: Array<{ name: string; jobID: number }>;
-  p5DeadCall: Array<{ name: string; jobID: number }>;
+  p5DeadCall: Record<string, boolean>;
   tower: Array<{
     num: number;
     targetID: number;
@@ -45,7 +48,7 @@ export default defineTrigger<DSRData, BaseData>({
       marked: false,
       tower: [],
       p5Lightning: [],
-      p5DeadCall: [],
+      p5DeadCall: {},
       p6FireSeparation: [],
       p6FireSharing: [],
       WhiteDragon: undefined,
@@ -106,6 +109,7 @@ export default defineTrigger<DSRData, BaseData>({
         data.WhiteDragon = WhiteDragon.combatants.filter((boss) => boss.BNpcNameID === 4954 && boss.BNpcID == 12613)[0];
       },
       alertText: (data, matches) => {
+        const prefix = '/e 十字火| ';
         data.p6Fire++;
         if (data.p6Fire === 2) {
           if (data.WhiteDragon === undefined) {
@@ -119,21 +123,45 @@ export default defineTrigger<DSRData, BaseData>({
 
           // 右半场俯冲
           if (posX >= 100 && y > 106) {
-            Command('/p 左上安全 (A为12点)');
+            Commands([
+              `■ □ □ `,
+              `□ □ □ `,
+              `□ □ □ `,
+              `左上安跑 (A为12点)`,
+            ].map(x => prefix + x));
+
             return '左上安全';
           }
           if (posX >= 100 && y < 106) {
-            Command('/p 左下安全 (A为12点)');
+            Commands([
+              `□ □ □ `,
+              `□ □ □ `,
+              `■ □ □ `,
+              `左下起跑 (A为12点)`,
+            ].map(x => prefix + x));
+
             return '左下安全';
           }
 
           // 左半场俯冲
           if (posX <= 91 && y > 106) {
-            Command('/p 右上安全 (A为12点)');
+            Commands([
+              `□ □ ■`,
+              `□ □ □ `,
+              `□ □ □ `,
+              `右上起跑 (A为12点)`,
+            ].map(x => prefix + x));
+
             return '右上安全';
           }
           if (posX <= 91 && y < 106) {
-            Command('/p 右下安全 (A为12点)');
+            Commands([
+              `□ □ □`,
+              `□ □ □`,
+              `□ □ ■`,
+              `右下起跑 (A为12点)`,
+            ].map(x => prefix + x));
+
             return '右下安全';
           }
         }
@@ -180,25 +208,25 @@ export default defineTrigger<DSRData, BaseData>({
         }
       },
     },
-    {
-      // This will only fire if you got a marker, so that it's mutually exclusive
-      // with the "No Marker" trigger above.
-      id: 'DSR P5 索尼手柄 清除标记',
-      type: 'HeadMarker',
-      disabled: !config.enablePostNamazu,
-      netRegex: NetRegexes.headMarker(),
-      suppressSeconds: 0.5,
-      condition: (data, matches) => {
-        if (data.phase !== 'thordan2') return false;
-        return playstationHeadmarkerIds.includes(getHeadmarkerId(data, matches));
-      },
-      run(data) {
-        if (data.marked) {
-          clearMark();
-          data.marked = false;
-        }
-      },
-    },
+    // {
+    //   // This will only fire if you got a marker, so that it's mutually exclusive
+    //   // with the "No Marker" trigger above.
+    //   id: 'DSR P5 索尼手柄 清除标记',
+    //   type: 'HeadMarker',
+    //   disabled: !config.enablePostNamazu,
+    //   netRegex: NetRegexes.headMarker(),
+    //   suppressSeconds: 0.5,
+    //   condition: (data, matches) => {
+    //     if (data.phase !== 'thordan2') return false;
+    //     return playstationHeadmarkerIds.includes(getHeadmarkerId(data, matches));
+    //   },
+    //   run(data) {
+    //     if (data.marked) {
+    //       clearMark();
+    //       data.marked = false;
+    //     }
+    //   },
+    // },
     {
       id: 'DSR 死宣科技',
       disabled: !config.enablePostNamazu,
@@ -209,19 +237,30 @@ export default defineTrigger<DSRData, BaseData>({
           data.nameToJobID = Object.fromEntries(data.party.details.map((v) => [v.name, v.job]));
         }
 
-        data.p5DeadCall.push({ name: matches.target, jobID: data.nameToJobID[matches.target] });
+        data.p5DeadCall[matches.target] = true;
 
-        if (data.p5DeadCall.length === 4) {
-          data.p5DeadCall.sort(sortByJobID);
+        if (Object.keys(data.p5DeadCall).length === 4) {
+          const party = data.party.details.map(v => ({ name: v.name, jobID: v.job }));
+          party.sort(sortByJobID);
+
+          const deadCall: string[] = [];
+          const nonDeadCall: string[] = [];
+
+          for (const p of party) {
+            if (data.p5DeadCall[p.name]) {
+              deadCall.push(jobIDToShow[p.jobID]);
+              nonDeadCall.push(sep);
+            } else {
+              deadCall.push(sep);
+              nonDeadCall.push(jobIDToShow[p.jobID]);
+            }
+          }
 
           (async () => {
-            for (let i = 0; i < data.p5DeadCall.length; i++) {
-              await sleep(100);
-              await Mark({ Name: data.p5DeadCall[i].name, MarkType: `attack${i + 1}` as MarkType });
-            }
+            await Command(`/e 死宣| ${deadCall.join(' ')}`);
+            await sleep(100);
+            await Command(`/e 无死| ${nonDeadCall.join(' ')}`);
           })();
-
-          data.marked = true;
         }
       },
     },
@@ -308,10 +347,3 @@ const headmarkers = {
   // vfx/lockon/eff/bahamut_wyvn_glider_target_02tm.avfx
   cauterize: '0014',
 } as const;
-
-const playstationHeadmarkerIds: readonly string[] = [
-  headmarkers.firechainCircle,
-  headmarkers.firechainTriangle,
-  headmarkers.firechainSquare,
-  headmarkers.firechainX,
-] as const;
