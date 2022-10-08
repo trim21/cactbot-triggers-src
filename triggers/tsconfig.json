@@ -89,7 +89,6 @@
     /* Disallow inconsistently-cased references to the same file. */
   },
   "files": [
-    "../overlay_plugin/index.d.ts",
     "../cactbot/types/manifest.d.ts"
   ],
   "include": [
