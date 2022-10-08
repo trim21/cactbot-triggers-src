@@ -9,24 +9,24 @@ import _ZoneId from 'cactbot/resources/zone_id';
 import _ZoneInfo from 'cactbot/resources/zone_info';
 import type { RaidbossData } from 'cactbot/types/data';
 import type { TriggerSet } from 'cactbot/types/trigger';
-import { CactbotLoadUserRet, PluginCombatantState, SavedConfig } from 'cactbot/types/event';
+import { CactbotLoadUserRet, SavedConfig } from 'cactbot/types/event';
 
 // cactbot extended api
 
 declare global {
   namespace OverlayPlugin {
-    function callOverlayHandler(msg: { call: 'broadcast'; source: string; msg: unknown; }): Promise<void>;
-    function callOverlayHandler(msg: { call: 'subscribe'; events: string[]; }): Promise<void>;
-    function callOverlayHandler(msg: { call: 'getCombatants'; ids?: number[]; names?: string[]; props?: string[]; }): Promise<{ combatants: PluginCombatantState[] }>;
-    function callOverlayHandler(msg: { call: 'openWebsiteWithWS'; url: string; }): Promise<void>;
-    function callOverlayHandler(msg: { call: 'cactbotReloadOverlays'; }): Promise<void>;
-    function callOverlayHandler(msg: { call: 'cactbotLoadUser'; source: string; overlayName: string; }): Promise<{ detail: CactbotLoadUserRet }>;
-    function callOverlayHandler(msg: { call: 'cactbotRequestPlayerUpdate'; }): Promise<void>;
-    function callOverlayHandler(msg: { call: 'cactbotRequestState'; }): Promise<void>;
-    function callOverlayHandler(msg: { call: 'cactbotSay'; text: string; }): Promise<void>;
-    function callOverlayHandler(msg: { call: 'cactbotSaveData'; overlay: string; data: unknown; }): Promise<void>;
-    function callOverlayHandler(msg: { call: 'cactbotLoadData'; overlay: string; }): Promise<{ data: SavedConfig } | undefined>;
-    function callOverlayHandler(msg: { call: 'cactbotChooseDirectory'; }): Promise<{ data: string } | undefined>;
+    interface ICallOverlayHandler {
+      (msg: { call: 'cactbotReloadOverlays'; }): Promise<void>;
+      (msg: { call: 'cactbotReloadOverlays'; }): Promise<void>;
+      (msg: { call: 'cactbotLoadUser'; source: string; overlayName: string; }): Promise<{ detail: CactbotLoadUserRet }>;
+      (msg: { call: 'cactbotRequestPlayerUpdate'; }): Promise<void>;
+      (msg: { call: 'cactbotRequestState'; }): Promise<void>;
+      (msg: { call: 'cactbotSay'; text: string; }): Promise<void>;
+      (msg: { call: 'cactbotSaveData'; overlay: string; data: unknown; }): Promise<void>;
+      (msg: { call: 'cactbotLoadData'; overlay: string; }): Promise<{ data: SavedConfig } | undefined>;
+      (msg: { call: 'cactbotChooseDirectory'; }): Promise<{ data: string } | undefined>;
+    }
+
   }
 }
 

@@ -1,4 +1,5 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "cloneSubmodules": true,
   "extends": ["local>trim21/renovate-config"]
 }

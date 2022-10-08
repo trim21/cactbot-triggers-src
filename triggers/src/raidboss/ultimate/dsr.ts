@@ -127,7 +127,7 @@ export default defineTrigger<DSRData, BaseData>({
               `■ □ □ `,
               `□ □ □ `,
               `□ □ □ `,
-              `左上安跑 (A为12点)`,
+              `左上起跑 (A为12点)`,
             ].map(x => prefix + x));
 
             return '左上安全';
