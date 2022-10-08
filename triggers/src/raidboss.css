@@ -3,12 +3,10 @@ timer-bar::part(timerbar-root) {
     box-sizing: initial !important;
 }
 
-
 timer-bar::part(text) {
     font-family: "Arial", "Microsoft YaHei", sans-serif !important;
     font-weight: 300 !important;
 }
-
 
 timer-bar::part(text-container) {
     left: 0 !important;

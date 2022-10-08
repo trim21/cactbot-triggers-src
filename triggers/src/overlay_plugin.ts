@@ -1,1 +1,1 @@
-/// <reference types="overlay-plugin/index" />
+/// <reference types="overlay-plugin/global" />
