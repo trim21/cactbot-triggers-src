@@ -9,23 +9,7 @@ import _ZoneId from 'cactbot/resources/zone_id';
 import _ZoneInfo from 'cactbot/resources/zone_info';
 import type { RaidbossData } from 'cactbot/types/data';
 import type { TriggerSet } from 'cactbot/types/trigger';
-import { CactbotLoadUserRet, SavedConfig } from 'cactbot/types/event';
 
-// cactbot extended api
-
-declare module 'overlay-plugin' {
-  interface ICallOverlayHandler {
-    (msg: { call: 'cactbotReloadOverlays'; }): Promise<void>;
-    (msg: { call: 'cactbotReloadOverlays'; }): Promise<void>;
-    (msg: { call: 'cactbotLoadUser'; source: string; overlayName: string; }): Promise<{ detail: CactbotLoadUserRet }>;
-    (msg: { call: 'cactbotRequestPlayerUpdate'; }): Promise<void>;
-    (msg: { call: 'cactbotRequestState'; }): Promise<void>;
-    (msg: { call: 'cactbotSay'; text: string; }): Promise<void>;
-    (msg: { call: 'cactbotSaveData'; overlay: string; data: unknown; }): Promise<void>;
-    (msg: { call: 'cactbotLoadData'; overlay: string; }): Promise<{ data: SavedConfig } | undefined>;
-    (msg: { call: 'cactbotChooseDirectory'; }): Promise<{ data: string } | undefined>;
-  }
-}
 
 declare global {
   const Options: {
@@ -47,5 +31,3 @@ declare global {
   // options of modules
   // const RaidbossOptions: typeof _RaidbossOptions;
 }
-
-

@@ -3,6 +3,10 @@ import isEqual from 'lodash-es/isEqual';
 export const overlayPluginKey = 'trim21-triggers-config.02';
 const localStorageKey = 'trim21-triggers-config.02';
 
+const config = loadConfigFromLocalStorage();
+export default config;
+export const echoPrefix = config.partyNotification ? '/p' : '/e';
+
 export type Config = {
   enablePostNamazu: boolean;
   jobOrder: Record<string, number>;
@@ -65,10 +69,6 @@ export async function loadConfigFromOverlayPlugin(): Promise<Config> {
   return defaultConfig();
 }
 
-
-const config = loadConfigFromLocalStorage();
-export default config;
-export const echoPrefix = config.partyNotification ? '/p' : '/e';
 
 loadConfigFromOverlayPlugin().then(c => {
   if (!isEqual(c, config)) {
