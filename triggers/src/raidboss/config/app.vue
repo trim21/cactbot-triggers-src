@@ -5,6 +5,7 @@
         <h1>职业排序</h1>
         <draggable
           tag='ul' class='list-group'
+          v-bind='dragOptions'
           v-model='jobOrder'
           group='people'
           item-key='id'>
@@ -90,6 +91,16 @@ export default defineComponent({
       if (this.loaded) {
         configChange(this.$data);
       }
+    },
+  },
+  computed: {
+    dragOptions() {
+      return {
+        animation: 250,
+        group: 'people',
+        disabled: false,
+        ghostClass: 'ghost',
+      };
     },
   },
   methods: {
