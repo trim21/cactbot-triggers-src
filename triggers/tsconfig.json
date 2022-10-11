@@ -90,7 +90,6 @@
   },
   "files": [
     "../cactbot/types/manifest.d.ts",
-    "../cactbot/types/overlay-plugin.d.ts"
   ],
   "include": [
     "./src/"

@@ -1,11 +1,14 @@
 import { clearMark, Command, Commands, Mark, MarkType } from '../namazu';
 import type { NetMatches } from 'cactbot/types/net_matches';
 import type { Data as BaseData } from 'cactbot/ui/raidboss/data/06-ew/ultimate/dragonsongs_reprise_ultimate';
+
 import { defineTrigger } from '../user_trigger';
 import config, { echoPrefix, sortByJobID } from '../config/config';
 import { getHeadmarkerId, p, sleep } from '../utils';
 import { PluginCombatantState } from 'cactbot/types/event';
 import { jobIDToShow } from '../job';
+
+export type { Data as BaseData } from 'cactbot/ui/raidboss/data/06-ew/ultimate/dragonsongs_reprise_ultimate';
 
 /*
 
@@ -23,7 +26,7 @@ import { jobIDToShow } from '../job';
 //  用于跟两个汉字对齐，7个空格
 const sep = '       ';
 
-interface DSRData {
+export interface DSRData {
   marked: boolean;
   nameToJobID?: Record<string, number>;
   p5Lightning: Array<{ name: string; jobID: number }>;

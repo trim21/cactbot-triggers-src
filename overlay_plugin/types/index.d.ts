@@ -30,7 +30,10 @@ export interface Party {
 }
 
 export interface IAddOverlayListener {
+  // Add in plugin@0.1.2
   (event: 'LogLine', cb: (ev: { type: 'LogLine'; line: string[]; rawLine: string; }) => void): void;
+
+  // Add in plugin@0.3.4
   (event: 'PartyChanged', cb: (ev: { type: 'PartyChanged'; party: Party[]; }) => void): void;
 }
 

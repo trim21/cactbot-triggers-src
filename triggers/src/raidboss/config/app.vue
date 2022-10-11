@@ -50,7 +50,7 @@ type vueJobData = {
   name: string;
 }
 
-type Data = {
+type VueData = {
   loaded: boolean,
   config: Config;
   jobOrder: vueJobData[];
@@ -60,7 +60,7 @@ export default defineComponent({
   components: {
     draggable,
   },
-  data(): Data {
+  data(): VueData {
     console.log('app init');
     const c = defaultConfig();
     return {
@@ -136,7 +136,7 @@ function VueJobDataToJobConfig(jobOrder: vueJobData[]): Record<string, number> {
   return Object.fromEntries(jobOrder.map((x, i) => [x.id, i]));
 }
 
-async function configChange(v: Data) {
+async function configChange(v: VueData) {
   const data = JSON.parse(JSON.stringify(v.config));
   data.jobOrder = VueJobDataToJobConfig(v.jobOrder);
 

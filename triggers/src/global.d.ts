@@ -7,15 +7,20 @@ import _Outputs from 'cactbot/resources/outputs';
 import _Util from 'cactbot/resources/util';
 import _ZoneId from 'cactbot/resources/zone_id';
 import _ZoneInfo from 'cactbot/resources/zone_info';
-import type { RaidbossData } from 'cactbot/types/data';
-import type { TriggerSet } from 'cactbot/types/trigger';
+import type { TriggerSet, BaseTriggerSet } from 'cactbot/types/trigger';
 
+type Helper<T> = T extends { initData(): infer D } ?
+  T extends BaseTriggerSet<infer K> ?
+    Omit<TriggerSet<Exclude<K, keyof D>>, 'initData'> & { initData(): D }
+    : never
+  : never
 
 declare global {
   const Options: {
     PlayerNicks: Record<string, string>;
     Triggers: {
-      push<T extends RaidbossData>(item: Omit<TriggerSet<T>, 'initData'> & { initData(): Partial<T> }): void;
+      push<T>(item: T extends Helper<T> ? T : never): T;
+      // push<T, Base extends RaidbossData>(trigger: UserTriggerSet<T, Base>): void;
     };
   };
   // Global variables
@@ -28,6 +33,4 @@ declare global {
   const Util: typeof _Util;
   const ZoneId: typeof _ZoneId;
   const ZoneInfo: typeof _ZoneInfo;
-  // options of modules
-  // const RaidbossOptions: typeof _RaidbossOptions;
 }
