@@ -9,11 +9,11 @@ import _ZoneId from 'cactbot/resources/zone_id';
 import _ZoneInfo from 'cactbot/resources/zone_info';
 import type { TriggerSet, BaseTriggerSet } from 'cactbot/types/trigger';
 
-type Helper<T> = T extends { initData(): infer D } ?
-  T extends BaseTriggerSet<infer K> ?
-    Omit<TriggerSet<Exclude<K, keyof D>>, 'initData'> & { initData(): D }
+type Helper<T> = T extends { initData(): infer D }
+  ? T extends BaseTriggerSet<infer K>
+    ? Omit<TriggerSet<Exclude<K, keyof D>>, 'initData'> & { initData(): D }
     : never
-  : never
+  : never;
 
 declare global {
   const Options: {

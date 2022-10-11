@@ -41,9 +41,7 @@ module.exports = {
   },
   plugins: [
     new CopyPlugin({
-      patterns: [
-        { from: './src/raidboss.css' },
-      ],
+      patterns: [{ from: './src/raidboss.css' }],
     }),
   ],
   cache: {
@@ -51,4 +49,3 @@ module.exports = {
     name: 'cactbot-user',
   },
 };
-

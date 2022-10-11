@@ -126,44 +126,24 @@ export default defineTrigger<DSRData, BaseData>({
 
           // 右半场俯冲
           if (posX >= 100 && y > 106) {
-            Commands([
-              `■ □ □ `,
-              `□ □ □ `,
-              `□ □ □ `,
-              `左上起跑 (A为12点)`,
-            ].map(x => prefix + x));
+            Commands([`■ □ □ `, `□ □ □ `, `□ □ □ `, `左上起跑 (A为12点)`].map((x) => prefix + x));
 
             return '左上安全';
           }
           if (posX >= 100 && y < 106) {
-            Commands([
-              `□ □ □ `,
-              `□ □ □ `,
-              `■ □ □ `,
-              `左下起跑 (A为12点)`,
-            ].map(x => prefix + x));
+            Commands([`□ □ □ `, `□ □ □ `, `■ □ □ `, `左下起跑 (A为12点)`].map((x) => prefix + x));
 
             return '左下安全';
           }
 
           // 左半场俯冲
           if (posX <= 91 && y > 106) {
-            Commands([
-              `□ □ ■`,
-              `□ □ □ `,
-              `□ □ □ `,
-              `右上起跑 (A为12点)`,
-            ].map(x => prefix + x));
+            Commands([`□ □ ■`, `□ □ □ `, `□ □ □ `, `右上起跑 (A为12点)`].map((x) => prefix + x));
 
             return '右上安全';
           }
           if (posX <= 91 && y < 106) {
-            Commands([
-              `□ □ □`,
-              `□ □ □`,
-              `□ □ ■`,
-              `右下起跑 (A为12点)`,
-            ].map(x => prefix + x));
+            Commands([`□ □ □`, `□ □ □`, `□ □ ■`, `右下起跑 (A为12点)`].map((x) => prefix + x));
 
             return '右下安全';
           }
@@ -243,7 +223,7 @@ export default defineTrigger<DSRData, BaseData>({
         data.p5DeadCall[matches.target] = true;
 
         if (Object.keys(data.p5DeadCall).length === 4) {
-          const party = data.party.details.map(v => ({ name: v.name, jobID: v.job }));
+          const party = data.party.details.map((v) => ({ name: v.name, jobID: v.job }));
           party.sort(sortByJobID);
 
           const deadCall: string[] = [];
@@ -298,12 +278,11 @@ export default defineTrigger<DSRData, BaseData>({
           data.p6FireSharing.push(matches.target);
         }
 
-
         if (data.p6FireSharing.length + data.p6FireSeparation.length !== 6) {
           return;
         }
 
-        p(async function() {
+        p(async function () {
           await sleep(800);
           for (let index = 0; index < data.p6FireSeparation.length; index++) {
             await Mark({ Name: data.p6FireSeparation[index], MarkType: `attack${index + 1}` as MarkType });
@@ -316,9 +295,10 @@ export default defineTrigger<DSRData, BaseData>({
             await sleep(100);
           }
 
-          const names = data.party.details.map(x => x.name)
-            .filter(x => !data.p6FireSeparation.includes(x))
-            .filter(x => !data.p6FireSharing.includes(x));
+          const names = data.party.details
+            .map((x) => x.name)
+            .filter((x) => !data.p6FireSeparation.includes(x))
+            .filter((x) => !data.p6FireSharing.includes(x));
 
           for (let i = 0; i < names.length; i++) {
             await Mark({ Name: names[i], MarkType: `stop${i + 1}` as MarkType });

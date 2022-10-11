@@ -21,7 +21,6 @@ export const jobIDToCN: Record<string, string> = {
   40: '贤者',
 };
 
-
 export const jobIDToShow: Record<string, string> = {
   20: '武僧',
   21: '战士',

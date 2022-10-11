@@ -47,7 +47,6 @@ export async function clearMark() {
   }
 }
 
-
 export async function Commands(commands: string[]): Promise<void> {
   for (const cmd of commands) {
     await Command(cmd);
