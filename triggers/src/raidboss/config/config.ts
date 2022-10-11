@@ -44,7 +44,7 @@ export function defaultConfig(): Config {
       25, // 黑魔,
       35, // 赤魔,
       27, // 召唤,
-    ].map((v, i) => [v, i])
+    ].map((v, i) => [v, i]),
   );
 
   return { partyNotification: true, enablePostNamazu: true, jobOrder };

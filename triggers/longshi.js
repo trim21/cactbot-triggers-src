@@ -944,13 +944,13 @@ Options.Triggers.push({
         if (data.一运位置 === undefined) data.一运位置 = [];
         const dirNums1 = [0, 1, 2, 3, 4, 5, 6, 7];
         data.一运位置.push(
-          Math.round(4 - (4 * Math.atan2(data.boss1.PosX - 100, data.boss1.PosY - 100)) / Math.PI) % 8
+          Math.round(4 - (4 * Math.atan2(data.boss1.PosX - 100, data.boss1.PosY - 100)) / Math.PI) % 8,
         );
         data.一运位置.push(
-          Math.round(4 - (4 * Math.atan2(data.boss2.PosX - 100, data.boss2.PosY - 100)) / Math.PI) % 8
+          Math.round(4 - (4 * Math.atan2(data.boss2.PosX - 100, data.boss2.PosY - 100)) / Math.PI) % 8,
         );
         data.一运位置.push(
-          Math.round(4 - (4 * Math.atan2(data.boss3.PosX - 100, data.boss3.PosY - 100)) / Math.PI) % 8
+          Math.round(4 - (4 * Math.atan2(data.boss3.PosX - 100, data.boss3.PosY - 100)) / Math.PI) % 8,
         );
         if (data.一运位置[0] || data.一运位置[0] === 0) {
           delete dirNums1[(data.一运位置[0] + 4) % 8];
@@ -1023,7 +1023,7 @@ Options.Triggers.push({
           let secondInMt = data.MT.includes(data.bobao[1]) ? 'MT组' : '';
           let secondInST = data.ST.includes(data.bobao[1]) ? 'ST组' : '';
           sendMessageToParty(
-            firstInMt + firstInST + '1号点名' + data.bobao[0] + secondInMt + secondInST + '2号点名' + data.bobao[1]
+            firstInMt + firstInST + '1号点名' + data.bobao[0] + secondInMt + secondInST + '2号点名' + data.bobao[1],
           );
           return;
           firstInMt + firstInST + '1号点名' + data.bobao[0] + secondInMt + secondInST + '2号点名' + data.bobao[1];
@@ -2084,7 +2084,7 @@ Options.Triggers.push({
           bossData123 = bossData.combatants.filter((boss) => boss.BNpcNameID === 3632 && boss.BNpcID == 12611)[0];
         }
         data.骑神 = Math.round(
-          Math.round(4 - (4 * Math.atan2(bossData123.PosX - 100, bossData123.PosY - 100)) / Math.PI) % 8
+          Math.round(4 - (4 * Math.atan2(bossData123.PosX - 100, bossData123.PosY - 100)) / Math.PI) % 8,
         );
       },
       alertText: (data, matches, output) => {
@@ -2209,7 +2209,7 @@ Options.Triggers.push({
       },
       alertText: (data, matches, output) => {
         data.月环 = Math.round(
-          Math.round(2 - (2 * Math.atan2(data.战士.PosX - 100, data.战士.PosY - 100)) / Math.PI) % 4
+          Math.round(2 - (2 * Math.atan2(data.战士.PosX - 100, data.战士.PosY - 100)) / Math.PI) % 4,
         );
 
         switch (data.月环) {
@@ -2377,7 +2377,7 @@ Options.Triggers.push({
         });
         data.linePos =
           Math.round(
-            4 - (4 * Math.atan2(boss.combatants[0]?.PosX - 100, boss.combatants[0]?.PosY - 100)) / Math.PI + 4
+            4 - (4 * Math.atan2(boss.combatants[0]?.PosX - 100, boss.combatants[0]?.PosY - 100)) / Math.PI + 4,
           ) % 8;
         return;
       },
@@ -2574,7 +2574,7 @@ Options.Triggers.push({
           console.log(我的死宣);
           console.log(data.death);
           let 重复的元素 = 死宣在数组位置.filter(
-            (e, i) => 死宣在数组位置.indexOf(e) !== 死宣在数组位置.lastIndexOf(e) && 死宣在数组位置.indexOf(e) === i
+            (e, i) => 死宣在数组位置.indexOf(e) !== 死宣在数组位置.lastIndexOf(e) && 死宣在数组位置.indexOf(e) === i,
           );
           if (死宣在数组位置[0] == 死宣在数组位置[1] && 死宣在数组位置[2] == 死宣在数组位置[3]) {
             //情况3
@@ -2908,7 +2908,7 @@ Options.Triggers.push({
           return shunxu2.find((c) => c.job == a).order - shunxu2.find((c) => c.job == b).order;
         });
         data.noBuff = data.fenzu.filter(
-          (x) => !data.dark.some((item) => x === item) && !data.white.some((item) => x === item)
+          (x) => !data.dark.some((item) => x === item) && !data.white.some((item) => x === item),
         );
         data.noBuff.sort((a, b) => {
           return shunxu2.find((c) => c.job == a).order - shunxu2.find((c) => c.job == b).order;
