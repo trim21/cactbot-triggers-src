@@ -1,3 +1,4 @@
+import {} from 'overlay-plugin';
 import { SavedConfig } from 'cactbot/types/event';
 
 declare module 'overlay-plugin' {

@@ -17,3 +17,9 @@ export function p(h: () => Promise<any>) {
     console.log('promise error', e);
   });
 }
+
+export function c(h: Promise<any>) {
+  h.catch((e) => {
+    console.log('promise error', e);
+  });
+}

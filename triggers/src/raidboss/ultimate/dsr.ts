@@ -4,7 +4,7 @@ import type { NetMatches } from 'cactbot/types/net_matches';
 
 import { defineTrigger } from '../user_trigger';
 import config, { echoPrefix, sortByJobID } from '../config/config';
-import { p, sleep } from '../utils';
+import { c, p, sleep } from '../utils';
 import { jobIDToShow } from '../job';
 import { clearMark, Command, Commands, Mark, MarkType } from '../namazu';
 
@@ -100,21 +100,29 @@ export default defineTrigger<DSRData, BaseData>({
       },
     },
 
+
     {
       id: 'DSR p6 火球',
       type: 'AddedCombatant',
       netRegex: NetRegexes.addedCombatantFull({ npcBaseId: '13238' }),
       suppressSeconds: 1,
       promise: async (data) => {
+        await sleep(100);
         const WhiteDragon = await callOverlayHandler({ call: 'getCombatants' });
-        data.WhiteDragon = WhiteDragon.combatants.filter((boss) => boss.BNpcNameID === 4954 && boss.BNpcID == 12613)[0];
+        // data.WhiteDragon = WhiteDragon.combatants.filter((boss) => boss.BNpcNameID === 4954 && boss.BNpcID == 12613)[0];
+        data.WhiteDragon = WhiteDragon.combatants.filter((boss) => boss.Name === '赫拉斯瓦尔格')[0];
+        WhiteDragon.combatants.forEach(x => console.log({
+          name: x.Name,
+          bNpcNameID: x.BNpcNameID,
+          bNpcID: x.BNpcID,
+        }));
       },
       alertText: (data, matches) => {
         const prefix = `${echoPrefix} 十字火| `;
         data.p6Fire++;
         if (data.p6Fire === 2) {
           if (data.WhiteDragon === undefined) {
-            Command('/e 圣龙数据为空');
+            c(Command('/e 圣龙数据为空'));
             return;
           }
           let posX = data.WhiteDragon.PosX;
@@ -124,24 +132,24 @@ export default defineTrigger<DSRData, BaseData>({
 
           // 右半场俯冲
           if (posX >= 100 && y > 106) {
-            Commands([`■ □ □ `, `□ □ □ `, `□ □ □ `, `左上起跑 (A为12点)`].map((x) => prefix + x));
+            c(Commands([`■ □ □ `, `□ □ □ `, `□ □ □ `, `左上起跑 (A为12点)`].map((x) => prefix + x)));
 
             return '左上安全';
           }
           if (posX >= 100 && y < 106) {
-            Commands([`□ □ □ `, `□ □ □ `, `■ □ □ `, `左下起跑 (A为12点)`].map((x) => prefix + x));
+            c(Commands([`□ □ □ `, `□ □ □ `, `■ □ □ `, `左下起跑 (A为12点)`].map((x) => prefix + x)));
 
             return '左下安全';
           }
 
           // 左半场俯冲
           if (posX <= 91 && y > 106) {
-            Commands([`□ □ ■`, `□ □ □ `, `□ □ □ `, `右上起跑 (A为12点)`].map((x) => prefix + x));
+            c(Commands([`□ □ ■`, `□ □ □ `, `□ □ □ `, `右上起跑 (A为12点)`].map((x) => prefix + x)));
 
             return '右上安全';
           }
           if (posX <= 91 && y < 106) {
-            Commands([`□ □ □`, `□ □ □`, `□ □ ■`, `右下起跑 (A为12点)`].map((x) => prefix + x));
+            c(Commands([`□ □ □`, `□ □ □`, `□ □ ■`, `右下起跑 (A为12点)`].map((x) => prefix + x)));
 
             return '右下安全';
           }
@@ -161,7 +169,7 @@ export default defineTrigger<DSRData, BaseData>({
       condition: (data) => data.phase === 'thordan2',
       run(data) {
         if (data.marked) {
-          clearMark();
+          c(clearMark());
           data.marked = false;
         }
       },
@@ -280,7 +288,7 @@ export default defineTrigger<DSRData, BaseData>({
           return;
         }
 
-        p(async function () {
+        p(async function() {
           await sleep(800);
           for (let index = 0; index < data.p6FireSeparation.length; index++) {
             await Mark({ Name: data.p6FireSeparation[index], MarkType: `attack${index + 1}` as MarkType });
@@ -315,31 +323,3 @@ export default defineTrigger<DSRData, BaseData>({
     },
   ],
 });
-
-// Due to changes introduced in patch 5.2, overhead markers now have a random offset
-// added to their ID. This offset currently appears to be set per instance, so
-// we can determine what it is from the first overhead marker we see.
-const headmarkers = {
-  // vfx/lockon/eff/lockon6_t0t.avfx
-  hyperdimensionalSlash: '00EA',
-  // vfx/lockon/eff/r1fz_firechain_01x.avfx through 04x
-  firechainCircle: '0119',
-  firechainTriangle: '011A',
-  firechainSquare: '011B',
-  firechainX: '011C',
-  // vfx/lockon/eff/r1fz_skywl_s9x.avfx
-  skywardTriple: '014A',
-  // vfx/lockon/eff/m0244trg_a1t.avfx and a2t
-  sword1: '0032',
-  sword2: '0033',
-  // vfx/lockon/eff/r1fz_holymeteo_s12x.avfx
-  meteor: '011D',
-  // vfx/lockon/eff/r1fz_lockon_num01_s5x.avfx through num03
-  dot1: '013F',
-  dot2: '0140',
-  dot3: '0141',
-  // vfx/lockon/eff/m0005sp_19o0t.avfx
-  skywardSingle: '000E',
-  // vfx/lockon/eff/bahamut_wyvn_glider_target_02tm.avfx
-  cauterize: '0014',
-} as const;

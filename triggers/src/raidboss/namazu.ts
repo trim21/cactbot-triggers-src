@@ -3,7 +3,7 @@ import { sleep } from './utils';
 const port = 2020; //鲶鱼精邮差所监听的端口
 
 export async function Command(data: string): Promise<void> {
-  await call('Command', data);
+  await call('command', data);
 }
 
 export type MarkType =
@@ -28,17 +28,20 @@ type Mark = {
 } & ({ ActorID: number } | { Name: string });
 
 export async function Mark(data: Mark): Promise<void> {
-  await call('Mark', JSON.stringify(data));
+  await call('mark', JSON.stringify(data));
 }
 
-async function call(command: 'Command' | 'Mark', data: string) {
+async function call(command: 'command' | 'mark', data: string) {
   console.log(command, data);
-  return await fetch(`http://127.0.0.1:${port}/${command}`, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: data,
-  });
+
+  return await callOverlayHandler({ call: 'PostNamazu', c: command, p: data });
+
+  // return await fetch(`http://127.0.0.1:${port}/${command}`, {
+  //   method: 'POST',
+  //   mode: 'no-cors',
+  //   headers: { 'Content-Type': 'application/json' },
+  //   body: data,
+  // });
 }
 
 export async function clearMark() {
@@ -53,3 +56,4 @@ export async function Commands(commands: string[]): Promise<void> {
     await sleep(100);
   }
 }
+

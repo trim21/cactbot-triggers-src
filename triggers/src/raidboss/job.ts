@@ -1,4 +1,4 @@
-export const jobIDToCN = {
+export const jobIDToCN: Record<number, string> = {
   20: '武僧',
   21: '战士',
   23: '诗人',
@@ -21,7 +21,7 @@ export const jobIDToCN = {
   40: '贤者',
 } as const;
 
-export const jobIDToShow = {
+export const jobIDToShow: Record<number, string> = {
   ...jobIDToCN,
   32: '黑骑',
 } as const;
