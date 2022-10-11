@@ -5,7 +5,7 @@
   "packageRules": [
     {
       "matchPackageNames": ["cactbot"],
-      "disabled": true
+      "enabled": false
     }
   ]
 }
