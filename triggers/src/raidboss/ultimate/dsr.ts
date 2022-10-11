@@ -1,14 +1,12 @@
-import { clearMark, Command, Commands, Mark, MarkType } from '../namazu';
-import type { NetMatches } from 'cactbot/types/net_matches';
+import type { PluginCombatantState } from 'cactbot/types/event';
 import type { Data as BaseData } from 'cactbot/ui/raidboss/data/06-ew/ultimate/dragonsongs_reprise_ultimate';
+import type { NetMatches } from 'cactbot/types/net_matches';
 
 import { defineTrigger } from '../user_trigger';
 import config, { echoPrefix, sortByJobID } from '../config/config';
-import { getHeadmarkerId, p, sleep } from '../utils';
-import { PluginCombatantState } from 'cactbot/types/event';
+import { p, sleep } from '../utils';
 import { jobIDToShow } from '../job';
-
-export type { Data as BaseData } from 'cactbot/ui/raidboss/data/06-ew/ultimate/dragonsongs_reprise_ultimate';
+import { clearMark, Command, Commands, Mark, MarkType } from '../namazu';
 
 /*
 
@@ -306,6 +304,14 @@ export default defineTrigger<DSRData, BaseData>({
           }
         });
       },
+    },
+    {
+      id: 'P5五连火圈',
+      type: 'Ability',
+      netRegex: NetRegexes.ability({ id: '6B91' }),
+      condition: Conditions.targetIsYou(),
+      suppressSeconds: 10,
+      alertText: '五连火圈点名',
     },
   ],
 });
