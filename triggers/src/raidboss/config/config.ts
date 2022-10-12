@@ -3,7 +3,7 @@ import isEqual from 'lodash-es/isEqual';
 export const overlayPluginKey = 'trim21-triggers-config.02';
 const localStorageKey = 'trim21-triggers-config.02';
 
-const config = loadConfigFromLocalStorage();
+const config: Readonly<Config> = loadConfigFromLocalStorage();
 export default config;
 export const echoPrefix = config.partyNotification ? '/p' : '/e';
 
@@ -73,7 +73,7 @@ loadConfigFromOverlayPlugin().then((c) => {
   if (!isEqual(c, config)) {
     console.log('config change, reload page');
     localStorage.setItem(localStorageKey, JSON.stringify(c));
-    location.reload();
+    Object.assign(config, c);
   }
 
   if (config.enablePostNamazu) {

@@ -58,6 +58,10 @@ export default defineTrigger<DSRData, BaseData>({
   },
   triggers: [
     {
+      id: "DSR Dragon's Rage",
+      disabled: true,
+    },
+    {
       id: 'DSR p3 八人塔',
       type: 'StartsUsing',
       netRegex: NetRegexes.startsUsing({ id: ['6717', '6718', '6719', '671A'] }),
@@ -240,8 +244,6 @@ export default defineTrigger<DSRData, BaseData>({
         }
 
         p(async function() {
-          await sleep(2000);
-
           for (let index = 0; index < data.p6FireSeparation.length; index++) {
             await Mark({ Name: data.p6FireSeparation[index], MarkType: `attack${index + 1}` as MarkType });
             await sleep(100);
@@ -272,20 +274,20 @@ export default defineTrigger<DSRData, BaseData>({
       promise: async (data) => {
         await sleep(100);
         const WhiteDragon = await callOverlayHandler({ call: 'getCombatants' });
-        // data.WhiteDragon = WhiteDragon.combatants.filter((boss) => boss.BNpcNameID === 4954 && boss.BNpcID == 12613)[0];
-        data.WhiteDragon = WhiteDragon.combatants.filter((boss) => boss.Name === '赫拉斯瓦尔格')[0];
-        try {
-          WhiteDragon.combatants.forEach((x) =>
-            console.log(
-              JSON.stringify({
-                name: x.Name,
-                bNpcNameID: x.BNpcNameID,
-                bNpcID: x.BNpcID,
-              }),
-            ),
-          );
-        } catch {
-        }
+        data.WhiteDragon = WhiteDragon.combatants.filter((boss) => boss.BNpcNameID === 4954 && boss.BNpcID == 12613)[0];
+        // data.WhiteDragon = WhiteDragon.combatants.filter((boss) => boss.Name === '赫拉斯瓦尔格')[0];
+        // try {
+        //   WhiteDragon.combatants.forEach((x) =>
+        //     console.log(
+        //       JSON.stringify({
+        //         name: x.Name,
+        //         bNpcNameID: x.BNpcNameID,
+        //         bNpcID: x.BNpcID,
+        //       }),
+        //     ),
+        //   );
+        // } catch {
+        // }
       },
       alertText: (data, matches) => {
         const prefix = `${echoPrefix} 十字火| `;
