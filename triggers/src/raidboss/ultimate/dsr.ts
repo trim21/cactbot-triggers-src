@@ -69,13 +69,14 @@ export default defineTrigger<DSRData, BaseData>({
 
         data.tower.push({ num, target });
       },
-
       alertText: (data) => {
         if (data.tower.length !== 4) {
           return;
         }
 
-        const tower = data.tower.sort((a, b) => a.target - b.target).map((x) => x.num);
+        const tower = data.tower
+          .sort((a: { target: number }, b: { target: number }) => a.target - b.target)
+          .map((x) => x.num);
 
         //  3   1
         //  2   0
@@ -99,61 +100,12 @@ export default defineTrigger<DSRData, BaseData>({
     },
 
     {
-      id: 'DSR p6 火球',
-      type: 'AddedCombatant',
-      netRegex: NetRegexes.addedCombatantFull({ npcBaseId: '13238' }),
-      suppressSeconds: 1,
-      promise: async (data) => {
-        await sleep(100);
-        const WhiteDragon = await callOverlayHandler({ call: 'getCombatants' });
-        // data.WhiteDragon = WhiteDragon.combatants.filter((boss) => boss.BNpcNameID === 4954 && boss.BNpcID == 12613)[0];
-        data.WhiteDragon = WhiteDragon.combatants.filter((boss) => boss.Name === '赫拉斯瓦尔格')[0];
-        WhiteDragon.combatants.forEach((x) =>
-          console.log({
-            name: x.Name,
-            bNpcNameID: x.BNpcNameID,
-            bNpcID: x.BNpcID,
-          }),
-        );
-      },
-      alertText: (data, matches) => {
-        const prefix = `${echoPrefix} 十字火| `;
-        data.p6Fire++;
-        if (data.p6Fire === 2) {
-          if (data.WhiteDragon === undefined) {
-            c(Command('/e 圣龙数据为空'));
-            return;
-          }
-          let posX = data.WhiteDragon.PosX;
-
-          // 二火位置
-          const y = parseFloat(matches.y);
-
-          // 右半场俯冲
-          if (posX >= 100 && y > 106) {
-            c(Commands([`■ □ □ `, `□ □ □ `, `□ □ □ `, `左上起跑 (A为12点)`].map((x) => prefix + x)));
-
-            return '左上安全';
-          }
-          if (posX >= 100 && y < 106) {
-            c(Commands([`□ □ □ `, `□ □ □ `, `■ □ □ `, `左下起跑 (A为12点)`].map((x) => prefix + x)));
-
-            return '左下安全';
-          }
-
-          // 左半场俯冲
-          if (posX <= 91 && y > 106) {
-            c(Commands([`□ □ ■`, `□ □ □ `, `□ □ □ `, `右上起跑 (A为12点)`].map((x) => prefix + x)));
-
-            return '右上安全';
-          }
-          if (posX <= 91 && y < 106) {
-            c(Commands([`□ □ □`, `□ □ □`, `□ □ ■`, `右下起跑 (A为12点)`].map((x) => prefix + x)));
-
-            return '右下安全';
-          }
-        }
-      },
+      id: 'DSR P5 一运 五连火圈',
+      type: 'Ability',
+      netRegex: NetRegexes.ability({ id: '6B91' }),
+      condition: Conditions.targetIsYou(),
+      suppressSeconds: 10,
+      alertText: '五连火圈点名',
     },
 
     {
@@ -253,7 +205,7 @@ export default defineTrigger<DSRData, BaseData>({
       },
     },
     {
-      id: 'DSR p6 十字火 收集点名',
+      id: 'DSR p6 十字火 点名',
       type: 'GainsEffect',
       netRegex: NetRegexes.gainsEffect({
         effectId: [
@@ -313,12 +265,65 @@ export default defineTrigger<DSRData, BaseData>({
       },
     },
     {
-      id: 'DSR P5 一运 五连火圈',
-      type: 'Ability',
-      netRegex: NetRegexes.ability({ id: '6B91' }),
-      condition: Conditions.targetIsYou(),
-      suppressSeconds: 10,
-      alertText: '五连火圈点名',
+      id: 'DSR p6 十字火 起跑点',
+      type: 'AddedCombatant',
+      netRegex: NetRegexes.addedCombatantFull({ npcBaseId: '13238' }),
+      suppressSeconds: 1,
+      promise: async (data) => {
+        await sleep(100);
+        const WhiteDragon = await callOverlayHandler({ call: 'getCombatants' });
+        // data.WhiteDragon = WhiteDragon.combatants.filter((boss) => boss.BNpcNameID === 4954 && boss.BNpcID == 12613)[0];
+        data.WhiteDragon = WhiteDragon.combatants.filter((boss) => boss.Name === '赫拉斯瓦尔格')[0];
+        try {
+          WhiteDragon.combatants.forEach((x) =>
+            console.log(
+              JSON.stringify({
+                name: x.Name,
+                bNpcNameID: x.BNpcNameID,
+                bNpcID: x.BNpcID,
+              }),
+            ),
+          );
+        } catch {}
+      },
+      alertText: (data, matches) => {
+        const prefix = `${echoPrefix} 十字火| `;
+        data.p6Fire++;
+        if (data.p6Fire === 2) {
+          if (data.WhiteDragon === undefined) {
+            c(Command('/e 圣龙数据为空'));
+            return;
+          }
+          let posX = data.WhiteDragon.PosX;
+
+          // 二火位置
+          const y = parseFloat(matches.y);
+
+          // 右半场俯冲
+          if (posX >= 100 && y > 106) {
+            c(Commands([`■ □ □ `, `□ □ □ `, `□ □ □ `, `左上起跑 (A为12点)`].map((x) => prefix + x)));
+
+            return '左上安全';
+          }
+          if (posX >= 100 && y < 106) {
+            c(Commands([`□ □ □ `, `□ □ □ `, `■ □ □ `, `左下起跑 (A为12点)`].map((x) => prefix + x)));
+
+            return '左下安全';
+          }
+
+          // 左半场俯冲
+          if (posX <= 91 && y > 106) {
+            c(Commands([`□ □ ■`, `□ □ □ `, `□ □ □ `, `右上起跑 (A为12点)`].map((x) => prefix + x)));
+
+            return '右上安全';
+          }
+          if (posX <= 91 && y < 106) {
+            c(Commands([`□ □ □`, `□ □ □`, `□ □ ■`, `右下起跑 (A为12点)`].map((x) => prefix + x)));
+
+            return '右下安全';
+          }
+        }
+      },
     },
   ],
 });
