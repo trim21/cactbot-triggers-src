@@ -61,7 +61,7 @@ export default defineTrigger<DSRData, BaseData>({
       id: 'DSR p3 八人塔',
       type: 'StartsUsing',
       netRegex: NetRegexes.startsUsing({ id: ['6717', '6718', '6719', '671A'] }),
-      preRun: (data, matches) => {
+      preRun: (data, matches: NetMatches['StartsUsing']) => {
         const id = parseInt(matches.id, 16);
         const num = id - 26390;
 
@@ -239,7 +239,7 @@ export default defineTrigger<DSRData, BaseData>({
           return;
         }
 
-        p(async function () {
+        p(async function() {
           await sleep(2000);
 
           for (let index = 0; index < data.p6FireSeparation.length; index++) {
@@ -284,7 +284,8 @@ export default defineTrigger<DSRData, BaseData>({
               }),
             ),
           );
-        } catch {}
+        } catch {
+        }
       },
       alertText: (data, matches) => {
         const prefix = `${echoPrefix} 十字火| `;
