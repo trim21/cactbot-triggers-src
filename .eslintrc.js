@@ -1,7 +1,7 @@
 module.exports = {
   extends: ['plugin:import/recommended', 'plugin:import/typescript'],
   parser: '@typescript-eslint/parser',
-  plugins: ['import', '@typescript-eslint'],
+  plugins: ['import', '@typescript-eslint', 'unused-imports'],
   root: true,
   env: {
     browser: true,
@@ -12,6 +12,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    "unused-imports/no-unused-imports": "error",
     'import/order': [
       'error',
       {

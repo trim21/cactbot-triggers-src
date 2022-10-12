@@ -1,6 +1,12 @@
 import { sleep } from './utils';
 
-const port = 2020; //鲶鱼精邮差所监听的端口
+import 'overlay-plugin';
+
+declare module 'overlay-plugin' {
+  interface ICallOverlayHandler {
+    (payload: { call: 'PostNamazu'; c: 'command' | 'mark'; p: string }): Promise<void>;
+  }
+}
 
 export async function Command(data: string): Promise<void> {
   await call('command', data);
@@ -33,15 +39,7 @@ export async function Mark(data: Mark): Promise<void> {
 
 async function call(command: 'command' | 'mark', data: string) {
   console.log(command, data);
-
   return await callOverlayHandler({ call: 'PostNamazu', c: command, p: data });
-
-  // return await fetch(`http://127.0.0.1:${port}/${command}`, {
-  //   method: 'POST',
-  //   mode: 'no-cors',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: data,
-  // });
 }
 
 export async function clearMark() {
@@ -56,4 +54,3 @@ export async function Commands(commands: string[]): Promise<void> {
     await sleep(100);
   }
 }
-

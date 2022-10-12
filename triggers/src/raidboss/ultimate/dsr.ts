@@ -31,7 +31,7 @@ export interface DSRData {
   p5DeadCall: Record<string, boolean>;
   tower: Array<{
     num: number;
-    targetID: number;
+    target: number;
   }>;
 
   WhiteDragon: undefined | PluginCombatantState;
@@ -65,9 +65,9 @@ export default defineTrigger<DSRData, BaseData>({
         const id = parseInt(matches.id, 16);
         const num = id - 26390;
 
-        const targetID = parseInt(matches.targetId, 16);
+        const target = parseInt(matches.targetId, 16);
 
-        data.tower.push({ num, targetID });
+        data.tower.push({ num, target });
       },
 
       alertText: (data) => {
@@ -75,9 +75,7 @@ export default defineTrigger<DSRData, BaseData>({
           return;
         }
 
-        data.tower.sort((a, b) => a.targetID - b.targetID);
-
-        const tower = data.tower.map((x) => x.num);
+        const tower = data.tower.sort((a, b) => a.target - b.target).map((x) => x.num);
 
         //  3   1
         //  2   0
@@ -100,7 +98,6 @@ export default defineTrigger<DSRData, BaseData>({
       },
     },
 
-
     {
       id: 'DSR p6 火球',
       type: 'AddedCombatant',
@@ -111,11 +108,13 @@ export default defineTrigger<DSRData, BaseData>({
         const WhiteDragon = await callOverlayHandler({ call: 'getCombatants' });
         // data.WhiteDragon = WhiteDragon.combatants.filter((boss) => boss.BNpcNameID === 4954 && boss.BNpcID == 12613)[0];
         data.WhiteDragon = WhiteDragon.combatants.filter((boss) => boss.Name === '赫拉斯瓦尔格')[0];
-        WhiteDragon.combatants.forEach(x => console.log({
-          name: x.Name,
-          bNpcNameID: x.BNpcNameID,
-          bNpcID: x.BNpcID,
-        }));
+        WhiteDragon.combatants.forEach((x) =>
+          console.log({
+            name: x.Name,
+            bNpcNameID: x.BNpcNameID,
+            bNpcID: x.BNpcID,
+          }),
+        );
       },
       alertText: (data, matches) => {
         const prefix = `${echoPrefix} 十字火| `;
@@ -288,8 +287,9 @@ export default defineTrigger<DSRData, BaseData>({
           return;
         }
 
-        p(async function() {
-          await sleep(800);
+        p(async function () {
+          await sleep(2000);
+
           for (let index = 0; index < data.p6FireSeparation.length; index++) {
             await Mark({ Name: data.p6FireSeparation[index], MarkType: `attack${index + 1}` as MarkType });
             await sleep(100);
@@ -303,8 +303,7 @@ export default defineTrigger<DSRData, BaseData>({
 
           const names = data.party.details
             .map((x) => x.name)
-            .filter((x) => !data.p6FireSeparation.includes(x))
-            .filter((x) => !data.p6FireSharing.includes(x));
+            .filter((x) => !data.p6FireSeparation.includes(x) && !data.p6FireSharing.includes(x));
 
           for (let i = 0; i < names.length; i++) {
             await Mark({ Name: names[i], MarkType: `stop${i + 1}` as MarkType });
@@ -314,7 +313,7 @@ export default defineTrigger<DSRData, BaseData>({
       },
     },
     {
-      id: 'P5五连火圈',
+      id: 'DSR P5 一运 五连火圈',
       type: 'Ability',
       netRegex: NetRegexes.ability({ id: '6B91' }),
       condition: Conditions.targetIsYou(),
