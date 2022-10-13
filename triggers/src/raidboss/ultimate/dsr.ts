@@ -5,7 +5,8 @@ import type { Data as BaseData } from 'cactbot/ui/raidboss/data/06-ew/ultimate/d
 
 import config, { echoPrefix, sortByJobID } from '../config/config';
 import { jobIDToShow } from '../job';
-import { clearMark, Command, Commands, Mark, MarkType } from '../namazu';
+import type { MarkType } from '../namazu';
+import { clearMark, Command, Commands, Mark } from '../namazu';
 import { defineTrigger } from '../user_trigger';
 import { c, p, sleep } from '../utils';
 

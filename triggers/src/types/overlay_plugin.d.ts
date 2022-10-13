@@ -1,4 +1,4 @@
-import { ICallOverlayHandler, IAddOverlayListener } from 'overlay-plugin';
+import type { ICallOverlayHandler, IAddOverlayListener } from 'overlay-plugin';
 
 declare global {
   const callOverlayHandler: ICallOverlayHandler;

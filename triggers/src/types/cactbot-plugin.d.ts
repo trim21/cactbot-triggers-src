@@ -1,5 +1,5 @@
 import 'overlay-plugin';
-import { SavedConfig } from 'cactbot/types/event';
+import type { SavedConfig } from 'cactbot/types/event';
 
 declare module 'overlay-plugin' {
   interface ICallOverlayHandler {
