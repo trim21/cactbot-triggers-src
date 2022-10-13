@@ -1,5 +1,3 @@
-import { sleep } from './utils';
-
 import 'overlay-plugin';
 
 declare module 'overlay-plugin' {
