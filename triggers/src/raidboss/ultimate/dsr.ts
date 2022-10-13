@@ -243,16 +243,14 @@ export default defineTrigger<DSRData, BaseData>({
           return;
         }
 
-        p(async function() {
+        p(async function () {
           for (let index = 0; index < data.p6FireSeparation.length; index++) {
             await Mark({ Name: data.p6FireSeparation[index], MarkType: `attack${index + 1}` as MarkType });
-            await sleep(100);
           }
 
           for (let index = 0; index < data.p6FireSharing.length; index++) {
             const name = data.p6FireSharing[index];
             await Mark({ Name: name, MarkType: `bind${index + 1}` as MarkType });
-            await sleep(100);
           }
 
           const names = data.party.details
@@ -261,7 +259,6 @@ export default defineTrigger<DSRData, BaseData>({
 
           for (let i = 0; i < names.length; i++) {
             await Mark({ Name: names[i], MarkType: `stop${i + 1}` as MarkType });
-            await sleep(100);
           }
         });
       },
@@ -274,20 +271,9 @@ export default defineTrigger<DSRData, BaseData>({
       promise: async (data) => {
         await sleep(100);
         const WhiteDragon = await callOverlayHandler({ call: 'getCombatants' });
-        data.WhiteDragon = WhiteDragon.combatants.filter((boss) => boss.BNpcNameID === 4954 && boss.BNpcID == 12613)[0];
-        // data.WhiteDragon = WhiteDragon.combatants.filter((boss) => boss.Name === '赫拉斯瓦尔格')[0];
-        // try {
-        //   WhiteDragon.combatants.forEach((x) =>
-        //     console.log(
-        //       JSON.stringify({
-        //         name: x.Name,
-        //         bNpcNameID: x.BNpcNameID,
-        //         bNpcID: x.BNpcID,
-        //       }),
-        //     ),
-        //   );
-        // } catch {
-        // }
+        data.WhiteDragon = WhiteDragon.combatants.filter(
+          ({ BNpcID, BNpcNameID }) => BNpcNameID === 4954 && BNpcID == 12613,
+        )[0];
       },
       alertText: (data, matches) => {
         const prefix = `${echoPrefix} 十字火| `;
@@ -306,24 +292,24 @@ export default defineTrigger<DSRData, BaseData>({
           if (posX >= 100 && y > 106) {
             c(Commands([`■ □ □ `, `□ □ □ `, `□ □ □ `, `左上起跑 (A为12点)`].map((x) => prefix + x)));
 
-            return '左上安全';
+            return '左前起跑';
           }
           if (posX >= 100 && y < 106) {
             c(Commands([`□ □ □ `, `□ □ □ `, `■ □ □ `, `左下起跑 (A为12点)`].map((x) => prefix + x)));
 
-            return '左下安全';
+            return '左后起跑';
           }
 
           // 左半场俯冲
           if (posX <= 91 && y > 106) {
             c(Commands([`□ □ ■`, `□ □ □ `, `□ □ □ `, `右上起跑 (A为12点)`].map((x) => prefix + x)));
 
-            return '右上安全';
+            return '右前起跑';
           }
           if (posX <= 91 && y < 106) {
             c(Commands([`□ □ □`, `□ □ □`, `□ □ ■`, `右下起跑 (A为12点)`].map((x) => prefix + x)));
 
-            return '右下安全';
+            return '右后起跑';
           }
         }
       },
