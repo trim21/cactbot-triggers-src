@@ -18,4 +18,4 @@ export default () => {
   });
 
   console.log('enable name to job');
-}
+};

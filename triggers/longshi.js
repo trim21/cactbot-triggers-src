@@ -427,16 +427,12 @@ Options.Triggers.push({
           switch (data.位置) {
             case 0:
               return '面向上边';
-              break;
             case 2:
               return '面向右边';
-              break;
             case 4:
               return '面向下边';
-              break;
             case 6:
               return '面向左边';
-              break;
           }
         }
       },
@@ -656,7 +652,6 @@ Options.Triggers.push({
             break;
           default:
             return;
-            break;
         }
       },
     },
@@ -823,7 +818,6 @@ Options.Triggers.push({
             break;
           default:
             return '其他';
-            break;
         }
         // return data.龙眼[0];
       },
@@ -1078,16 +1072,13 @@ Options.Triggers.push({
         switch (weizhi) {
           case 0:
             return '白龙在A';
-            break;
+
           case 1:
             return '白龙在B';
-            break;
           case 2:
             return '白龙在C';
-            break;
           case 3:
             return '白龙在D';
-            break;
           default:
             break;
         }
@@ -1111,16 +1102,12 @@ Options.Triggers.push({
         switch (weizhi) {
           case 0:
             return '战士在A';
-            break;
           case 1:
             return '战士在B';
-            break;
           case 2:
             return '战士在C';
-            break;
           case 3:
             return '战士在D';
-            break;
           default:
             break;
         }
@@ -1141,16 +1128,12 @@ Options.Triggers.push({
         switch (weizhi) {
           case 0:
             return '战士在A';
-            break;
           case 1:
             return '战士在B';
-            break;
           case 2:
             return '战士在C';
-            break;
           case 3:
             return '战士在D';
-            break;
           default:
             break;
         }

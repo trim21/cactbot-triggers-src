@@ -13,14 +13,16 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    semi: ['error', 'always'],
+    'no-unreachable': 'error',
     'object-shorthand': [1, 'always', { avoidExplicitReturnArrows: true }],
     'unused-imports/no-unused-imports': 'error',
     'import/order': [
       'error',
       {
         alphabetize: {
-          order: 'asc', /* sort in ascending order. Options: ['ignore', 'asc', 'desc'] */
-          caseInsensitive: true /* ignore case. Options: [true, false] */
+          order: 'asc' /* sort in ascending order. Options: ['ignore', 'asc', 'desc'] */,
+          caseInsensitive: true /* ignore case. Options: [true, false] */,
         },
         'newlines-between': 'always',
         groups: [

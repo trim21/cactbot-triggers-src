@@ -241,7 +241,7 @@ export default defineTrigger<DSRData, BaseData>({
           return;
         }
 
-        p(async function() {
+        p(async function () {
           for (let index = 0; index < data.p6FireSeparation.length; index++) {
             await Mark({ Name: data.p6FireSeparation[index], MarkType: `attack${index + 1}` as MarkType });
           }
