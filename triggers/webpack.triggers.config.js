@@ -14,15 +14,15 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist', 'raidboss'),
   },
   resolve: {
-    extensions: ['.mts', '.ts', '.mjs', '.js'],
+    extensions: ['.ts', '.mjs', '.js'],
   },
   module: {
     rules: [
       {
-        test: /\.m?[jt]s$/,
+        test: /\.(mjs|js|ts)$/,
         exclude: /node_modules/,
         use: [
           {

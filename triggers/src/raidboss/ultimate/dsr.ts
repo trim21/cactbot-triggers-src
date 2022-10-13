@@ -144,6 +144,7 @@ export default defineTrigger<DSRData, BaseData>({
         if (data.p5Lightning.length === 2) {
           data.p5Lightning.sort(sortByJobID);
           p(async () => {
+            await sleep(1000);
             await Mark({ Name: data.p5Lightning[0].name, MarkType: 'stop1' });
             await sleep(100);
             await Mark({ Name: data.p5Lightning[1].name, MarkType: 'stop2' });
@@ -243,7 +244,10 @@ export default defineTrigger<DSRData, BaseData>({
           return;
         }
 
+        return;
+
         p(async function () {
+          await sleep(1000);
           for (let index = 0; index < data.p6FireSeparation.length; index++) {
             await Mark({ Name: data.p6FireSeparation[index], MarkType: `attack${index + 1}` as MarkType });
           }
@@ -268,7 +272,7 @@ export default defineTrigger<DSRData, BaseData>({
       type: 'AddedCombatant',
       netRegex: NetRegexes.addedCombatantFull({ npcBaseId: '13238' }),
       suppressSeconds: 1,
-      promise: async (data) => {
+      async promise(data) {
         await sleep(100);
         const WhiteDragon = await callOverlayHandler({ call: 'getCombatants' });
         data.WhiteDragon = WhiteDragon.combatants.filter(
@@ -292,24 +296,24 @@ export default defineTrigger<DSRData, BaseData>({
           if (posX >= 100 && y > 106) {
             c(Commands([`■ □ □ `, `□ □ □ `, `□ □ □ `, `左上起跑 (A为12点)`].map((x) => prefix + x)));
 
-            return '左前起跑';
+            return '右前起跑';
           }
           if (posX >= 100 && y < 106) {
             c(Commands([`□ □ □ `, `□ □ □ `, `■ □ □ `, `左下起跑 (A为12点)`].map((x) => prefix + x)));
 
-            return '左后起跑';
+            return '左前起跑';
           }
 
           // 左半场俯冲
           if (posX <= 91 && y > 106) {
             c(Commands([`□ □ ■`, `□ □ □ `, `□ □ □ `, `右上起跑 (A为12点)`].map((x) => prefix + x)));
 
-            return '右前起跑';
+            return '右后起跑';
           }
           if (posX <= 91 && y < 106) {
             c(Commands([`□ □ □`, `□ □ □`, `□ □ ■`, `右下起跑 (A为12点)`].map((x) => prefix + x)));
 
-            return '右后起跑';
+            return '左后起跑';
           }
         }
       },

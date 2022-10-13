@@ -31,14 +31,14 @@ module.exports = {
         use: ['vue-style-loader', 'css-loader'],
       },
       {
-        test: /\.m?[jt]sx?$/,
+        test: /\.(mjs|js|ts)$/,
         exclude: /node_modules/,
         use: [
           {
             loader: 'esbuild-loader',
             options: {
               loader: 'ts',
-              target: 'chrome103',
+              target: 'chrome106',
               charset: 'utf8',
             },
           },
