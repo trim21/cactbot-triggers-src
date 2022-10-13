@@ -361,7 +361,7 @@ const EyesPositions = [
 ];
 Options.Triggers.push({
   zoneId: ZoneId.DragonsongsRepriseUltimate,
-  initData: () => {
+  initData() {
     return {
       phase: 'doorboss',
       brightwingCounter: 1,
@@ -387,7 +387,7 @@ Options.Triggers.push({
         id: ['62D4', '63C8', '6708', '62E2', '6B86', '6667', '7438'],
         capture: true,
       }),
-      run: (data, matches) => {
+      run(data, matches) {
         //clearMark();
         switch (matches.id) {
           case '62D4':
@@ -420,7 +420,7 @@ Options.Triggers.push({
       id: 'DSR Adelphel KB Direction',
       type: 'StartsUsing',
       netRegex: NetRegexes.startsUsing({ id: '62D4' }),
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         let distance = Math.hypot(matches.x - 100, matches.y - 100);
         if (distance > 20) {
           data.位置 = Math.round(4 - (4 * Math.atan2(matches.x - 100, matches.y - 100)) / Math.PI) % 8;
@@ -540,7 +540,7 @@ Options.Triggers.push({
       netRegex: NetRegexes.ability({ id: '62CE' }),
       suppressSeconds: 10,
       duration: 3,
-      promise: async (data, matches) => {
+      async promise(data, matches) {
         const me = await callOverlayHandler({
           call: 'getCombatants',
           names: [data.me, matches.source],
@@ -550,7 +550,7 @@ Options.Triggers.push({
         let p1Boss = me.combatants.find((c) => c.ID === parseInt(matches.sourceId, 16));
         data.heading = p1Boss.Heading;
       },
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         let distance = Math.hypot(matches.x - data.myposX, matches.y - data.myposY);
 
         data.面向 = Math.round(4 - (4 * parseFloat(data.heading)) / Math.PI) % 8;
@@ -616,7 +616,7 @@ Options.Triggers.push({
       type: 'HeadMarker',
       netRegex: NetRegexes.headMarker(),
       condition: (data, matches) => data.phase === 'doorboss' && data.me === matches.target,
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         const id = getHeadmarkerId(data, matches);
         if (id === headmarkers.hyperdimensionalSlash) return output.slashOnYou();
       },
@@ -632,7 +632,7 @@ Options.Triggers.push({
       netRegex: NetRegexes.headMarker(),
       tts: null,
       delaySeconds: 0.1,
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         if (data.color === undefined) return;
         const id = getHeadmarkerId(data, matches);
         if (id === headmarkers.firechainSquare && data.me !== matches.target) {
@@ -665,7 +665,7 @@ Options.Triggers.push({
       type: 'HeadMarker',
       netRegex: NetRegexes.headMarker(),
       condition: (data, matches) => data.phase === 'doorboss' && data.me === matches.target,
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         const id = getHeadmarkerId(data, matches);
         if (id === headmarkers.firechainCircle) {
           data.color = '红';
@@ -710,14 +710,14 @@ Options.Triggers.push({
     {
       id: '测试3213123',
       netRegex: NetRegexes.gameNameLog({ line: '测试' }),
-      promise: async (data) => {
+      async promise(data) {
         const boss = await callOverlayHandler({
           call: 'getCombatants',
         });
         data.骑神位置 = boss.combatants.filter((boss) => boss.BNpcNameID === 3632 && boss.BNpcID == 12604)[0];
         data.my = boss.combatants.filter((boss) => boss.Name === data.me)[0];
       },
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         let vector2X = data.骑神位置.PosX - data.my.PosX;
         let vector2Y = data.骑神位置.PosY - data.my.PosY;
         let vector1X = 0;
@@ -746,7 +746,7 @@ Options.Triggers.push({
       id: 'DSR 获取marker',
       regex: /^.{15}SignMarker 1D:Add:(?<marker>\d\d?):(?:[^|]*:){2}(?<caster>.*?)$/,
       delaySeconds: 3,
-      run: (data, matches) => {
+      run(data, matches) {
         if (matches.caster == data.me) {
           data.myMark = +matches.marker;
         }
@@ -792,7 +792,7 @@ Options.Triggers.push({
     {
       id: '龙眼位置',
       regex: /] ChatLog 00:0:103:.{8}:8003759A:00020001:.{7}(?<index>.+?):/,
-      run: (data, matches, output) => {
+      run(data, matches, output) {
         if (data.龙眼 === undefined) data.龙眼 = [];
         data.eye = +matches.index;
         switch (+matches.index) {
@@ -831,16 +831,16 @@ Options.Triggers.push({
     {
       id: 'DSR Dragon',
       regex: /] ChatLog 00:0:103:.{8}:8003759A:00020001:.{7}(?<index>.+?):/,
-      delaySeconds: (data, matches) => {
+      delaySeconds(data, matches) {
         if (data.phase == 'thordan') return 2;
         if (data.phase == 'thordan2') return 10;
       },
-      delaySeconds: (data, matches) => {
+      delaySeconds(data, matches) {
         if (data.phase == 'thordan') return 2;
         if (data.phase == 'thordan2') return 12;
       },
       durationSeconds: 15,
-      promise: async (data, matches) => {
+      async promise(data, matches) {
         let bossData = await callOverlayHandler({
           call: 'getCombatants',
         });
@@ -858,7 +858,7 @@ Options.Triggers.push({
           Math.round(4 - (4 * Math.atan2(bossData123.PosX - 100, bossData123.PosY - 100)) / Math.PI) % 8,
         );
       },
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         if (data.龙眼 === undefined) data.龙眼 = [];
         switch (data.骑神) {
           case 0:
@@ -904,7 +904,7 @@ Options.Triggers.push({
       durationSeconds: 0.5,
       sound: '',
       soundVolume: 0,
-      promise: async (data, matches) => {
+      async promise(data, matches) {
         const boss = await callOverlayHandler({
           call: 'getCombatants',
         });
@@ -917,7 +917,7 @@ Options.Triggers.push({
         data.my = boss.combatants.filter((boss) => boss.Name === data.me)[0];
         return;
       },
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         let vector2X = data.骑神位置.PosX - data.my.PosX;
         let vector2Y = data.骑神位置.PosY - data.my.PosY;
         let vector1X = 0;
@@ -946,7 +946,7 @@ Options.Triggers.push({
       type: 'StartsUsing',
       netRegex: NetRegexes.startsUsing({ id: '63D0' }),
       delaySeconds: 12,
-      run: (data, matches, output) => {
+      run(data, matches, output) {
         if (data.phase === 'thordan2') callOverlayHandler({ call: 'PostNamazu', c: 'place', p: 'load' });
         {
           data.背对 = false;
@@ -994,7 +994,7 @@ Options.Triggers.push({
       id: 'DSR Wrath Spiral Pierce',
       type: 'Tether',
       netRegex: NetRegexes.tether({ id: '0005' }),
-      promise: async (data, matches) => {
+      async promise(data, matches) {
         let boss = await callOverlayHandler({
           call: 'getCombatants',
           ids: [parseInt(matches.sourceId, 16)],
@@ -1005,7 +1005,7 @@ Options.Triggers.push({
           ) % 8;
         return;
       },
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         let dirs = {
           0: 'A点',
           1: '1点',
@@ -1065,14 +1065,14 @@ Options.Triggers.push({
       netRegex: NetRegexes.ability({ id: '6B89' }),
       tts: null,
       delaySeconds: 4.7,
-      promise: async (data, matches) => {
+      async promise(data, matches) {
         let whiteDragons = await callOverlayHandler({
           call: 'getCombatants',
         });
 
         data.whiteDragon = whiteDragons.combatants.filter((boss) => boss.BNpcNameID === 3984)[0];
       },
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         let weizhi =
           Math.round(2 - (2 * Math.atan2(data.whiteDragon.PosX - 100, data.whiteDragon.PosY - 100)) / Math.PI) % 4;
         switch (weizhi) {
@@ -1100,7 +1100,7 @@ Options.Triggers.push({
         npcBaseId: '9020',
         npcNameId: '3641',
       }),
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         let mark = getMark(7);
         if (data.phase === 'thordan2') {
           callOverlayHandler({ call: 'PostNamazu', c: 'place', p: 'save' });
@@ -1136,7 +1136,7 @@ Options.Triggers.push({
       delaySeconds: 11,
       durationSeconds: 14,
       condition: (data, matches) => data.phase === 'thordan2',
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         let weizhi = Math.round(2 - (2 * Math.atan2(matches.x - 100, matches.y - 100)) / Math.PI) % 4;
         switch (weizhi) {
           case 0:
@@ -1160,7 +1160,7 @@ Options.Triggers.push({
       id: 'DSR Doom Gain',
       type: 'GainsEffect',
       netRegex: NetRegexes.gainsEffect({ effectId: 'BA0' }),
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         if (data.death === undefined) data.death = [];
         data.death.push(nametocnjob(matches.target, data));
         if (matches.target == data.me) data.isDeath = true;
@@ -1268,7 +1268,7 @@ Options.Triggers.push({
       netRegex: NetRegexes.gainsEffect({ effectId: 'BA0' }),
       delaySeconds: 1.5,
       suppressSeconds: 4,
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         if (data.我要去的位置 == 0 && data.isDeath) return '去左上边缘';
         if (data.我要去的位置 == 1 && data.isDeath) return '去右上边缘';
         if (data.我要去的位置 == 2 && data.isDeath) return '去右边靠内';
@@ -1285,7 +1285,7 @@ Options.Triggers.push({
       netRegex: NetRegexes.gainsEffect({ effectId: 'BA0' }),
       delaySeconds: 12,
       suppressSeconds: 4,
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         if (data.我要去的位置 == 0 && data.isDeath) return '去左下靠内';
         if (data.我要去的位置 == 1 && data.isDeath) return '去右下靠内';
         if (data.我要去的位置 == 2 && data.isDeath) return '去右边靠外引导';
@@ -1305,7 +1305,7 @@ Options.Triggers.push({
       type: 'HeadMarker',
       netRegex: NetRegexes.headMarker(),
       condition: (data, matches) => data.phase === 'thordan2' && data.me === matches.target,
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         const id = getHeadmarkerId(data, matches);
         if (id === headmarkers.firechainCircle) {
           return '去左右';
@@ -1357,7 +1357,7 @@ Options.Triggers.push({
       netRegex: NetRegexes.tether({ id: ['00C4', '00C3', '00C2'] }),
       condition: (data, matches) => matches.source === data.me,
       suppressSeconds: 6,
-      promise: async (data, matches) => {
+      async promise(data, matches) {
         const lineBOSS = await callOverlayHandler({
           call: 'getCombatants',
           ids: [parseInt(matches.targetId, 16)],
@@ -1365,7 +1365,7 @@ Options.Triggers.push({
         data.lineBOSS = lineBOSS.combatants[0];
         return;
       },
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         let weizhi = Math.round(2 - (2 * Math.atan2(data.lineBOSS.PosX - 100, data.lineBOSS.PosY - 100)) / Math.PI) % 4;
 
         if (weizhi == 1) return '冰线点名';
@@ -1382,14 +1382,14 @@ Options.Triggers.push({
       //condition: (data) => (data.phase === 'thordan2' && (data.safe = (data.safe ?? 0) + 1) === 1),
       condition: (data) => !data.fire,
       delaySeconds: 0.1,
-      promise: async (data) => {
+      async promise(data) {
         const BlackDragon = await callOverlayHandler({
           call: 'getCombatants',
         });
         data.BlackDragon = BlackDragon.combatants.filter((boss) => boss.BNpcNameID === 3458 && boss.BNpcID == 12612)[0];
         return;
       },
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         let posX = data.BlackDragon.PosX;
         if (matches.id == '6D23' || matches.id == '6D26') {
           if (data.role == 'tank') data.靠近或远离1 = '靠近右边boss';
@@ -1418,7 +1418,7 @@ Options.Triggers.push({
       type: 'StartsUsing',
       netRegex: NetRegexes.startsUsing({ id: ['6D41', '6D43'] }),
       suppressSeconds: 2,
-      infoText: (_data, _matches, output) => {
+      infoText(_data, _matches, output) {
         _data.分摊次数++;
         return output.groups();
       },
@@ -1436,7 +1436,7 @@ Options.Triggers.push({
       type: 'StartsUsing',
       netRegex: NetRegexes.startsUsing({ id: ['6D35', '6D33'] }),
       delaySeconds: 10,
-      preRun: (data, matches, output) => {
+      preRun(data, matches, output) {
         let weizhi = (data.位置 = Math.round(2 - (2 * Math.atan2(matches.x - 100, matches.y - 100)) / Math.PI) % 4);
         if (data.发光位置 === undefined) data.发光位置 = [];
         data.发光位置.push(weizhi);
@@ -1449,7 +1449,7 @@ Options.Triggers.push({
       netRegex: NetRegexes.startsUsing({ id: ['6D35', '6D33'] }),
       delaySeconds: 0.5,
       suppressSeconds: 5,
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         if (data.role !== 'tank') return;
         if (data.发光位置.length === 2) return '双龙发光';
         if (data.发光位置.length === 1) {
@@ -1465,7 +1465,7 @@ Options.Triggers.push({
         effectId: ['AC6', 'AC7'],
         capture: true,
       }),
-      run: (data, matches, output) => {
+      run(data, matches, output) {
         if (data.dark === undefined) data.dark = [];
         if (data.white === undefined) data.white = [];
         if (matches.effectId === 'AC6') {
@@ -1490,7 +1490,7 @@ Options.Triggers.push({
       delaySeconds: 3,
       suppressSeconds: 3,
       //delaySeconds: (data, matches) => parseFloat(matches.duration) - 5,
-      run: (data, matches, output) => {
+      run(data, matches, output) {
         data.dark.sort((a, b) => {
           return shunxu2.find((c) => c.job == a).order - shunxu2.find((c) => c.job == b).order;
         });
@@ -1524,7 +1524,7 @@ Options.Triggers.push({
       delaySeconds: (data, matches) => parseFloat(matches.duration) - 4,
       suppressSeconds: 2,
       preRun: (data, matches, output) => data.传毒次数++,
-      infoText: (data, matches, output) => {
+      infoText(data, matches, output) {
         if (data.传毒次数 == 1) {
           data.毒分组 = [data.fenzu[2], data.fenzu[6], data.fenzu[3], data.fenzu[7]];
           let 第一次毒点名 = nametocnjob(matches.target, data);
@@ -1561,14 +1561,14 @@ Options.Triggers.push({
       condition: Conditions.targetIsYou(),
       // Lasts 10.96s, but bosses do not cast Cauterize until 7.5s after debuff
       delaySeconds: 7.6,
-      promise: async (data) => {
+      async promise(data) {
         const BlackDragon = await callOverlayHandler({
           call: 'getCombatants',
         });
         data.BlackDragon = BlackDragon.combatants.filter((boss) => boss.BNpcNameID === 3458 && boss.BNpcID == 12612)[0];
         return;
       },
-      infoText: (data, matches, output) => {
+      infoText(data, matches, output) {
         console.log(data.BlackDragon);
         if (matches.effectId === 'B52') {
           if (data.BlackDragon.PosX > 100) return '去左边停下';
@@ -1612,7 +1612,7 @@ Options.Triggers.push({
         count: '02',
       }),
       condition: (data, matches) => data.me === matches.target,
-      alertText: (_data, matches, output) => {
+      alertText(_data, matches, output) {
         if (parseFloat(matches.duration) > 10) return output.text();
       },
       outputStrings: {
@@ -1634,7 +1634,7 @@ Options.Triggers.push({
         count: '02',
       }),
       condition: (data, matches) => data.me === matches.target,
-      alertText: (_data, matches, output) => {
+      alertText(_data, matches, output) {
         if (parseFloat(matches.duration) > 10) return output.text();
       },
       outputStrings: {
@@ -1658,7 +1658,7 @@ Options.Triggers.push({
       condition: (data, matches) => data.me === matches.target,
       // To prevent boss rotating around before Exaflare
       delaySeconds: 2.5,
-      alertText: (_data, matches, output) => {
+      alertText(_data, matches, output) {
         if (parseFloat(matches.duration) > 10) return output.text();
       },
       outputStrings: {
@@ -1678,7 +1678,7 @@ Options.Triggers.push({
         count: ['12A', '12B'],
       }),
       durationSeconds: 10,
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         if (matches.count == '12A') return '钢铁';
         else return '月环';
       },
@@ -1693,7 +1693,7 @@ Options.Triggers.push({
       type: 'StartsUsing',
       netRegex: NetRegexes.startsUsing({ id: ['6D9A', '6DD2', '6DD3'] }),
       durationSeconds: 15,
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         if (data.核爆 === undefined) data.核爆 = [];
         let 方位 = Math.round(4 - (4 * Math.atan2(matches.x - 100, matches.y - 100)) / Math.PI) % 8;
         if (matches.id == '6D9A') {
@@ -1753,7 +1753,7 @@ Options.Triggers.push({
       netRegex: NetRegexes.startsUsing({ id: ['6D9A', '6DD2'] }),
       suppressSeconds: 1,
       delaySeconds: 10,
-      run: (data, matches, output) => {
+      run(data, matches, output) {
         delete data.核爆;
       },
     },
@@ -1762,7 +1762,7 @@ Options.Triggers.push({
       type: 'StartsUsing',
       netRegex: NetRegexes.startsUsing({ id: '6D9B' }),
       delaySeconds: 11,
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         data.myIndex = data.fenzu.indexOf(data.myJob);
         if (data.role == 'tank') return;
         if (data.myIndex == 2) return '靠近引导顺劈';
@@ -1774,7 +1774,7 @@ Options.Triggers.push({
       type: 'StartsUsing',
       netRegex: NetRegexes.startsUsing({ id: '6D9B' }),
       delaySeconds: 15,
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         if (data.role == 'tank') return;
         if (data.myIndex == 6) return '靠近引导顺劈';
         else return '远离BOSS';
@@ -1785,7 +1785,7 @@ Options.Triggers.push({
       type: 'StartsUsing',
       netRegex: NetRegexes.startsUsing({ id: '6D99' }),
       delaySeconds: 22,
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         if (data.role == 'tank') return;
         if (data.myIndex == 1) return '靠近引导顺劈';
         else return '远离BOSS';
@@ -1796,7 +1796,7 @@ Options.Triggers.push({
       type: 'StartsUsing',
       netRegex: NetRegexes.startsUsing({ id: '6D99' }),
       delaySeconds: 26,
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         if (data.role == 'tank') return;
         if (data.myIndex == 5) return '靠近引导顺劈';
         else return '远离BOSS';
@@ -1807,7 +1807,7 @@ Options.Triggers.push({
       type: 'StartsUsing',
       netRegex: NetRegexes.startsUsing({ id: '6D93' }),
       delaySeconds: 14,
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         if (data.role == 'tank') return;
         if (data.myIndex == 3) return '靠近引导顺劈';
         else return '远离BOSS';
@@ -1818,7 +1818,7 @@ Options.Triggers.push({
       type: 'StartsUsing',
       netRegex: NetRegexes.startsUsing({ id: '6D93' }),
       delaySeconds: 18,
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         if (data.role == 'tank') return;
         if (data.myIndex == 7) return '靠近引导顺劈';
         else return '远离BOSS';
@@ -1828,14 +1828,14 @@ Options.Triggers.push({
       id: 'P7地火第一次标记',
       type: 'StartsUsing',
       netRegex: NetRegexes.startsUsing({ id: '6D9C' }),
-      promise: async (data) => {
+      async promise(data) {
         const bossData = await callOverlayHandler({
           call: 'getCombatants',
         });
         data.P7BOSS = bossData.combatants.filter((boss) => boss.BNpcNameID === 11319 && boss.BNpcID == 12616)[0];
         //console.log(data.P7BOSS);
       },
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         let Boss面相 = Math.round(4 - (4 * parseFloat(data.P7BOSS.Heading)) / Math.PI) % 8;
         let 地火位置 = Math.round(4 - (4 * Math.atan2(matches.x - 100, matches.y - 100)) / Math.PI) % 8;
         if ((Boss面相 + 4) % 8 == 地火位置) {
@@ -1862,14 +1862,14 @@ Options.Triggers.push({
       id: 'P7地火形状',
       type: 'StartsUsing',
       netRegex: NetRegexes.startsUsing({ id: '6D9C' }),
-      promise: async (data, matches) => {
+      async promise(data, matches) {
         const bossData = await callOverlayHandler({
           call: 'getCombatants',
         });
         data.P7BOSS = bossData.combatants.filter((boss) => boss.BNpcNameID === 11319 && boss.BNpcID == 12616)[0];
         data.地火 = bossData.combatants.filter((boss) => boss.ID === matches.ID)[0];
       },
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         let Boss面相 = Math.round(4 - (4 * parseFloat(data.P7BOSS.Heading)) / Math.PI) % 8;
         let 地火位置 = Math.round(4 - (4 * Math.atan2(matches.x - 100, matches.y - 100)) / Math.PI) % 8;
         console.log('地火');
@@ -1899,7 +1899,7 @@ Options.Triggers.push({
       type: 'StartsUsing',
       netRegex: NetRegexes.ability({ id: '6D9C' }),
       suppressSeconds: 1,
-      alertText: (data, matches, output) => {
+      alertText(data, matches, output) {
         let mark = getMark(13.2);
         callOverlayHandler({ call: 'PostNamazu', c: 'place', p: mark });
         return '走走走';
@@ -1911,7 +1911,7 @@ Options.Triggers.push({
       netRegex: NetRegexes.ability({ id: '6D9C' }),
       suppressSeconds: 1,
       delaySeconds: 7,
-      run: (data, matches, output) => {
+      run(data, matches, output) {
         delete data.左上地火;
         delete data.右上地火;
         delete data.下面地火;

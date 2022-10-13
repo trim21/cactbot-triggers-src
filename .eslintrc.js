@@ -3,6 +3,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['import', '@typescript-eslint', 'unused-imports'],
   root: true,
+  ignorePatterns: ['**/dist/**'],
   env: {
     browser: true,
     es2020: true,
@@ -12,6 +13,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    'object-shorthand': [1, 'always', { avoidExplicitReturnArrows: true }],
     'unused-imports/no-unused-imports': 'error',
     'import/order': [
       'error',

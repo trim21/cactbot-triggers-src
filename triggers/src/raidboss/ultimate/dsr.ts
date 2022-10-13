@@ -58,14 +58,14 @@ export default defineTrigger<DSRData, BaseData>({
   },
   triggers: [
     {
-      id: "DSR Dragon's Rage",
+      id: `DSR Dragon's Rage`,
       disabled: true,
     },
     {
       id: 'DSR p3 八人塔',
       type: 'StartsUsing',
       netRegex: NetRegexes.startsUsing({ id: ['6717', '6718', '6719', '671A'] }),
-      preRun: (data, matches: NetMatches['StartsUsing']) => {
+      preRun(data, matches: NetMatches['StartsUsing']) {
         const id = parseInt(matches.id, 16);
         const num = id - 26390;
 
@@ -73,7 +73,7 @@ export default defineTrigger<DSRData, BaseData>({
 
         data.tower.push({ num, target });
       },
-      alertText: (data) => {
+      alertText(data) {
         if (data.tower.length !== 4) {
           return;
         }
@@ -231,7 +231,7 @@ export default defineTrigger<DSRData, BaseData>({
           return '分摊';
         }
       },
-      run: (data, matches: NetMatches['GainsEffect']) => {
+      run(data, matches: NetMatches['GainsEffect']) {
         if (matches.effectId === 'AC6') {
           data.p6FireSeparation.push(matches.target);
         }
@@ -244,10 +244,7 @@ export default defineTrigger<DSRData, BaseData>({
           return;
         }
 
-        return;
-
-        p(async function () {
-          await sleep(1000);
+        p(async function() {
           for (let index = 0; index < data.p6FireSeparation.length; index++) {
             await Mark({ Name: data.p6FireSeparation[index], MarkType: `attack${index + 1}` as MarkType });
           }
@@ -279,7 +276,7 @@ export default defineTrigger<DSRData, BaseData>({
           ({ BNpcID, BNpcNameID }) => BNpcNameID === 4954 && BNpcID == 12613,
         )[0];
       },
-      alertText: (data, matches) => {
+      alertText(data, matches) {
         const prefix = `${echoPrefix} 十字火| `;
         data.p6Fire++;
         if (data.p6Fire === 2) {
