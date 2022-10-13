@@ -18,6 +18,10 @@ module.exports = {
     'import/order': [
       'error',
       {
+        alphabetize: {
+          order: 'asc', /* sort in ascending order. Options: ['ignore', 'asc', 'desc'] */
+          caseInsensitive: true /* ignore case. Options: [true, false] */
+        },
         'newlines-between': 'always',
         groups: [
           'builtin', // Built-in types are first

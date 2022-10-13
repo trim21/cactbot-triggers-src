@@ -1,12 +1,13 @@
 import type { PluginCombatantState } from 'cactbot/types/event';
-import type { Data as BaseData } from 'cactbot/ui/raidboss/data/06-ew/ultimate/dragonsongs_reprise_ultimate';
 import type { NetMatches } from 'cactbot/types/net_matches';
+import type { TargetedMatches } from 'cactbot/types/trigger';
+import type { Data as BaseData } from 'cactbot/ui/raidboss/data/06-ew/ultimate/dragonsongs_reprise_ultimate';
 
-import { defineTrigger } from '../user_trigger';
 import config, { echoPrefix, sortByJobID } from '../config/config';
-import { c, p, sleep } from '../utils';
 import { jobIDToShow } from '../job';
 import { clearMark, Command, Commands, Mark, MarkType } from '../namazu';
+import { defineTrigger } from '../user_trigger';
+import { c, p, sleep } from '../utils';
 
 /*
 
@@ -116,11 +117,7 @@ export default defineTrigger<DSRData, BaseData>({
       id: 'DSR 古代爆震，清除标记',
       disabled: !config.enablePostNamazu,
       type: 'StartsUsing',
-      netRegex: NetRegexes.startsUsing({
-        id: '63C6',
-        source: '骑神托尔丹',
-        capture: false,
-      }),
+      netRegex: NetRegexes.startsUsing({ id: '63C6', source: '骑神托尔丹', capture: false }),
       condition: (data) => data.phase === 'thordan2',
       run(data) {
         if (data.marked) {
@@ -134,7 +131,7 @@ export default defineTrigger<DSRData, BaseData>({
       disabled: !config.enablePostNamazu,
       type: 'Ability',
       netRegex: NetRegexes.ability({ id: '6B8F', source: '暗鳞黑龙' }),
-      run(data, matches: NetMatches['Ability']) {
+      run(data, matches: TargetedMatches) {
         if (data.nameToJobID === undefined) {
           data.nameToJobID = Object.fromEntries(data.party.details.map((v) => [v.name, v.job]));
         }
