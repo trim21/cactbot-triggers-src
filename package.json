@@ -34,6 +34,6 @@
     "jsdom": "^20.0.1",
     "node-static": "^0.7.11",
     "prettier": "^2.7.1",
-    "typescript": ">=4.4"
+    "typescript": ">=4.8.4"
   }
 }
