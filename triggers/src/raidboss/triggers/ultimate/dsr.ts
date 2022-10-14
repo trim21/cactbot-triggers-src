@@ -3,12 +3,12 @@ import type { NetMatches } from 'cactbot/types/net_matches';
 import type { TargetedMatches } from 'cactbot/types/trigger';
 import type { Data as BaseData } from 'cactbot/ui/raidboss/data/06-ew/ultimate/dragonsongs_reprise_ultimate';
 
-import config, { echoPrefix, sortByJobID } from '../config/config';
-import { jobIDToShow } from '../job';
-import type { MarkType } from '../namazu';
-import { clearMark, Command, Commands, Mark } from '../namazu';
+import config, { echoPrefix, sortByJobID } from '../../config/config';
+import { jobIDToShow } from '../../job';
+import type { MarkType } from '../../namazu';
+import { clearMark, Command, Commands, Mark } from '../../namazu';
+import { c, p, sleep } from '../../utils';
 import { defineTrigger } from '../user_trigger';
-import { c, p, sleep } from '../utils';
 
 /*
 
@@ -58,6 +58,38 @@ export default defineTrigger<DSRData, BaseData>({
       p6Fire: 0,
     };
   },
+  timeline: [
+    '3645.9 "say: 黑盾"',
+    '3645.9 "say: 铁壁"',
+    '3650.9 "say: 30减"',
+    '3663.4 "say: 弃明投暗"',
+    '4048.4 "say: 铁壁"',
+    '4063.9 "say: 30减"',
+    '4130 "say: 活死人"',
+    '4141 "say: 黑盾"',
+    '4142 "say: 奉献"',
+    '4143 "say: 弃明投暗"',
+    '4176 "say: 黑盾 奉献"',
+    `${4202 - 7} "say: 黑盾"`,
+    `4203.2 "say: 铁壁"`,
+    `4210 "say: 减伤全开"`,
+  ],
+  timelineTriggers: [
+    {
+      id: 'DSR P5 三平A',
+      regex: /Trinity/,
+      beforeSeconds: 5,
+      suppressSeconds: 5,
+      alertText: '三平A',
+    },
+    {
+      id: 'DSR timeline say',
+      regex: /^say: (?<text>.*)$/,
+      alertText(data, matches) {
+        return matches.text;
+      },
+    },
+  ],
   triggers: [
     {
       id: `DSR Dragon's Rage`,
@@ -242,7 +274,7 @@ export default defineTrigger<DSRData, BaseData>({
           return;
         }
 
-        p(async function () {
+        p(async function() {
           for (let index = 0; index < data.p6FireSeparation.length; index++) {
             await Mark({ Name: data.p6FireSeparation[index], MarkType: `attack${index + 1}` as MarkType });
           }
@@ -311,6 +343,19 @@ export default defineTrigger<DSRData, BaseData>({
             return '左后起跑';
           }
         }
+      },
+    },
+  ],
+  timelineReplace: [
+    {
+      locale: 'cn',
+      replaceText: {
+        "Exaflare's Edge": '地火',
+        "Akh Morn's Edge": '分摊',
+        Trinity: '三平A',
+        'Flames of Ascalon': '钢铁',
+        'Ice of Ascalon': '月环',
+        "Morn Afah's Edge": '狂暴',
       },
     },
   ],

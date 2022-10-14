@@ -7,11 +7,13 @@ import type { Responses as _Responses } from 'cactbot/resources/responses';
 import type _Util from 'cactbot/resources/util';
 import type _ZoneId from 'cactbot/resources/zone_id';
 import type _ZoneInfo from 'cactbot/resources/zone_info';
-import type { TriggerSet, BaseTriggerSet } from 'cactbot/types/trigger';
+import type { RaidbossData } from 'cactbot/types/data';
 
-type Helper<T> = T extends { initData(): infer D }
-  ? T extends BaseTriggerSet<infer K>
-    ? Omit<TriggerSet<Exclude<K, keyof D>>, 'initData'> & { initData(): D }
+import type { UserTriggerSet } from './raidboss/triggers/user_trigger';
+
+type Helper<T> = T extends { __helper_user_type?: infer C; __helper_base_type?: infer Base }
+  ? Base extends RaidbossData
+    ? UserTriggerSet<C, Base>
     : never
   : never;
 
