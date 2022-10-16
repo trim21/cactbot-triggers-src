@@ -28,7 +28,7 @@ const sep = '       ';
 
 export interface DSRData {
   marked: boolean;
-  nameToJobID?: Record<string, number>;
+  nameToJobID?: ReturnType<typeof nameToJobID>;
   p5Lightning: Array<{ name: string; jobID: number }>;
   p5DeadCall: Record<string, boolean>;
   tower: Array<{
@@ -60,11 +60,11 @@ export default defineTrigger<DSRData, BaseData>({
   },
   timeline: [
     // p6 2冰火
-    '3645.9 "say: 黑盾"',
+    '3646.9 "say: 黑盾"',
     '3646.9 "say: 铁壁"',
     '3650.9 "say: 30减"',
+    // '3663.4 "say: 弃明投暗"',
     // p7
-    '3663.4 "say: 弃明投暗"',
     '4048.4 "say: 铁壁"',
     '4063.9 "say: 30减"',
     '4130 "say: 活死人"',
@@ -276,7 +276,7 @@ export default defineTrigger<DSRData, BaseData>({
           return;
         }
 
-        p(async function () {
+        p(async function() {
           for (let index = 0; index < data.p6FireSeparation.length; index++) {
             await Mark({ Name: data.p6FireSeparation[index], MarkType: `attack${index + 1}` as MarkType });
           }
@@ -352,12 +352,12 @@ export default defineTrigger<DSRData, BaseData>({
     {
       locale: 'cn',
       replaceText: {
-        "Exaflare's Edge": '地火',
-        "Akh Morn's Edge": '分摊',
+        'Exaflare\'s Edge': '地火',
+        'Akh Morn\'s Edge': '分摊',
         Trinity: '三平A',
         'Flames of Ascalon': '钢铁',
         'Ice of Ascalon': '月环',
-        "Morn Afah's Edge": '狂暴',
+        'Morn Afah\'s Edge': '狂暴',
       },
     },
   ],

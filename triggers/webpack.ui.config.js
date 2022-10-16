@@ -7,7 +7,7 @@ module.exports = {
   performance: {
     hints: false,
   },
-  entry: { main: './src/raidboss/config/main.ts' },
+  entry: './src/config/main.ts',
   output: {
     path: path.resolve(__dirname, './dist/ui/'),
     filename: 'main.js',
@@ -38,7 +38,7 @@ module.exports = {
             loader: 'esbuild-loader',
             options: {
               loader: 'ts',
-              target: 'chrome106',
+              target: 'chrome103',
               charset: 'utf8',
             },
           },
@@ -55,7 +55,7 @@ module.exports = {
       minify: false,
       chunks: ['main'],
       filename: './config.html',
-      template: './src/raidboss/config/index.html',
+      template: './src/config/index.html',
     }),
   ],
 };

@@ -27,7 +27,7 @@
     "@typescript-eslint/eslint-plugin": ">=5.31.0",
     "@typescript-eslint/parser": "^5.40.0",
     "cross-env": "^7.0.3",
-    "eslint": ">=8.0.0",
+    "eslint": "^8.25.0",
     "eslint-import-resolver-typescript": "^3.5.1",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-unused-imports": "^2.0.0",
@@ -36,5 +36,8 @@
     "node-static": "^0.7.11",
     "prettier": "^2.7.1",
     "typescript": ">=4.8.4"
+  },
+  "resolutions": {
+    "eslint": "^8.25.0"
   }
 }
