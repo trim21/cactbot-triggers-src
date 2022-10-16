@@ -3,8 +3,8 @@ import type { NetMatches } from 'cactbot/types/net_matches';
 import type { TargetedMatches } from 'cactbot/types/trigger';
 import type { Data as BaseData } from 'cactbot/ui/raidboss/data/06-ew/ultimate/dragonsongs_reprise_ultimate';
 
-import config, { echoPrefix, sortByJobID } from '../../config/config';
-import { jobIDToShow } from '../../job';
+import config, { echoPrefix, sortByJobID } from '../../../config/config';
+import { jobIDToShow } from '../../../config/job';
 import type { MarkType } from '../../namazu';
 import { clearMark, Command, Commands, Mark } from '../../namazu';
 import { c, p, sleep } from '../../utils';
@@ -59,9 +59,11 @@ export default defineTrigger<DSRData, BaseData>({
     };
   },
   timeline: [
+    // p6 2冰火
     '3645.9 "say: 黑盾"',
-    '3645.9 "say: 铁壁"',
+    '3646.9 "say: 铁壁"',
     '3650.9 "say: 30减"',
+    // p7
     '3663.4 "say: 弃明投暗"',
     '4048.4 "say: 铁壁"',
     '4063.9 "say: 30减"',
