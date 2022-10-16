@@ -28,6 +28,6 @@ export const jobIDToShow: Record<string, string> = {
   32: '黑骑',
 } as const;
 
-export function nameToJobID(data: { party: PartyTracker; }): Record<string, number> {
+export function nameToJobID(data: { party: PartyTracker }): Record<string, number> {
   return Object.fromEntries(data.party.details.map((v) => [v.name, v.job]));
 }

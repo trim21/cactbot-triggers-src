@@ -276,7 +276,7 @@ export default defineTrigger<DSRData, BaseData>({
           return;
         }
 
-        p(async function() {
+        p(async function () {
           for (let index = 0; index < data.p6FireSeparation.length; index++) {
             await Mark({ Name: data.p6FireSeparation[index], MarkType: `attack${index + 1}` as MarkType });
           }
@@ -352,12 +352,12 @@ export default defineTrigger<DSRData, BaseData>({
     {
       locale: 'cn',
       replaceText: {
-        'Exaflare\'s Edge': '地火',
-        'Akh Morn\'s Edge': '分摊',
+        "Exaflare's Edge": '地火',
+        "Akh Morn's Edge": '分摊',
         Trinity: '三平A',
         'Flames of Ascalon': '钢铁',
         'Ice of Ascalon': '月环',
-        'Morn Afah\'s Edge': '狂暴',
+        "Morn Afah's Edge": '狂暴',
       },
     },
   ],

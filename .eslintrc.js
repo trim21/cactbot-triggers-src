@@ -22,7 +22,7 @@ module.exports = {
     },
   ],
   rules: {
-    'eqeqeq': 'error',
+    eqeqeq: 'error',
     semi: ['error', 'always'],
     'no-unreachable': 'error',
     'object-shorthand': [1, 'always', { avoidExplicitReturnArrows: true }],

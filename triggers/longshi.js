@@ -1369,7 +1369,9 @@ Options.Triggers.push({
         const BlackDragon = await callOverlayHandler({
           call: 'getCombatants',
         });
-        data.BlackDragon = BlackDragon.combatants.filter((boss) => boss.BNpcNameID === 3458 && boss.BNpcID === 12612)[0];
+        data.BlackDragon = BlackDragon.combatants.filter(
+          (boss) => boss.BNpcNameID === 3458 && boss.BNpcID === 12612,
+        )[0];
         return;
       },
       alertText(data, matches, output) {
@@ -1548,7 +1550,9 @@ Options.Triggers.push({
         const BlackDragon = await callOverlayHandler({
           call: 'getCombatants',
         });
-        data.BlackDragon = BlackDragon.combatants.filter((boss) => boss.BNpcNameID === 3458 && boss.BNpcID === 12612)[0];
+        data.BlackDragon = BlackDragon.combatants.filter(
+          (boss) => boss.BNpcNameID === 3458 && boss.BNpcID === 12612,
+        )[0];
         return;
       },
       infoText(data, matches, output) {
