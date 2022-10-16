@@ -4,7 +4,7 @@ import type { TargetedMatches } from 'cactbot/types/trigger';
 import type { Data as BaseData } from 'cactbot/ui/raidboss/data/06-ew/ultimate/dragonsongs_reprise_ultimate';
 
 import config, { echoPrefix, sortByJobID } from '../../../config/config';
-import { jobIDToShow } from '../../../config/job';
+import { jobIDToShow, nameToJobID } from '../../../config/job';
 import type { MarkType } from '../../namazu';
 import { clearMark, Command, Commands, Mark } from '../../namazu';
 import { c, p, sleep } from '../../utils';
@@ -168,7 +168,7 @@ export default defineTrigger<DSRData, BaseData>({
       netRegex: NetRegexes.ability({ id: '6B8F', source: '暗鳞黑龙' }),
       run(data, matches: TargetedMatches) {
         if (data.nameToJobID === undefined) {
-          data.nameToJobID = Object.fromEntries(data.party.details.map((v) => [v.name, v.job]));
+          data.nameToJobID = nameToJobID(data);
         }
 
         data.p5Lightning.push({ name: matches.target, jobID: data.nameToJobID[matches.target] });
@@ -211,7 +211,7 @@ export default defineTrigger<DSRData, BaseData>({
       netRegex: NetRegexes.gainsEffect({ effectId: 'BA0' }),
       preRun(data, matches) {
         if (data.nameToJobID === undefined) {
-          data.nameToJobID = Object.fromEntries(data.party.details.map((v) => [v.name, v.job]));
+          data.nameToJobID = nameToJobID(data);
         }
 
         data.p5DeadCall[matches.target] = true;
@@ -276,7 +276,7 @@ export default defineTrigger<DSRData, BaseData>({
           return;
         }
 
-        p(async function() {
+        p(async function () {
           for (let index = 0; index < data.p6FireSeparation.length; index++) {
             await Mark({ Name: data.p6FireSeparation[index], MarkType: `attack${index + 1}` as MarkType });
           }

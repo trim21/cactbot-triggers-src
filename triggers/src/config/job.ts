@@ -1,4 +1,4 @@
-export const jobIDToCN: Record<number, string> = {
+export const jobIDToCN: Record<string, string> = {
   20: '武僧',
   21: '战士',
   23: '诗人',
@@ -21,7 +21,16 @@ export const jobIDToCN: Record<number, string> = {
   40: '贤者',
 } as const;
 
-export const jobIDToShow: Record<number, string> = {
+export const jobIDToShow: Record<string, string> = {
   ...jobIDToCN,
   32: '黑骑',
 } as const;
+
+import type PartyTracker from 'cactbot/resources/party';
+
+export function nameToJobID(data: {
+  party: PartyTracker;
+  nameToJobID?: Record<string, number>;
+}): Record<string, number> {
+  return Object.fromEntries(data.party.details.map((v) => [v.name, v.job]));
+}

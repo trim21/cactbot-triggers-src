@@ -1,28 +1,28 @@
 <template>
-  <div class='container' v-if='loaded'>
-    <div class='row'>
-      <div class='col-3'>
+  <div class="container" v-if="loaded">
+    <div class="row">
+      <div class="col-3">
         <h1>职业排序</h1>
-        <draggable tag='ul' class='list-group' v-bind='dragOptions' v-model='jobOrder' group='people' item-key='id'>
-          <template #item='{ element }'>
-            <li class='list-group-item' :class='jobIDToClass(element.id)'>{{ element.name }}</li>
+        <draggable tag="ul" class="list-group" v-bind="dragOptions" v-model="jobOrder" group="people" item-key="id">
+          <template #item="{ element }">
+            <li class="list-group-item" :class="jobIDToClass(element.id)">{{ element.name }}</li>
           </template>
         </draggable>
       </div>
-      <div class='col-9'>
-        <div class='row'>
+      <div class="col-9">
+        <div class="row">
           <h1>选项</h1>
         </div>
-        <div class='row'>
-          <div class='form-check'>
-            <input class='form-check-input' type='checkbox' v-model='config.enablePostNamazu' id='flexCheckDefault' />
-            <label class='form-check-label' for='flexCheckDefault'> 启用鲶鱼精 </label>
+        <div class="row">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" v-model="config.enablePostNamazu" id="flexCheckDefault" />
+            <label class="form-check-label" for="flexCheckDefault"> 启用鲶鱼精 </label>
           </div>
         </div>
-        <div class='row'>
-          <div class='form-check'>
-            <input class='form-check-input' type='checkbox' v-model='config.partyNotification' id='partyNotification' />
-            <label class='form-check-label' for='partyNotification'> 启用队内指挥 </label>
+        <div class="row">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" v-model="config.partyNotification" id="partyNotification" />
+            <label class="form-check-label" for="partyNotification"> 启用队内指挥 </label>
           </div>
         </div>
       </div>
@@ -30,13 +30,13 @@
   </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
+import util from 'cactbot/resources/util';
 import { defineComponent } from 'vue';
 import draggable from 'vuedraggable';
 
-import util from 'cactbot/resources/util';
-
-import { overlayPluginKey, defaultConfig, loadConfigFromOverlayPlugin, sortByJobID, Config } from './config';
+import type { Config } from './config';
+import { overlayPluginKey, defaultConfig, loadConfigFromOverlayPlugin, sortByJobID } from './config';
 import { jobIDToCN } from './job';
 
 type vueJobData = {

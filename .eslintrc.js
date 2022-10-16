@@ -12,7 +12,15 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  overrides: [{ files: "**.vue", parser: 'vue-eslint-parser' }],
+  overrides: [
+    {
+      files: '**.vue',
+      parser: 'vue-eslint-parser',
+      parserOptions: {
+        parser: '@typescript-eslint/parser',
+      },
+    },
+  ],
   rules: {
     semi: ['error', 'always'],
     'no-unreachable': 'error',
