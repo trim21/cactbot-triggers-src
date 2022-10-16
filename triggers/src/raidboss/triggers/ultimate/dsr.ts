@@ -305,7 +305,7 @@ export default defineTrigger<DSRData, BaseData>({
         await sleep(100);
         const WhiteDragon = await callOverlayHandler({ call: 'getCombatants' });
         data.WhiteDragon = WhiteDragon.combatants.filter(
-          ({ BNpcID, BNpcNameID }) => BNpcNameID === 4954 && BNpcID == 12613,
+          ({ BNpcID, BNpcNameID }) => BNpcNameID === 4954 && BNpcID === 12613,
         )[0];
       },
       alertText(data, matches) {
