@@ -22,7 +22,6 @@
     "update-submodules": "git submodule foreach git pull"
   },
   "devDependencies": {
-    "@types/lodash-es": "^4.17.6",
     "esbuild": "^0.15.11",
     "esbuild-loader": "^2.20.0",
     "html-webpack-plugin": "^5.5.0",
@@ -36,7 +35,6 @@
   },
   "dependencies": {
     "cactbot": "^0.27.12",
-    "lodash-es": "^4.17.21",
     "overlay-plugin": "^0.0.0",
     "plain-object-is-equal": "^2.0.0",
     "vue": "^3.2.41",

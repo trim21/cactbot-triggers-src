@@ -1,4 +1,4 @@
-import isEqual from 'lodash-es/isEqual';
+import isEqual from 'plain-object-is-equal';
 
 export const overlayPluginKey = 'trim21-triggers-config.02';
 const localStorageKey = 'trim21-triggers-config.02';
