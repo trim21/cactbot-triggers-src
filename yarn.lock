@@ -148,10 +148,10 @@
     tiny-glob "^0.2.9"
     tslib "^2.4.0"
 
-"@trim21/cactbot-types@^0.0.10":
-  version "0.0.10"
-  resolved "https://registry.npmjs.org/@trim21/cactbot-types/-/cactbot-types-0.0.10.tgz"
-  integrity sha512-tGTLcx17tnBSPfN1uE/QEZaw6b1tzd7mVA6J18X7oPpWdhR4sAGfZagoPxuGm4oXhf9k1LLuoVoXcEi2idg+Tg==
+"@trim21/cactbot-types@^0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@trim21/cactbot-types/-/cactbot-types-0.0.11.tgz#d88eaddb6fe853a7eb9f8303958d4294880dbbd9"
+  integrity sha512-foQd5EzVHDZ483+9atObfxE55OhDAt9I7xHuETnvJo/Dmi5k1LjPEXl8dAqSr4jsbYOK9nmw480lgtVCp79j1g==
 
 "@types/eslint-scope@^3.7.3":
   version "3.7.4"
