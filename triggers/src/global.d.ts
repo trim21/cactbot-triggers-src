@@ -1,13 +1,13 @@
-import type _Conditions from 'cactbot/resources/conditions';
-import type _ContentType from 'cactbot/resources/content_type';
-import type _NetRegexes from 'cactbot/resources/netregexes';
-import type _Outputs from 'cactbot/resources/outputs';
-import type _Regexes from 'cactbot/resources/regexes';
-import type { Responses as _Responses } from 'cactbot/resources/responses';
-import type _Util from 'cactbot/resources/util';
-import type _ZoneId from 'cactbot/resources/zone_id';
-import type _ZoneInfo from 'cactbot/resources/zone_info';
-import type { RaidbossData } from 'cactbot/types/data';
+import type _Conditions from '@trim21/cactbot-types/resources/conditions';
+import type _ContentType from '@trim21/cactbot-types/resources/content_type';
+import type _NetRegexes from '@trim21/cactbot-types/resources/netregexes';
+import type _Outputs from '@trim21/cactbot-types/resources/outputs';
+import type _Regexes from '@trim21/cactbot-types/resources/regexes';
+import type { Responses as _Responses } from '@trim21/cactbot-types/resources/responses';
+import type _Util from '@trim21/cactbot-types/resources/util';
+import type _ZoneId from '@trim21/cactbot-types/resources/zone_id';
+import type _ZoneInfo from '@trim21/cactbot-types/resources/zone_info';
+import type { RaidbossData } from '@trim21/cactbot-types/types/data';
 
 import type { UserTriggerSet } from './raidboss/triggers/user_trigger';
 

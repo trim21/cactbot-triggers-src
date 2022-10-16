@@ -1,5 +1,5 @@
 import type {} from 'overlay-plugin';
-import type { SavedConfig } from 'cactbot/types/event';
+import type { SavedConfig } from '@trim21/cactbot-types/types/event';
 
 declare module 'overlay-plugin' {
   interface ICallOverlayHandler {

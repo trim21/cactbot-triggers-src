@@ -22,6 +22,7 @@
     "update-submodules": "git submodule foreach git pull"
   },
   "devDependencies": {
+    "@babel/types": "^7.19.4",
     "esbuild": "^0.15.11",
     "esbuild-loader": "^2.20.0",
     "html-webpack-plugin": "^5.5.0",
@@ -34,7 +35,7 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
-    "cactbot": "^0.27.12",
+    "@trim21/cactbot-types": "^0.0.10",
     "overlay-plugin": "^0.0.0",
     "plain-object-is-equal": "^2.0.0",
     "vue": "^3.2.41",

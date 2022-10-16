@@ -1,3 +1,5 @@
+import type PartyTracker from '@trim21/cactbot-types/resources/party';
+
 export const jobIDToCN: Record<string, string> = {
   20: '武僧',
   21: '战士',
@@ -25,8 +27,6 @@ export const jobIDToShow: Record<string, string> = {
   ...jobIDToCN,
   32: '黑骑',
 } as const;
-
-import type PartyTracker from 'cactbot/resources/party';
 
 export function nameToJobID(data: { party: PartyTracker; }): Record<string, number> {
   return Object.fromEntries(data.party.details.map((v) => [v.name, v.job]));
