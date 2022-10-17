@@ -1,4 +1,4 @@
-import type PartyTracker from '@trim21/cactbot-types/resources/party';
+import type PartyTracker from '@trim21/cactbot/resources/party';
 
 export const jobIDToCN: Record<string, string> = {
   20: '武僧',

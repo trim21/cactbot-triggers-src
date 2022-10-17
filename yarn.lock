@@ -1053,10 +1053,10 @@
     tiny-glob "^0.2.9"
     tslib "^2.4.0"
 
-"@trim21/cactbot-types@^0.0.11":
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/@trim21/cactbot-types/-/cactbot-types-0.0.11.tgz#d88eaddb6fe853a7eb9f8303958d4294880dbbd9"
-  integrity sha512-foQd5EzVHDZ483+9atObfxE55OhDAt9I7xHuETnvJo/Dmi5k1LjPEXl8dAqSr4jsbYOK9nmw480lgtVCp79j1g==
+"@trim21/cactbot@0.27.16":
+  version "0.27.16"
+  resolved "https://registry.npmjs.org/@trim21/cactbot/-/cactbot-0.27.16.tgz#c31b49aa761e5cf0fab1b5cd4b0ea4478ebea433"
+  integrity sha512-NhP3RafdBV4itxEwIr7HhVmR3Qla3PWImZIHck6ZxTbkg9AK0NBSEiCCSfkKw44PRbNHa8oYCMkllx+q6csajw==
 
 "@types/eslint-scope@^3.7.3":
   version "3.7.4"

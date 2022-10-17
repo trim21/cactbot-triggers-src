@@ -1,7 +1,7 @@
-import type { PluginCombatantState } from '@trim21/cactbot-types/types/event';
-import type { NetMatches } from '@trim21/cactbot-types/types/net_matches';
-import type { TargetedMatches } from '@trim21/cactbot-types/types/trigger';
-import type { Data as BaseData } from '@trim21/cactbot-types/ui/raidboss/data/06-ew/ultimate/dragonsongs_reprise_ultimate';
+import type { PluginCombatantState } from '@trim21/cactbot/types/event';
+import type { NetMatches } from '@trim21/cactbot/types/net_matches';
+import type { TargetedMatches } from '@trim21/cactbot/types/trigger';
+import type { Data as BaseData } from '@trim21/cactbot/ui/raidboss/data/06-ew/ultimate/dragonsongs_reprise_ultimate';
 
 import config, { echoPrefix, sortByJobID } from '../../../config/config';
 import { jobIDToShow, nameToJobID } from '../../../config/job';
