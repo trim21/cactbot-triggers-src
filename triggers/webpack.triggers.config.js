@@ -24,16 +24,15 @@ module.exports = {
       {
         test: /\.(mjs|js|ts)$/,
         exclude: /node_modules/,
-        use: [
-          {
-            loader: 'esbuild-loader',
-            options: {
-              loader: 'ts',
-              target: 'chrome103',
-              charset: 'utf8',
-            },
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              ['@babel/preset-env', { targets: { chrome: '103' } }],
+              ['@babel/preset-typescript'],
+            ],
           },
-        ],
+        },
         resolve: {
           fullySpecified: false,
         },
