@@ -19,6 +19,7 @@
     "format": "prettier -w ./",
     "triggers": "yarn workspace triggers",
     "build": "yarn workspace triggers build",
+    "postinstall": "cp -r ./node_modules/@trim21/cactbot/dist/ ./dist/",
     "update-submodules": "git submodule foreach git pull"
   },
   "devDependencies": {

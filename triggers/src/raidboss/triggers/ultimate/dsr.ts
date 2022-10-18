@@ -62,7 +62,7 @@ export default defineTrigger<DSRData, BaseData>({
     // p6 2冰火
     '3646.9 "say: 黑盾"',
     '3646.9 "say: 铁壁"',
-    '3650.9 "say: 30减"',
+    '3652.9 "say: 30减"',
     // '3663.4 "say: 弃明投暗"',
     // p7
     '4048.4 "say: 铁壁"',
