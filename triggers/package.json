@@ -37,7 +37,7 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
-    "@trim21/cactbot": "0.27.16",
+    "@trim21/cactbot": "0.27.17",
     "overlay-plugin": "^0.0.0",
     "plain-object-is-equal": "^2.0.0",
     "vue": "^3.2.41",
