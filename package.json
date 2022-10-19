@@ -14,7 +14,6 @@
     "lint": "eslint --ext ts,js,vue ./triggers/",
     "format": "prettier -w ./",
     "triggers": "yarn workspace triggers",
-    "postinstall": "cp -r ./node_modules/@trim21/cactbot/dist/ ./dist/",
     "prebuild": "rimraf ./dist/",
     "build": "webpack --config webpack.triggers.config.js --config webpack.ui.config.js",
     "start": "yarn build --watch",
@@ -46,7 +45,6 @@
   },
   "dependencies": {
     "@trim21/cactbot": "0.27.16",
-    "overlay-plugin": "^0.0.0",
     "plain-object-is-equal": "^2.0.0",
     "vue": "^3.2.41",
     "vuedraggable": "^4.1.0"
