@@ -36,7 +36,7 @@ import { defineComponent } from 'vue';
 import draggable from 'vuedraggable';
 
 import type { Config } from './config';
-import { overlayPluginKey, defaultConfig, loadConfigFromOverlayPlugin, sortByJobID } from './config';
+import { overlayPluginKey, defaultConfig, loadRawConfigFromOverlayPlugin, sortByJobID, StoreConfig } from './config';
 import { jobIDToCN } from './job';
 
 type vueJobData = {
@@ -64,7 +64,10 @@ export default defineComponent({
     };
   },
   created() {
-    loadConfigFromOverlayPlugin().then((c) => {
+    loadRawConfigFromOverlayPlugin().then((raw) => {
+      console.log(raw);
+      const c = JSON.parse(raw) as Config;
+
       [{ jobID: 1 }, { jobID: 2 }].sort(sortByJobID);
       this.jobOrder = jobConfigToVueJobData(c.jobOrder);
       this.config = c;
@@ -135,8 +138,6 @@ async function configChange(v: VueData) {
   const data = JSON.parse(JSON.stringify(v.config));
   data.jobOrder = VueJobDataToJobConfig(v.jobOrder);
 
-  await callOverlayHandler({ call: 'saveData', key: overlayPluginKey, data });
-  await callOverlayHandler({ call: 'cactbotReloadOverlays' });
-  console.log('data change', JSON.stringify(data));
+  await StoreConfig(data);
 }
 </script>

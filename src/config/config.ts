@@ -1,9 +1,8 @@
-import isEqual from 'plain-object-is-equal';
+export const overlayPluginKey = 'trim21-triggers-config-1';
+const localStorageKey = 'trim21-triggers-config-1';
 
-export const overlayPluginKey = 'trim21-triggers-config.02';
-const localStorageKey = 'trim21-triggers-config.02';
-
-const config: Readonly<Config> = loadConfigFromLocalStorage();
+const localRawConfig = loadRawConfigFromLocalStorage();
+const config: Readonly<Config> = JSON.parse(localRawConfig);
 export default config;
 export const echoPrefix = config.partyNotification ? '/p' : '/e';
 
@@ -50,30 +49,49 @@ export function defaultConfig(): Config {
   return { partyNotification: true, enablePostNamazu: true, jobOrder };
 }
 
-function loadConfigFromLocalStorage(): Config {
+function loadRawConfigFromLocalStorage(): string {
   const raw = localStorage.getItem(localStorageKey);
 
   if (!raw) {
-    return defaultConfig();
+    return JSON.stringify(defaultConfig());
   }
 
-  return JSON.parse(raw);
+  try {
+    JSON.parse(raw);
+  } catch {
+    localStorage.removeItem(localStorageKey);
+    return JSON.stringify(defaultConfig());
+  }
+
+  return raw;
 }
 
-export async function loadConfigFromOverlayPlugin(): Promise<Config> {
+export async function loadRawConfigFromOverlayPlugin(): Promise<string> {
   const data = await callOverlayHandler({ call: 'loadData', key: overlayPluginKey });
   if (data?.data) {
-    return data.data as unknown as Config;
+    return data.data as unknown as string;
   }
 
-  return defaultConfig();
+  return JSON.stringify(defaultConfig());
 }
 
-loadConfigFromOverlayPlugin().then((c) => {
-  if (!isEqual(c, config)) {
+export async function StoreConfig(v: Config) {
+  await callOverlayHandler({ call: 'saveData', key: overlayPluginKey, data: JSON.stringify(v) });
+  await callOverlayHandler({ call: 'cactbotReloadOverlays' });
+  console.log('data change', JSON.stringify(v, null, 2));
+}
+
+loadRawConfigFromOverlayPlugin().then((remoteRaw) => {
+  try {
+    JSON.parse(remoteRaw);
+  } catch {
+    return callOverlayHandler({ call: 'saveData', key: overlayPluginKey, data: null });
+  }
+
+  if (remoteRaw !== localRawConfig) {
     console.log('config change, reload page');
-    localStorage.setItem(localStorageKey, JSON.stringify(c));
-    Object.assign(config, c);
+    localStorage.setItem(localStorageKey, remoteRaw);
+    Object.assign(config, JSON.parse(remoteRaw));
   }
 
   if (config.enablePostNamazu) {

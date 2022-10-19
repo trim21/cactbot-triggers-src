@@ -12,6 +12,7 @@ module.exports = {
     path: path.resolve(__dirname, './dist/ui/'),
     filename: 'main.js',
   },
+  devtool: "source-map",
   mode: 'production',
   optimization: {
     minimize: false,
