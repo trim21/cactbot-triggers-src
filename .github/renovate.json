@@ -1,6 +1,10 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "cloneSubmodules": true,
-  "extends": ["local>trim21/renovate-config"],
+  "extends": [
+    "local>trim21/renovate-config",
+    "local>trim21/renovate-config:js",
+    "local>trim21/renovate-config:app"
+  ],
   "rangeStrategy": "bump"
 }
