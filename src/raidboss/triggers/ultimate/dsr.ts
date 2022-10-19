@@ -3,12 +3,12 @@ import type { NetMatches } from '@trim21/cactbot/types/net_matches';
 import type { TargetedMatches } from '@trim21/cactbot/types/trigger';
 import type { Data as BaseData } from '@trim21/cactbot/ui/raidboss/data/06-ew/ultimate/dragonsongs_reprise_ultimate';
 
-import config, { echoPrefix, sortByJobID } from '../../../config/config';
-import { jobIDToShow, nameToJobID } from '../../../config/job';
-import type { MarkType } from '../../namazu';
-import { clearMark, Command, Commands, Mark } from '../../namazu';
-import { c, p, sleep } from '../../utils';
-import { defineTrigger } from '../user_trigger';
+import config, { echoPrefix, sortByJobID } from '@/config/config';
+import { jobIDToShow, nameToJobID } from '@/config/job';
+import type { MarkType } from '@/raidboss/namazu';
+import { clearMark, Command, Commands, Mark } from '@/raidboss/namazu';
+import { defineTrigger } from '@/raidboss/triggers/user_trigger';
+import { c, p, sleep } from '@/raidboss/utils';
 
 /*
 
@@ -352,12 +352,12 @@ export default defineTrigger<DSRData, BaseData>({
     {
       locale: 'cn',
       replaceText: {
-        "Exaflare's Edge": '地火',
-        "Akh Morn's Edge": '分摊',
-        Trinity: '三平A',
-        'Flames of Ascalon': '钢铁',
-        'Ice of Ascalon': '月环',
-        "Morn Afah's Edge": '狂暴',
+        // "Exaflare's Edge": '地火',
+        // "Akh Morn's Edge": '分摊',
+        // Trinity: '三平A',
+        // 'Flames of Ascalon': '钢铁',
+        // 'Ice of Ascalon': '月环',
+        // "Morn Afah's Edge": '狂暴',
       },
     },
   ],

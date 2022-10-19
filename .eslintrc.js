@@ -52,8 +52,12 @@ module.exports = {
     },
     'import/extensions': ['.js', '.ts'],
     'import/resolver': {
-      typescript: true,
-      node: true,
+      typescript: {
+        project: ['tsconfig.json'],
+      },
+      node: {
+        project: ['tsconfig.json'],
+      },
     },
   },
 };

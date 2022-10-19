@@ -8,8 +8,9 @@ import type _Util from '@trim21/cactbot/resources/util';
 import type _ZoneId from '@trim21/cactbot/resources/zone_id';
 import type _ZoneInfo from '@trim21/cactbot/resources/zone_info';
 import type { RaidbossData } from '@trim21/cactbot/types/data';
+import type { IOverlayHandler, EventMap, EventType } from '@trim21/cactbot/types/event';
 
-import type { UserTriggerSet } from './raidboss/triggers/user_trigger';
+import type { UserTriggerSet } from '@/raidboss/triggers/user_trigger';
 
 type Helper<T> = T extends { __helper_user_type?: infer C; __helper_base_type?: infer Base }
   ? Base extends RaidbossData
@@ -17,7 +18,21 @@ type Helper<T> = T extends { __helper_user_type?: infer C; __helper_base_type?: 
     : never
   : never;
 
+type IAddOverlayListener = <T extends EventType>(event: T, cb: EventMap[T]) => void;
+
+interface Namazu {
+  (payload: { call: 'PostNamazu'; c: 'command' | 'mark'; p: string }): Promise<void>;
+}
+
+interface OverlayPlugin {
+  (msg: { call: 'saveData'; key: string; data: unknown }): Promise<void>;
+  <T = unknown>(msg: { call: 'loadData'; key: string }): Promise<{ data?: T } | undefined>;
+}
+
 declare global {
+  const addOverlayListener: IAddOverlayListener;
+  const callOverlayHandler: IOverlayHandler & Namazu & OverlayPlugin;
+
   const Options: {
     PlayerNicks: Record<string, string>;
     Triggers: {

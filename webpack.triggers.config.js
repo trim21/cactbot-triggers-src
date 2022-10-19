@@ -18,6 +18,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.mjs', '.js'],
+    alias: {
+      '@': path.resolve(__dirname, 'src/'),
+    },
   },
   module: {
     rules: [
@@ -27,10 +30,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [
-              ['@babel/preset-env', { targets: { chrome: '103' } }],
-              ['@babel/preset-typescript'],
-            ],
+            presets: [['@babel/preset-env', { targets: { chrome: '103' } }], ['@babel/preset-typescript']],
           },
         },
         resolve: {

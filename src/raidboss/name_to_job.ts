@@ -1,4 +1,4 @@
-import { jobIDToCN } from '../config/job';
+import { jobIDToCN } from '@/config/job';
 
 export default () => {
   const playerNicks: Record<string, string> = (Options.PlayerNicks = {});

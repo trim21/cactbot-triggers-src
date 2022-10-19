@@ -1,11 +1,3 @@
-import 'overlay-plugin';
-
-declare module 'overlay-plugin' {
-  interface ICallOverlayHandler {
-    (payload: { call: 'PostNamazu'; c: 'command' | 'mark'; p: string }): Promise<void>;
-  }
-}
-
 export async function Command(data: string): Promise<void> {
   await call('command', data);
 }
