@@ -3,12 +3,12 @@ import type { NetMatches } from '@trim21/cactbot/types/net_matches';
 import type { TargetedMatches } from '@trim21/cactbot/types/trigger';
 import type { Data as BaseData } from '@trim21/cactbot/ui/raidboss/data/06-ew/ultimate/dragonsongs_reprise_ultimate';
 
-import config, { echoPrefix, sortByJobID } from '@/config/config';
-import { jobIDToShow, nameToJobID } from '@/config/job';
+import config, { echoPrefix, sortByJobID, sortNameByJob } from '@/config/config';
+import { getNameToJobID, jobIDToShow, nameToJobID } from '@/config/job';
 import type { MarkType } from '@/raidboss/namazu';
 import { clearMark, Command, Commands, Mark } from '@/raidboss/namazu';
 import { defineTrigger } from '@/raidboss/triggers/user_trigger';
-import { c, p, sleep } from '@/raidboss/utils';
+import { c, p, shuffleArray, sleep } from '@/raidboss/utils';
 
 /*
 
@@ -264,6 +264,8 @@ export default defineTrigger<DSRData, BaseData>({
         }
       },
       run(data, matches: NetMatches['GainsEffect']) {
+        const nameToJobID = getNameToJobID(data);
+
         if (matches.effectId === 'AC6') {
           data.p6FireSeparation.push(matches.target);
         }
@@ -276,6 +278,15 @@ export default defineTrigger<DSRData, BaseData>({
           return;
         }
 
+        const namesNoCall = data.party.details
+          .map((x) => x.name)
+          .filter((x) => !data.p6FireSeparation.includes(x) && !data.p6FireSharing.includes(x));
+
+        // TN会优先标记标记靠近场中的数字
+        data.p6FireSharing.sort(sortNameByJob(nameToJobID)).reverse();
+        data.p6FireSeparation.sort(sortNameByJob(nameToJobID)).reverse();
+        namesNoCall.sort(sortNameByJob(nameToJobID)).reverse();
+
         p(async function () {
           for (let index = 0; index < data.p6FireSeparation.length; index++) {
             await Mark({ Name: data.p6FireSeparation[index], MarkType: `attack${index + 1}` as MarkType });
@@ -286,12 +297,8 @@ export default defineTrigger<DSRData, BaseData>({
             await Mark({ Name: name, MarkType: `bind${index + 1}` as MarkType });
           }
 
-          const names = data.party.details
-            .map((x) => x.name)
-            .filter((x) => !data.p6FireSeparation.includes(x) && !data.p6FireSharing.includes(x));
-
-          for (let i = 0; i < names.length; i++) {
-            await Mark({ Name: names[i], MarkType: `stop${i + 1}` as MarkType });
+          for (let i = 0; i < namesNoCall.length; i++) {
+            await Mark({ Name: namesNoCall[i], MarkType: `stop${i + 1}` as MarkType });
           }
         });
       },

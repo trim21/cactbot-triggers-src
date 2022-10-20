@@ -12,6 +12,10 @@ export type Config = {
   partyNotification: boolean;
 };
 
+export function sortNameByJob(nameToJobID: Record<string, number>): (a: string, b: string) => number {
+  return (a, b) => config.jobOrder[nameToJobID[a]] - config.jobOrder[nameToJobID[b]];
+}
+
 export function sortByJobID(a: { jobID: number }, b: { jobID: number }) {
   return config.jobOrder[a.jobID] - config.jobOrder[b.jobID];
 }

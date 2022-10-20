@@ -31,3 +31,14 @@ export const jobIDToShow: Record<string, string> = {
 export function nameToJobID(data: { party: PartyTracker }): Record<string, number> {
   return Object.fromEntries(data.party.details.map((v) => [v.name, v.job]));
 }
+
+export function getNameToJobID(data: {
+  party: PartyTracker;
+  nameToJobID?: Record<string, number>;
+}): Record<string, number> {
+  if (data.nameToJobID === undefined) {
+    data.nameToJobID = nameToJobID(data);
+  }
+
+  return data.nameToJobID;
+}
