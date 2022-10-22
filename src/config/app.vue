@@ -15,14 +15,19 @@
         </div>
         <div class="row">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" v-model="config.enablePostNamazu" id="flexCheckDefault" />
-            <label class="form-check-label" for="flexCheckDefault"> 启用鲶鱼精 </label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" v-model="config.partyNotification" id="partyNotification" />
-            <label class="form-check-label" for="partyNotification"> 启用队内指挥 </label>
+            <input class="form-check-input" type="checkbox" hidden v-model="config.enablePostNamazu"
+                   id="enablePostNamazu" />
+            <label class="form-check-label btn-primary btn btn-lg m-3" :class="btnClass(config.enablePostNamazu)"
+                   for="enablePostNamazu"> 启用鲶鱼精 </label>
+
+            <input class="form-check-input" hidden type="checkbox" v-model="config.headMark" id="headMark" />
+            <label class="form-check-label btn-primary btn btn-lg m-3" :class="btnClass(config.headMark)"
+                   for="headMark"> 启用头顶标点 </label>
+
+            <input class="form-check-input" type="checkbox" hidden v-model="config.partyNotification"
+                   id="partyNotification" />
+            <label class="form-check-label btn-primary btn btn-lg m-3" :class="btnClass(config.partyNotification)"
+                   for="partyNotification"> 启用队内指挥 </label>
           </div>
         </div>
       </div>
@@ -36,7 +41,7 @@ import { defineComponent } from 'vue';
 import draggable from 'vuedraggable';
 
 import type { Config } from './config';
-import { overlayPluginKey, defaultConfig, loadRawConfigFromOverlayPlugin, sortByJobID, StoreConfig } from './config';
+import { defaultConfig, loadRawConfigFromOverlayPlugin, sortByJobID, StoreConfig } from './config';
 import { jobIDToCN } from './job';
 
 type vueJobData = {
@@ -102,6 +107,12 @@ export default defineComponent({
     },
   },
   methods: {
+    btnClass(v: boolean) {
+      return {
+        'btn-primary': v,
+        'btn-secondary': !v,
+      };
+    },
     jobIDToClass(job: string) {
       const id = util.jobEnumToJob(parseInt(job));
 

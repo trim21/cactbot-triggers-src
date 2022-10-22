@@ -9,6 +9,7 @@ export const echoPrefix = config.partyNotification ? '/p' : '/e';
 export type Config = {
   enablePostNamazu: boolean;
   jobOrder: Record<string, number>;
+  headMark: boolean;
   partyNotification: boolean;
 };
 
@@ -50,7 +51,7 @@ export function defaultConfig(): Config {
     ].map((v, i) => [v, i]),
   );
 
-  return { partyNotification: true, enablePostNamazu: true, jobOrder };
+  return { partyNotification: true, enablePostNamazu: true, jobOrder, headMark: false };
 }
 
 function loadRawConfigFromLocalStorage(): string {

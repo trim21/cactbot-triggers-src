@@ -8,7 +8,7 @@ import { getNameToJobID, jobIDToShow, nameToJobID } from '@/config/job';
 import type { MarkType } from '@/raidboss/namazu';
 import { clearMark, Command, Commands, Mark } from '@/raidboss/namazu';
 import { defineTrigger } from '@/raidboss/triggers/user_trigger';
-import { c, p, shuffleArray, sleep } from '@/raidboss/utils';
+import { c, p, sleep } from '@/raidboss/utils';
 
 /*
 
@@ -163,7 +163,7 @@ export default defineTrigger<DSRData, BaseData>({
     },
     {
       id: 'DSR P5 一运 雷点名',
-      disabled: !config.enablePostNamazu,
+      disabled: !(config.headMark && config.enablePostNamazu),
       type: 'Ability',
       netRegex: NetRegexes.ability({ id: '6B8F', source: '暗鳞黑龙' }),
       run(data, matches: TargetedMatches) {
@@ -244,6 +244,7 @@ export default defineTrigger<DSRData, BaseData>({
     {
       id: 'DSR p6 十字火 点名',
       type: 'GainsEffect',
+      disabled: !(config.headMark && config.enablePostNamazu),
       netRegex: NetRegexes.gainsEffect({
         effectId: [
           'AC6', // 分散
@@ -251,18 +252,6 @@ export default defineTrigger<DSRData, BaseData>({
         ],
         capture: true,
       }),
-      alertText(data, matches) {
-        if (matches.target !== data.me) {
-          return;
-        }
-
-        if (matches.effectId === 'AC6') {
-          return '分散';
-        }
-        if (matches.effectId === 'AC7') {
-          return '分摊';
-        }
-      },
       run(data, matches: NetMatches['GainsEffect']) {
         const nameToJobID = getNameToJobID(data);
 
@@ -306,6 +295,7 @@ export default defineTrigger<DSRData, BaseData>({
     {
       id: 'DSR p6 十字火 起跑点',
       type: 'AddedCombatant',
+      disabled: !config.enablePostNamazu,
       netRegex: NetRegexes.addedCombatantFull({ npcBaseId: '13238' }),
       suppressSeconds: 1,
       async promise(data) {
