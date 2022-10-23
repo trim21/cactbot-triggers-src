@@ -3,5 +3,6 @@ import test from './triggers/test';
 import dsr from './triggers/ultimate/dsr';
 
 void enable_replace_name_with_job();
+console.log('adding user triggers');
 void Options.Triggers.push(dsr);
 void Options.Triggers.push(test);

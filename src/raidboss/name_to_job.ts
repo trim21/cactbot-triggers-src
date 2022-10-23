@@ -10,6 +10,8 @@ export default () => {
 
     // default nickname should be here
     for (const party of e.party) {
+      // console.log(party.name, party.job, jobIDToCN[party.job]);
+
       const v = jobIDToCN[party.job];
       if (v) {
         playerNicks[party.name] = v;

@@ -293,17 +293,18 @@ const getCamera = (i = 8) => {
     return Math.round(2 - (2 * camera.camera.currentHRotation) / Math.PI + 2) % 4;
   }
 };
-//如果不需要改成false
+// 如果不需要改成false
 let 打开队伍播放 = false;
 
 const sendMark = (ActorID, MarkType, 是否标记 = 打开队伍播放) => {
-  if (是否标记)
+  if (是否标记) {
     callOverlayHandler({
       call: 'PostNamazu',
       c: 'mark',
       p: '{"ActorID":0x' + ActorID + ',"MarkType":' + MarkType + '}',
     });
-  //else  callOverlayHandler({ call: 'PostNamazu', c: 'mark', p:'{"ActorID":0x'+ActorID+',"MarkType":'+MarkType+',LocalOnly:true}'});
+  }
+  // else  callOverlayHandler({ call: 'PostNamazu', c: 'mark', p:'{"ActorID":0x'+ActorID+',"MarkType":'+MarkType+',LocalOnly:true}'});
 };
 
 const getMark = (size) => {
@@ -341,7 +342,9 @@ const getHeadmarkerId = (data, matches, firstDecimalMarker) => {
   // (This makes the offset 0, and !0 is true.)
   if (data.decOffset === undefined) {
     // This must be set the first time this function is called in DSR Headmarker Tracker.
-    if (firstDecimalMarker === undefined) throw new UnreachableCode();
+    if (firstDecimalMarker === undefined) {
+      throw new UnreachableCode();
+    }
     data.decOffset = parseInt(matches.id, 16) - firstDecimalMarker;
   }
   // The leading zeroes are stripped when converting back to string, so we re-add them here.
@@ -388,13 +391,13 @@ Options.Triggers.push({
         capture: true,
       }),
       run(data, matches) {
-        //clearMark();
+        // clearMark();
         switch (matches.id) {
           case '62D4':
             data.phase = 'doorboss';
             break;
           case '63C8':
-            //callOverlayHandler({ call: 'PostNamazu', c: 'place', p: 'load'});
+            // callOverlayHandler({ call: 'PostNamazu', c: 'place', p: 'load'});
             data.phase = 'thordan';
             break;
           case '6708':
@@ -555,39 +558,71 @@ Options.Triggers.push({
         if (distance < 22) {
           switch (data.位置) {
             case 0:
-              if (data.面向 === 3) return left;
-              if (data.面向 === 5) return right;
+              if (data.面向 === 3) {
+                return left;
+              }
+              if (data.面向 === 5) {
+                return right;
+              }
               break;
             case 2:
-              if (data.面向 === 5) return left;
-              if (data.面向 === 7) return right;
+              if (data.面向 === 5) {
+                return left;
+              }
+              if (data.面向 === 7) {
+                return right;
+              }
               break;
             case 4:
-              if (data.面向 === 7) return left;
-              if (data.面向 === 1) return right;
+              if (data.面向 === 7) {
+                return left;
+              }
+              if (data.面向 === 1) {
+                return right;
+              }
               break;
             case 6:
-              if (data.面向 === 1) return left;
-              if (data.面向 === 3) return right;
+              if (data.面向 === 1) {
+                return left;
+              }
+              if (data.面向 === 3) {
+                return right;
+              }
               break;
           }
         } else {
           switch (data.位置) {
             case 0:
-              if (data.面向 === 3) return left;
-              if (data.面向 === 5) return right;
+              if (data.面向 === 3) {
+                return left;
+              }
+              if (data.面向 === 5) {
+                return right;
+              }
               break;
             case 2:
-              if (data.面向 === 5) return left;
-              if (data.面向 === 7) return right;
+              if (data.面向 === 5) {
+                return left;
+              }
+              if (data.面向 === 7) {
+                return right;
+              }
               break;
             case 4:
-              if (data.面向 === 7) return left;
-              if (data.面向 === 1) return right;
+              if (data.面向 === 7) {
+                return left;
+              }
+              if (data.面向 === 1) {
+                return right;
+              }
               break;
             case 6:
-              if (data.面向 === 1) return left;
-              if (data.面向 === 3) return right;
+              if (data.面向 === 1) {
+                return left;
+              }
+              if (data.面向 === 3) {
+                return right;
+              }
               break;
           }
         }
@@ -614,7 +649,9 @@ Options.Triggers.push({
       condition: (data, matches) => data.phase === 'doorboss' && data.me === matches.target,
       alertText(data, matches, output) {
         const id = getHeadmarkerId(data, matches);
-        if (id === headmarkers.hyperdimensionalSlash) return output.slashOnYou();
+        if (id === headmarkers.hyperdimensionalSlash) {
+          return output.slashOnYou();
+        }
       },
       outputStrings: {
         slashOnYou: {
@@ -629,26 +666,32 @@ Options.Triggers.push({
       tts: null,
       delaySeconds: 0.1,
       alertText(data, matches, output) {
-        if (data.color === undefined) return;
+        if (data.color === undefined) {
+          return;
+        }
         const id = getHeadmarkerId(data, matches);
         if (id === headmarkers.firechainSquare && data.me !== matches.target) {
         }
         switch (data.color) {
           case '红':
-            if (id === headmarkers.firechainCircle && data.me !== matches.target)
+            if (id === headmarkers.firechainCircle && data.me !== matches.target) {
               return '同组为' + nametocnjob(matches.target, data);
+            }
             break;
           case '绿':
-            if (id === headmarkers.firechainTriangle && data.me !== matches.target)
+            if (id === headmarkers.firechainTriangle && data.me !== matches.target) {
               return '同组为' + nametocnjob(matches.target, data);
+            }
             break;
           case '紫':
-            if (id === headmarkers.firechainSquare && data.me !== matches.target)
+            if (id === headmarkers.firechainSquare && data.me !== matches.target) {
               return '同组为' + nametocnjob(matches.target, data);
+            }
             break;
           case '蓝':
-            if (id === headmarkers.firechainX && data.me !== matches.target)
+            if (id === headmarkers.firechainX && data.me !== matches.target) {
               return '同组为' + nametocnjob(matches.target, data);
+            }
             break;
           default:
             return;
@@ -746,9 +789,15 @@ Options.Triggers.push({
           data.myMark = +matches.marker;
         }
         if (data.phase === 'thordan' && data.myMark !== undefined) {
-          if (data.myMark >= 5 && data.myMark <= 7) data.majiang3[data.myMark - 5].job = nametocnjob(data.me, data);
-          if (data.myMark >= 0 && data.myMark <= 2) data.majiang1[data.myMark].job = nametocnjob(data.me, data);
-          if (data.myMark >= 8 && data.myMark <= 9) data.majiang2[data.myMark - 8].job = nametocnjob(data.me, data);
+          if (data.myMark >= 5 && data.myMark <= 7) {
+            data.majiang3[data.myMark - 5].job = nametocnjob(data.me, data);
+          }
+          if (data.myMark >= 0 && data.myMark <= 2) {
+            data.majiang1[data.myMark].job = nametocnjob(data.me, data);
+          }
+          if (data.myMark >= 8 && data.myMark <= 9) {
+            data.majiang2[data.myMark - 8].job = nametocnjob(data.me, data);
+          }
         }
       },
     },
@@ -788,7 +837,9 @@ Options.Triggers.push({
       id: '龙眼位置',
       regex: /] ChatLog 00:0:103:.{8}:8003759A:00020001:.{7}(?<index>.+?):/,
       run(data, matches, output) {
-        if (data.龙眼 === undefined) data.龙眼 = [];
+        if (data.龙眼 === undefined) {
+          data.龙眼 = [];
+        }
         data.eye = +matches.index;
         switch (+matches.index) {
           case 0:
@@ -826,12 +877,20 @@ Options.Triggers.push({
       id: 'DSR Dragon',
       regex: /] ChatLog 00:0:103:.{8}:8003759A:00020001:.{7}(?<index>.+?):/,
       delaySeconds(data, matches) {
-        if (data.phase === 'thordan') return 2;
-        if (data.phase === 'thordan2') return 10;
+        if (data.phase === 'thordan') {
+          return 2;
+        }
+        if (data.phase === 'thordan2') {
+          return 10;
+        }
       },
       delaySeconds(data, matches) {
-        if (data.phase === 'thordan') return 2;
-        if (data.phase === 'thordan2') return 12;
+        if (data.phase === 'thordan') {
+          return 2;
+        }
+        if (data.phase === 'thordan2') {
+          return 12;
+        }
       },
       durationSeconds: 15,
       async promise(data, matches) {
@@ -839,8 +898,11 @@ Options.Triggers.push({
           call: 'getCombatants',
         });
         let bossData2 = bossData.combatants.filter((boss) => boss.BNpcNameID === 3632 && boss.BNpcID === 12611);
-        if (bossData2.length > 0) bossData2 = bossData2;
-        else bossData2 = bossData.combatants.filter((boss) => boss.BNpcNameID === 3632 && boss.BNpcID === 12604);
+        if (bossData2.length > 0) {
+          bossData2 = bossData2;
+        } else {
+          bossData2 = bossData.combatants.filter((boss) => boss.BNpcNameID === 3632 && boss.BNpcID === 12604);
+        }
         let bossData123;
         if (data.phase === 'thordan') {
           bossData123 = bossData.combatants.filter((boss) => boss.BNpcNameID === 3632 && boss.BNpcID === 12604)[0];
@@ -853,7 +915,9 @@ Options.Triggers.push({
         );
       },
       alertText(data, matches, output) {
-        if (data.龙眼 === undefined) data.龙眼 = [];
+        if (data.龙眼 === undefined) {
+          data.龙眼 = [];
+        }
         switch (data.骑神) {
           case 0:
             data.龙眼.push('A点');
@@ -941,7 +1005,9 @@ Options.Triggers.push({
       netRegex: NetRegexes.startsUsing({ id: '63D0' }),
       delaySeconds: 12,
       run(data, matches, output) {
-        if (data.phase === 'thordan2') callOverlayHandler({ call: 'PostNamazu', c: 'place', p: 'load' });
+        if (data.phase === 'thordan2') {
+          callOverlayHandler({ call: 'PostNamazu', c: 'place', p: 'load' });
+        }
         {
           data.背对 = false;
           delete data.龙眼;
@@ -1024,7 +1090,9 @@ Options.Triggers.push({
             8: output.unknown(),
           };
         }
-        if (data.P5点名 === undefined) data.P5点名 = [];
+        if (data.P5点名 === undefined) {
+          data.P5点名 = [];
+        }
         data.P5点名.push(nametocnjob(matches.target, data));
         if (data.me === matches?.target) {
           return output.direction({
@@ -1144,9 +1212,13 @@ Options.Triggers.push({
       type: 'GainsEffect',
       netRegex: NetRegexes.gainsEffect({ effectId: 'BA0' }),
       alertText(data, matches, output) {
-        if (data.death === undefined) data.death = [];
+        if (data.death === undefined) {
+          data.death = [];
+        }
         data.death.push(nametocnjob(matches.target, data));
-        if (matches.target === data.me) data.isDeath = true;
+        if (matches.target === data.me) {
+          data.isDeath = true;
+        }
         if (data.death.length === 4) {
           data.death.sort((a, b) => {
             return shunxu2.find((c) => c.job === a).order - shunxu2.find((c) => c.job === b).order;
@@ -1157,7 +1229,7 @@ Options.Triggers.push({
             return shunxu2.find((c) => c.job === a).order - shunxu2.find((c) => c.job === b).order;
           });
           let 标记2 = notDianMing.map((i) => data.partJob.find((j) => j.job === i));
-          //console.log(标记1);console.log(标记2);
+          // console.log(标记1);console.log(标记2);
           // sendMark(标记1[0].ID,1);sendMark(标记1[1].ID,2);sendMark(标记1[2].ID,3);sendMark(标记1[3].ID,4);
           // sendMark(标记2[0].ID,6);sendMark(标记2[1].ID,7);sendMark(标记2[2].ID,8);sendMark(标记2[3].ID,9);
 
@@ -1167,7 +1239,7 @@ Options.Triggers.push({
             [data.fenzu[5], data.fenzu[7]],
             [data.fenzu[1], data.fenzu[3]],
           ];
-          //let 死宣分组=[[data.fenzu[2],data.fenzu[3]],[data.fenzu[4],data.fenzu[8]],[data.fenzu[5],data.fenzu[7]],[data.fenzu[0],data.fenzu[1]]];
+          // let 死宣分组=[[data.fenzu[2],data.fenzu[3]],[data.fenzu[4],data.fenzu[8]],[data.fenzu[5],data.fenzu[7]],[data.fenzu[0],data.fenzu[1]]];
           let 我的死宣 = 死宣分组.findIndex((i) => i.includes(nametocnjob(data.me, data)));
           let 死宣在数组位置 = data.death.map((i) => 死宣分组.findIndex((j) => j.includes(i)));
           死宣在数组位置.sort((a, b) => a - b);
@@ -1184,26 +1256,32 @@ Options.Triggers.push({
             (e, i) => 死宣在数组位置.indexOf(e) !== 死宣在数组位置.lastIndexOf(e) && 死宣在数组位置.indexOf(e) === i,
           );
           if (死宣在数组位置[0] === 死宣在数组位置[1] && 死宣在数组位置[2] === 死宣在数组位置[3]) {
-            //情况3
+            // 情况3
             if (
               死宣在数组位置[3] - 死宣在数组位置[0] === 2 ||
               (死宣在数组位置[3] - 死宣在数组位置[0] === 1 && 重复的元素.length === 2)
             ) {
               bobao = '上下换位';
-              if (我的死宣 % 2 === 0) data.我要去的位置 = (我的死宣 + 3) % 4;
-              else data.我要去的位置 = (我的死宣 + 1) % 4;
+              if (我的死宣 % 2 === 0) {
+                data.我要去的位置 = (我的死宣 + 3) % 4;
+              } else {
+                data.我要去的位置 = (我的死宣 + 1) % 4;
+              }
             }
-            //情况2
+            // 情况2
             if (
               (死宣在数组位置[3] - 死宣在数组位置[0] === 1 || 死宣在数组位置[3] - 死宣在数组位置[0] === 3) &&
               重复的元素.length === 2
             ) {
               bobao = '左右互换';
-              if (我的死宣 % 2 === 0) data.我要去的位置 = (我的死宣 + 1) % 4;
-              else data.我要去的位置 = (我的死宣 + 3) % 4;
+              if (我的死宣 % 2 === 0) {
+                data.我要去的位置 = (我的死宣 + 1) % 4;
+              } else {
+                data.我要去的位置 = (我的死宣 + 3) % 4;
+              }
             }
           }
-          //情况1
+          // 情况1
           if ((我的.length === 2 || 我的.length === 0) && 重复的元素.length === 1) {
             let 要移动的位置 = dir.filter((x) => !死宣在数组位置.some((item) => x === item));
             let 移动次数 = 要移动的位置 - 重复的元素[0];
@@ -1252,14 +1330,30 @@ Options.Triggers.push({
       delaySeconds: 1.5,
       suppressSeconds: 4,
       alertText(data, matches, output) {
-        if (data.我要去的位置 === 0 && data.isDeath) return '去左上边缘';
-        if (data.我要去的位置 === 1 && data.isDeath) return '去右上边缘';
-        if (data.我要去的位置 === 2 && data.isDeath) return '去右边靠内';
-        if (data.我要去的位置 === 3 && data.isDeath) return '去左边靠内';
-        if (data.我要去的位置 === 0) return '去左边边缘';
-        if (data.我要去的位置 === 1) return '去右边边缘';
-        if (data.我要去的位置 === 2) return '去右下边边缘';
-        if (data.我要去的位置 === 3) return '去左下边边缘';
+        if (data.我要去的位置 === 0 && data.isDeath) {
+          return '去左上边缘';
+        }
+        if (data.我要去的位置 === 1 && data.isDeath) {
+          return '去右上边缘';
+        }
+        if (data.我要去的位置 === 2 && data.isDeath) {
+          return '去右边靠内';
+        }
+        if (data.我要去的位置 === 3 && data.isDeath) {
+          return '去左边靠内';
+        }
+        if (data.我要去的位置 === 0) {
+          return '去左边边缘';
+        }
+        if (data.我要去的位置 === 1) {
+          return '去右边边缘';
+        }
+        if (data.我要去的位置 === 2) {
+          return '去右下边边缘';
+        }
+        if (data.我要去的位置 === 3) {
+          return '去左下边边缘';
+        }
       },
     },
     {
@@ -1269,11 +1363,20 @@ Options.Triggers.push({
       delaySeconds: 12,
       suppressSeconds: 4,
       alertText(data, matches, output) {
-        if (data.我要去的位置 === 0 && data.isDeath) return '去左下靠内';
-        if (data.我要去的位置 === 1 && data.isDeath) return '去右下靠内';
-        if (data.我要去的位置 === 2 && data.isDeath) return '去右边靠外引导';
-        if (data.我要去的位置 === 3 && data.isDeath) return '去左边靠外引导';
-        else return '去上边';
+        if (data.我要去的位置 === 0 && data.isDeath) {
+          return '去左下靠内';
+        }
+        if (data.我要去的位置 === 1 && data.isDeath) {
+          return '去右下靠内';
+        }
+        if (data.我要去的位置 === 2 && data.isDeath) {
+          return '去右边靠外引导';
+        }
+        if (data.我要去的位置 === 3 && data.isDeath) {
+          return '去左边靠外引导';
+        } else {
+          return '去上边';
+        }
       },
     },
     {
@@ -1295,13 +1398,19 @@ Options.Triggers.push({
         }
 
         if (id === headmarkers.firechainTriangle) {
-          if (data.isDeath) return '去右下';
-          else return '去左上';
+          if (data.isDeath) {
+            return '去右下';
+          } else {
+            return '去左上';
+          }
         }
 
         if (id === headmarkers.firechainSquare) {
-          if (data.isDeath) return '去左下';
-          else return '去右上';
+          if (data.isDeath) {
+            return '去左下';
+          } else {
+            return '去右上';
+          }
         }
 
         if (id === headmarkers.firechainX) {
@@ -1351,8 +1460,12 @@ Options.Triggers.push({
       alertText(data, matches, output) {
         let weizhi = Math.round(2 - (2 * Math.atan2(data.lineBOSS.PosX - 100, data.lineBOSS.PosY - 100)) / Math.PI) % 4;
 
-        if (weizhi === 1) return '冰线点名';
-        if (weizhi === 3) return '红线点名';
+        if (weizhi === 1) {
+          return '冰线点名';
+        }
+        if (weizhi === 3) {
+          return '红线点名';
+        }
         return 'ceshi';
       },
     },
@@ -1362,7 +1475,7 @@ Options.Triggers.push({
       netRegex: NetRegexes.startsUsing({
         id: ['6D23', '6D24', '6D26', '6D27'],
       }),
-      //condition: (data) => (data.phase === 'thordan2' && (data.safe = (data.safe ?? 0) + 1) === 1),
+      // condition: (data) => (data.phase === 'thordan2' && (data.safe = (data.safe ?? 0) + 1) === 1),
       condition: (data) => !data.fire,
       delaySeconds: 0.1,
       async promise(data) {
@@ -1377,22 +1490,38 @@ Options.Triggers.push({
       alertText(data, matches, output) {
         let posX = data.BlackDragon.PosX;
         if (matches.id === '6D23' || matches.id === '6D26') {
-          if (data.role === 'tank') data.靠近或远离1 = '靠近右边boss';
-          else data.靠近或远离1 = '远离右边boss';
+          if (data.role === 'tank') {
+            data.靠近或远离1 = '靠近右边boss';
+          } else {
+            data.靠近或远离1 = '远离右边boss';
+          }
         }
         if (matches.id === '6D24' || matches.id === '6D27') {
-          if (data.role === 'tank') data.靠近或远离1 = '远离右边boss';
-          else data.靠近或远离1 = '靠近右边boss';
+          if (data.role === 'tank') {
+            data.靠近或远离1 = '远离右边boss';
+          } else {
+            data.靠近或远离1 = '靠近右边boss';
+          }
         }
         if (matches.id === '6D26' || matches.id === '6D27') {
-          if (posX < 100) data.翅膀1 = '去右下';
-          if (posX > 100) data.翅膀1 = '去左下';
+          if (posX < 100) {
+            data.翅膀1 = '去右下';
+          }
+          if (posX > 100) {
+            data.翅膀1 = '去左下';
+          }
         }
         if (matches.id === '6D23' || matches.id === '6D24') {
-          if (posX < 100) data.翅膀1 = '去右上';
-          if (posX > 100) data.翅膀1 = '去左上';
+          if (posX < 100) {
+            data.翅膀1 = '去右上';
+          }
+          if (posX > 100) {
+            data.翅膀1 = '去左上';
+          }
         }
-        if (data.靠近或远离1 && data.翅膀1) return data.翅膀1 + data.靠近或远离1;
+        if (data.靠近或远离1 && data.翅膀1) {
+          return data.翅膀1 + data.靠近或远离1;
+        }
       },
     },
     {
@@ -1423,7 +1552,9 @@ Options.Triggers.push({
       delaySeconds: 10,
       preRun(data, matches, output) {
         let weizhi = (data.位置 = Math.round(2 - (2 * Math.atan2(matches.x - 100, matches.y - 100)) / Math.PI) % 4);
-        if (data.发光位置 === undefined) data.发光位置 = [];
+        if (data.发光位置 === undefined) {
+          data.发光位置 = [];
+        }
         data.发光位置.push(weizhi);
       },
       run: (data) => delete data.发光位置,
@@ -1435,11 +1566,18 @@ Options.Triggers.push({
       delaySeconds: 0.5,
       suppressSeconds: 5,
       alertText(data, matches, output) {
-        if (data.role !== 'tank') return;
-        if (data.发光位置.length === 2) return '双龙发光';
+        if (data.role !== 'tank') {
+          return;
+        }
+        if (data.发光位置.length === 2) {
+          return '双龙发光';
+        }
         if (data.发光位置.length === 1) {
-          if (data.发光位置[0] === 1) return '黑龙死刑';
-          else return '白龙死刑';
+          if (data.发光位置[0] === 1) {
+            return '黑龙死刑';
+          } else {
+            return '白龙死刑';
+          }
         }
       },
     },
@@ -1451,16 +1589,24 @@ Options.Triggers.push({
         capture: true,
       }),
       run(data, matches, output) {
-        if (data.dark === undefined) data.dark = [];
-        if (data.white === undefined) data.white = [];
+        if (data.dark === undefined) {
+          data.dark = [];
+        }
+        if (data.white === undefined) {
+          data.white = [];
+        }
         if (matches.effectId === 'AC6') {
           data.dark.push(nametocnjob(matches.target, data));
-          if (matches.target === data.me) data.p6buff = '暗';
+          if (matches.target === data.me) {
+            data.p6buff = '暗';
+          }
           return;
         }
         if (matches.effectId === 'AC7') {
           data.white.push(nametocnjob(matches.target, data));
-          if (matches.target === data.me) data.p6buff = '白';
+          if (matches.target === data.me) {
+            data.p6buff = '白';
+          }
           return;
         }
       },
@@ -1474,7 +1620,7 @@ Options.Triggers.push({
       }),
       delaySeconds: 3,
       suppressSeconds: 3,
-      //delaySeconds: (data, matches) => parseFloat(matches.duration) - 5,
+      // delaySeconds: (data, matches) => parseFloat(matches.duration) - 5,
       run(data, matches, output) {
         data.dark.sort((a, b) => {
           return shunxu2.find((c) => c.job === a).order - shunxu2.find((c) => c.job === b).order;
@@ -1519,7 +1665,7 @@ Options.Triggers.push({
           console.log(data.第一次点名顺序);
           let 标记1 = data.partJob.find((j) => j.job === 第一次毒点名);
           let 标记2 = data.partJob.find((j) => j.job === data.fenzu[4]);
-          //sendMark(标记1.ID,11);sendMark(标记2.ID,12)
+          // sendMark(标记1.ID,11);sendMark(标记2.ID,12)
           return '传毒给' + data.fenzu[4];
         }
         let 播报 = (data.第一次点名顺序 + data.传毒次数 - 1) % 4;
@@ -1532,10 +1678,16 @@ Options.Triggers.push({
 
         let 标记1 = data.partJob.find((j) => j.job === data.毒分组[播报 - 1]);
         let 标记2 = data.partJob.find((j) => (j.job = data.毒分组[播报]));
-        //sendMark(标记1.ID,11);sendMark(标记2.ID,12)
-        if (data.传毒次数 === 3) return '传毒给' + data.毒分组[播报];
-        if (data.传毒次数 === 4) return '传毒给' + data.毒分组[播报];
-        if (data.传毒次数 === 5) return '传毒给' + data.毒分组[播报];
+        // sendMark(标记1.ID,11);sendMark(标记2.ID,12)
+        if (data.传毒次数 === 3) {
+          return '传毒给' + data.毒分组[播报];
+        }
+        if (data.传毒次数 === 4) {
+          return '传毒给' + data.毒分组[播报];
+        }
+        if (data.传毒次数 === 5) {
+          return '传毒给' + data.毒分组[播报];
+        }
         return data.传毒次数 + '传毒';
       },
     },
@@ -1558,11 +1710,17 @@ Options.Triggers.push({
       infoText(data, matches, output) {
         console.log(data.BlackDragon);
         if (matches.effectId === 'B52') {
-          if (data.BlackDragon.PosX > 100) return '去左边停下';
-          else return '去右边停下';
+          if (data.BlackDragon.PosX > 100) {
+            return '去左边停下';
+          } else {
+            return '去右边停下';
+          }
         } else {
-          if (data.BlackDragon.PosX > 100) return '去右边';
-          else return '去左边';
+          if (data.BlackDragon.PosX > 100) {
+            return '去右边';
+          } else {
+            return '去左边';
+          }
         }
       },
     },
@@ -1600,7 +1758,9 @@ Options.Triggers.push({
       }),
       condition: (data, matches) => data.me === matches.target,
       alertText(_data, matches, output) {
-        if (parseFloat(matches.duration) > 10) return output.text();
+        if (parseFloat(matches.duration) > 10) {
+          return output.text();
+        }
       },
       outputStrings: {
         text: {
@@ -1622,7 +1782,9 @@ Options.Triggers.push({
       }),
       condition: (data, matches) => data.me === matches.target,
       alertText(_data, matches, output) {
-        if (parseFloat(matches.duration) > 10) return output.text();
+        if (parseFloat(matches.duration) > 10) {
+          return output.text();
+        }
       },
       outputStrings: {
         text: {
@@ -1646,7 +1808,9 @@ Options.Triggers.push({
       // To prevent boss rotating around before Exaflare
       delaySeconds: 2.5,
       alertText(_data, matches, output) {
-        if (parseFloat(matches.duration) > 10) return output.text();
+        if (parseFloat(matches.duration) > 10) {
+          return output.text();
+        }
       },
       outputStrings: {
         text: {
@@ -1666,8 +1830,11 @@ Options.Triggers.push({
       }),
       durationSeconds: 10,
       alertText(data, matches, output) {
-        if (matches.count === '12A') return '钢铁';
-        else return '月环';
+        if (matches.count === '12A') {
+          return '钢铁';
+        } else {
+          return '月环';
+        }
       },
     },
     {
@@ -1681,7 +1848,9 @@ Options.Triggers.push({
       netRegex: NetRegexes.startsUsing({ id: ['6D9A', '6DD2', '6DD3'] }),
       durationSeconds: 15,
       alertText(data, matches, output) {
-        if (data.核爆 === undefined) data.核爆 = [];
+        if (data.核爆 === undefined) {
+          data.核爆 = [];
+        }
         let 方位 = Math.round(4 - (4 * Math.atan2(matches.x - 100, matches.y - 100)) / Math.PI) % 8;
         if (matches.id === '6D9A') {
           data.核爆[0] = 方位;
@@ -1695,7 +1864,9 @@ Options.Triggers.push({
           if (getCamera() !== undefined) {
             let dir = ['A点', '1点', 'B点', '2点', 'C点', '3点', 'D点', '4点'];
             data.核爆[0] = (data.核爆[0] - getCamera() + 8) % 8;
-            if (getCamera(8) === 7) dir = ['A点', '2点', 'B点', '3点', 'C点', '4点', 'D点', '1点'];
+            if (getCamera(8) === 7) {
+              dir = ['A点', '2点', 'B点', '3点', 'C点', '4点', 'D点', '1点'];
+            }
             let 安全位置 = (data.核爆[0] + 4) % 8;
             data.标点 = dir[安全位置];
           }
@@ -1728,9 +1899,14 @@ Options.Triggers.push({
               break;
           }
           let 顺逆 = data.核爆[1] - data.核爆[0];
-          if (顺逆 > 0 || 顺逆 === -5) data.核爆顺逆 = '顺时针(左)核爆';
-          else data.核爆顺逆 = '逆时针(右)核爆';
-          if (核爆位置 && data.核爆顺逆) return 核爆位置 + data.标点 + data.核爆顺逆 + '核爆';
+          if (顺逆 > 0 || 顺逆 === -5) {
+            data.核爆顺逆 = '顺时针(左)核爆';
+          } else {
+            data.核爆顺逆 = '逆时针(右)核爆';
+          }
+          if (核爆位置 && data.核爆顺逆) {
+            return 核爆位置 + data.标点 + data.核爆顺逆 + '核爆';
+          }
         }
       },
     },
@@ -1751,9 +1927,14 @@ Options.Triggers.push({
       delaySeconds: 11,
       alertText(data, matches, output) {
         data.myIndex = data.fenzu.indexOf(data.myJob);
-        if (data.role === 'tank') return;
-        if (data.myIndex === 2) return '靠近引导顺劈';
-        else return '远离BOSS';
+        if (data.role === 'tank') {
+          return;
+        }
+        if (data.myIndex === 2) {
+          return '靠近引导顺劈';
+        } else {
+          return '远离BOSS';
+        }
       },
     },
     {
@@ -1762,9 +1943,14 @@ Options.Triggers.push({
       netRegex: NetRegexes.startsUsing({ id: '6D9B' }),
       delaySeconds: 15,
       alertText(data, matches, output) {
-        if (data.role === 'tank') return;
-        if (data.myIndex === 6) return '靠近引导顺劈';
-        else return '远离BOSS';
+        if (data.role === 'tank') {
+          return;
+        }
+        if (data.myIndex === 6) {
+          return '靠近引导顺劈';
+        } else {
+          return '远离BOSS';
+        }
       },
     },
     {
@@ -1773,9 +1959,14 @@ Options.Triggers.push({
       netRegex: NetRegexes.startsUsing({ id: '6D99' }),
       delaySeconds: 22,
       alertText(data, matches, output) {
-        if (data.role === 'tank') return;
-        if (data.myIndex === 1) return '靠近引导顺劈';
-        else return '远离BOSS';
+        if (data.role === 'tank') {
+          return;
+        }
+        if (data.myIndex === 1) {
+          return '靠近引导顺劈';
+        } else {
+          return '远离BOSS';
+        }
       },
     },
     {
@@ -1784,9 +1975,14 @@ Options.Triggers.push({
       netRegex: NetRegexes.startsUsing({ id: '6D99' }),
       delaySeconds: 26,
       alertText(data, matches, output) {
-        if (data.role === 'tank') return;
-        if (data.myIndex === 5) return '靠近引导顺劈';
-        else return '远离BOSS';
+        if (data.role === 'tank') {
+          return;
+        }
+        if (data.myIndex === 5) {
+          return '靠近引导顺劈';
+        } else {
+          return '远离BOSS';
+        }
       },
     },
     {
@@ -1795,9 +1991,14 @@ Options.Triggers.push({
       netRegex: NetRegexes.startsUsing({ id: '6D93' }),
       delaySeconds: 14,
       alertText(data, matches, output) {
-        if (data.role === 'tank') return;
-        if (data.myIndex === 3) return '靠近引导顺劈';
-        else return '远离BOSS';
+        if (data.role === 'tank') {
+          return;
+        }
+        if (data.myIndex === 3) {
+          return '靠近引导顺劈';
+        } else {
+          return '远离BOSS';
+        }
       },
     },
     {
@@ -1806,9 +2007,14 @@ Options.Triggers.push({
       netRegex: NetRegexes.startsUsing({ id: '6D93' }),
       delaySeconds: 18,
       alertText(data, matches, output) {
-        if (data.role === 'tank') return;
-        if (data.myIndex === 7) return '靠近引导顺劈';
-        else return '远离BOSS';
+        if (data.role === 'tank') {
+          return;
+        }
+        if (data.myIndex === 7) {
+          return '靠近引导顺劈';
+        } else {
+          return '远离BOSS';
+        }
       },
     },
     {
@@ -1820,7 +2026,7 @@ Options.Triggers.push({
           call: 'getCombatants',
         });
         data.P7BOSS = bossData.combatants.filter((boss) => boss.BNpcNameID === 11319 && boss.BNpcID === 12616)[0];
-        //console.log(data.P7BOSS);
+        // console.log(data.P7BOSS);
       },
       alertText(data, matches, output) {
         let Boss面相 = Math.round(4 - (4 * parseFloat(data.P7BOSS.Heading)) / Math.PI) % 8;
@@ -1844,7 +2050,7 @@ Options.Triggers.push({
         }
       },
     },
-    //吉吉的穷举
+    // 吉吉的穷举
     {
       id: 'P7地火形状',
       type: 'StartsUsing',
@@ -1862,22 +2068,37 @@ Options.Triggers.push({
         console.log('地火');
 
         if ((地火位置 + 9) % 8 === Boss面相) {
-          if (data.地火 === undefined) data.左上地火 = Math.round(4 - (4 * matches.heading) / Math.PI + Boss面相) % 8;
-          else data.左上地火 = Math.round(4 - (4 * data.地火.Heading) / Math.PI + Boss面相) % 8;
+          if (data.地火 === undefined) {
+            data.左上地火 = Math.round(4 - (4 * matches.heading) / Math.PI + Boss面相) % 8;
+          } else {
+            data.左上地火 = Math.round(4 - (4 * data.地火.Heading) / Math.PI + Boss面相) % 8;
+          }
         }
         if ((地火位置 + 7) % 8 === Boss面相) {
-          if (data.地火 === undefined) data.右上地火 = Math.round(4 - (4 * matches.heading) / Math.PI + Boss面相) % 8;
-          else data.右上地火 = Math.round(4 - (4 * data.地火.Heading) / Math.PI + Boss面相) % 8;
+          if (data.地火 === undefined) {
+            data.右上地火 = Math.round(4 - (4 * matches.heading) / Math.PI + Boss面相) % 8;
+          } else {
+            data.右上地火 = Math.round(4 - (4 * data.地火.Heading) / Math.PI + Boss面相) % 8;
+          }
         }
         if ((地火位置 + 4) % 8 === Boss面相) {
-          if (data.地火 === undefined) data.下面地火 = Math.round(4 - (4 * matches.heading) / Math.PI + Boss面相) % 8;
-          else data.下面地火 = Math.round(4 - (4 * data.地火.Heading) / Math.PI + Boss面相) % 8;
+          if (data.地火 === undefined) {
+            data.下面地火 = Math.round(4 - (4 * matches.heading) / Math.PI + Boss面相) % 8;
+          } else {
+            data.下面地火 = Math.round(4 - (4 * data.地火.Heading) / Math.PI + Boss面相) % 8;
+          }
         }
         console.log(data.左上地火 + ':' + data.右上地火 + ':' + data.下面地火);
         if (data.下面地火 !== undefined && data.右上地火 !== undefined && data.左上地火 !== undefined) {
-          if (/[02346]/.test(data.下面地火) && /[12357]/.test(data.右上地火)) return '左上安全';
-          if (/[02456]/.test(data.下面地火) && /[13567]/.test(data.左上地火)) return '右上安全';
-          if (/[01246]/.test(data.右上地火) && /[02467]/.test(data.左上地火)) return '背后安全';
+          if (/[02346]/.test(data.下面地火) && /[12357]/.test(data.右上地火)) {
+            return '左上安全';
+          }
+          if (/[02456]/.test(data.下面地火) && /[13567]/.test(data.左上地火)) {
+            return '右上安全';
+          }
+          if (/[01246]/.test(data.右上地火) && /[02467]/.test(data.左上地火)) {
+            return '背后安全';
+          }
         }
       },
     },

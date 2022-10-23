@@ -15,19 +15,44 @@
         </div>
         <div class="row">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" hidden v-model="config.enablePostNamazu"
-                   id="enablePostNamazu" />
-            <label class="form-check-label btn-primary btn btn-lg m-3" :class="btnClass(config.enablePostNamazu)"
-                   for="enablePostNamazu"> 启用鲶鱼精 </label>
+            <input
+              class="form-check-input"
+              type="checkbox"
+              hidden
+              v-model="config.enablePostNamazu"
+              id="enablePostNamazu"
+            />
+            <label
+              class="form-check-label btn-primary btn btn-lg m-3"
+              :class="btnClass(config.enablePostNamazu)"
+              for="enablePostNamazu"
+            >
+              启用鲶鱼精
+            </label>
 
             <input class="form-check-input" hidden type="checkbox" v-model="config.headMark" id="headMark" />
-            <label class="form-check-label btn-primary btn btn-lg m-3" :class="btnClass(config.headMark)"
-                   for="headMark"> 启用头顶标点 </label>
+            <label
+              class="form-check-label btn-primary btn btn-lg m-3"
+              :class="btnClass(config.headMark)"
+              for="headMark"
+            >
+              启用头顶标点
+            </label>
 
-            <input class="form-check-input" type="checkbox" hidden v-model="config.partyNotification"
-                   id="partyNotification" />
-            <label class="form-check-label btn-primary btn btn-lg m-3" :class="btnClass(config.partyNotification)"
-                   for="partyNotification"> 启用队内指挥 </label>
+            <input
+              class="form-check-input"
+              type="checkbox"
+              hidden
+              v-model="config.partyNotification"
+              id="partyNotification"
+            />
+            <label
+              class="form-check-label btn-primary btn btn-lg m-3"
+              :class="btnClass(config.partyNotification)"
+              for="partyNotification"
+            >
+              启用队内指挥
+            </label>
           </div>
         </div>
       </div>

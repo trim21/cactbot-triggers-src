@@ -93,10 +93,10 @@ export default defineTrigger<DSRData, BaseData>({
     },
   ],
   triggers: [
-    {
-      id: `DSR Dragon's Rage`,
-      disabled: true,
-    },
+    // {
+    //   id: `DSR Dragon's Rage`,
+    //   disabled: true,
+    // },
     {
       id: 'DSR p3 八人塔',
       type: 'StartsUsing',
@@ -278,7 +278,10 @@ export default defineTrigger<DSRData, BaseData>({
 
         p(async function () {
           for (let index = 0; index < data.p6FireSeparation.length; index++) {
-            await Mark({ Name: data.p6FireSeparation[index], MarkType: `attack${index + 1}` as MarkType });
+            await Mark({
+              Name: data.p6FireSeparation[index],
+              MarkType: `attack${index + 1}` as MarkType,
+            });
           }
 
           for (let index = 0; index < data.p6FireSharing.length; index++) {

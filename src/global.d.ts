@@ -8,7 +8,7 @@ import type _Util from '@trim21/cactbot/resources/util';
 import type _ZoneId from '@trim21/cactbot/resources/zone_id';
 import type _ZoneInfo from '@trim21/cactbot/resources/zone_info';
 import type { RaidbossData } from '@trim21/cactbot/types/data';
-import type { IOverlayHandler, EventMap, EventType } from '@trim21/cactbot/types/event';
+import type { EventMap, EventType, IOverlayHandler } from '@trim21/cactbot/types/event';
 
 import type { UserTriggerSet } from '@/raidboss/triggers/user_trigger';
 
