@@ -180,7 +180,7 @@ export default defineTrigger<DSRData, BaseData>({
             await Mark({ Name: data.p5Lightning[1].name, MarkType: 'stop2' });
 
             await Commands([
-              `${echoPrefix} 雷点名`,
+              `${echoPrefix}     雷点名`,
               `${echoPrefix} ${nameToJobID[data.p5Lightning[0].name]} ${nameToJobID[data.p5Lightning[1].name]}`,
             ]);
           });
