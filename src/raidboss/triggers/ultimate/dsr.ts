@@ -29,7 +29,7 @@ const sep = '       ';
 
 export interface DSRData {
   marked: boolean;
-  nameToJobID?: ReturnType<typeof nameToJobID>;
+  nameToJobID?: Record<string, number>;
   p5Lightning: Array<{ name: string; jobID: number }>;
   p5DeadCall: Record<string, boolean>;
   tower: Array<{
