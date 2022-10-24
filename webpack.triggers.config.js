@@ -16,6 +16,9 @@ module.exports = {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist', 'raidboss'),
   },
+  externals: {
+    '@trim21/cactbot/resources/netregexes': 'NetRegexes',
+  },
   resolve: {
     extensions: ['.ts', '.mjs', '.js'],
     alias: {

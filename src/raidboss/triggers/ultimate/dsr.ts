@@ -1,3 +1,4 @@
+import NetRegexes from '@trim21/cactbot/resources/netregexes';
 import type { PluginCombatantState } from '@trim21/cactbot/types/event';
 import type { NetMatches } from '@trim21/cactbot/types/net_matches';
 import type { TargetedMatches } from '@trim21/cactbot/types/trigger';
@@ -42,12 +43,15 @@ export interface DSRData {
 
   p6FireSeparation: string[]; // 十字火 分散
   p6FireSharing: string[]; // 十字火 分摊
+
+  meteorite: number[];
 }
 
 export default defineTrigger<DSRData, BaseData>({
   zoneId: ZoneId.DragonsongsRepriseUltimate,
   initData(): DSRData {
     return {
+      meteorite: [],
       marked: false,
       tower: [],
       p5Lightning: [],
@@ -93,10 +97,6 @@ export default defineTrigger<DSRData, BaseData>({
     },
   ],
   triggers: [
-    // {
-    //   id: `DSR Dragon's Rage`,
-    //   disabled: true,
-    // },
     {
       id: 'DSR p3 八人塔',
       type: 'StartsUsing',
@@ -345,6 +345,49 @@ export default defineTrigger<DSRData, BaseData>({
             return '左后起跑';
           }
         }
+      },
+    },
+    {
+      id: 'P7顺逆删除',
+      type: 'StartsUsing',
+      netRegex: NetRegexes.startsUsing({ id: ['6D9A', '6DD2'] }),
+      suppressSeconds: 1,
+      delaySeconds: 10,
+      run(data) {
+        data.meteorite = [];
+      },
+    },
+    {
+      id: 'P7顺逆',
+      type: 'StartsUsing',
+      netRegex: NetRegexes.startsUsing({ id: ['6D9A', '6DD2', '6DD3'] }),
+      delaySeconds: 15,
+      alertText(data, matches: NetMatches['StartsUsing']): string | undefined {
+        if (data.meteorite === undefined) {
+          data.meteorite = [];
+        }
+
+        let location =
+          Math.round(4 - (4 * Math.atan2(parseFloat(matches.x) - 100, parseFloat(matches.y) - 100)) / Math.PI) % 8;
+        if (matches.id === '6D9A') {
+          data.meteorite[0] = location;
+        }
+        if (matches.id === '6DD2') {
+          data.meteorite[1] = location;
+        }
+
+        if (data.meteorite.length === 2) {
+          let direction = data.meteorite[1] - data.meteorite[0];
+          if (direction > 0 || direction === -5) {
+            c(Command('/e 顺时针(左)陨石'));
+            return '陨石往左';
+          } else {
+            c(Command('/e 逆时针(右)陨石'));
+            return '陨石往右';
+          }
+        }
+
+        return;
       },
     },
   ],

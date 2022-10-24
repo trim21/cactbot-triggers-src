@@ -18,7 +18,11 @@
     "build": "webpack --config webpack.triggers.config.js --config webpack.ui.config.js",
     "start": "yarn build --watch",
     "start:ui": "webpack --config webpack.ui.config.js --watch",
-    "update-submodules": "git submodule foreach git pull"
+    "update-submodules": "git submodule foreach git pull",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.{ts,js,cjs,mjs,json}": "prettier -w"
   },
   "devDependencies": {
     "@babel/core": "^7.19.6",
@@ -26,7 +30,7 @@
     "@babel/preset-typescript": "^7.18.6",
     "@babel/types": "^7.19.4",
     "@typescript-eslint/eslint-plugin": ">=5.40.1",
-    "@typescript-eslint/parser": "^5.40.1",
+    "@typescript-eslint/parser": "^5.41.0",
     "babel-loader": "^8.2.5",
     "copy-webpack-plugin": "^11.0.0",
     "eslint": "^8.26.0",
@@ -34,6 +38,8 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-unused-imports": "^2.0.0",
     "html-webpack-plugin": "^5.5.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
     "typescript": "^4.8.4",
