@@ -7,12 +7,11 @@ console.log('adding user triggers');
 void Options.Triggers.push(dsr);
 void Options.Triggers.push(test);
 
-// @ts-ignore
-Options.Triggers.push<{ trim_meteorite: number[] }>({
+Options.Triggers.push({
   zoneId: ZoneId.DragonsongsRepriseUltimate,
   initData() {
     return {
-      trim_meteorite: [],
+      trim_meteorite: [] as number[],
     };
   },
   triggers: [
@@ -22,7 +21,6 @@ Options.Triggers.push<{ trim_meteorite: number[] }>({
       netRegex: NetRegexes.startsUsing({ id: ['6D9A', '6DD2'] }),
       suppressSeconds: 2,
       delaySeconds: 10,
-      // @ts-ignore
       run(data) {
         data.trim_meteorite = [];
       },
@@ -32,7 +30,6 @@ Options.Triggers.push<{ trim_meteorite: number[] }>({
       type: 'StartsUsing',
       netRegex: NetRegexes.startsUsing({ id: ['6D9A', '6DD2'] }),
       delaySeconds: 15,
-      // @ts-ignore
       alertText(data, matches) {
         let location = (Math.atan2(parseFloat(matches.x) - 100, parseFloat(matches.y) - 100) / Math.PI + 1) % 1;
 
