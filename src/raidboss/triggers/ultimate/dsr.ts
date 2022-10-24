@@ -351,7 +351,7 @@ export default defineTrigger<DSRData, BaseData>({
       id: 'P7顺逆删除',
       type: 'StartsUsing',
       netRegex: NetRegexes.startsUsing({ id: ['6D9A', '6DD2'] }),
-      suppressSeconds: 1,
+      suppressSeconds: 2,
       delaySeconds: 10,
       run(data) {
         data.meteorite = [];
