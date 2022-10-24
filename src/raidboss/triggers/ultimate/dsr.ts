@@ -174,7 +174,7 @@ export default defineTrigger<DSRData, BaseData>({
         if (data.p5Lightning.length === 2) {
           data.p5Lightning.sort(sortByJobID);
           p(async () => {
-            await sleep(1000);
+            await sleep(300);
             await Mark({ Name: data.p5Lightning[0].name, MarkType: 'stop1' });
             await sleep(100);
             await Mark({ Name: data.p5Lightning[1].name, MarkType: 'stop2' });
