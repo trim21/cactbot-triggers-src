@@ -167,11 +167,9 @@ export default defineTrigger<DSRData, BaseData>({
       type: 'Ability',
       netRegex: NetRegexes.ability({ id: '6B8F', source: '暗鳞黑龙' }),
       run(data, matches: TargetedMatches) {
-        if (data.nameToJobID === undefined) {
-          data.nameToJobID = nameToJobID(data);
-        }
+        const nameToJobID = getNameToJobID(data);
 
-        data.p5Lightning.push({ name: matches.target, jobID: data.nameToJobID[matches.target] });
+        data.p5Lightning.push({ name: matches.target, jobID: nameToJobID[matches.target] });
 
         if (data.p5Lightning.length === 2) {
           data.p5Lightning.sort(sortByJobID);
@@ -180,7 +178,13 @@ export default defineTrigger<DSRData, BaseData>({
             await Mark({ Name: data.p5Lightning[0].name, MarkType: 'stop1' });
             await sleep(100);
             await Mark({ Name: data.p5Lightning[1].name, MarkType: 'stop2' });
+
+            await Commands([
+              `${echoPrefix} 雷点名`,
+              `${echoPrefix} ${nameToJobID[data.p5Lightning[0].name]} ${nameToJobID[data.p5Lightning[1].name]}`,
+            ]);
           });
+
           data.marked = true;
         }
       },
