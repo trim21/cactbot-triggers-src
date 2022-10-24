@@ -37,7 +37,7 @@ declare global {
     PlayerNicks: Record<string, string>;
     Triggers: {
       push<T>(item: T extends Helper<T> ? T : never): T;
-      // push<T, Base extends RaidbossData>(trigger: UserTriggerSet<T, Base>): void;
+      push<T = {}, Base extends RaidbossData = RaidbossData>(trigger: UserTriggerSet<T, Base>): void;
     };
   };
   // Global variables
