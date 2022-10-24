@@ -51,7 +51,7 @@ export default defineTrigger<DSRData, BaseData>({
   zoneId: ZoneId.DragonsongsRepriseUltimate,
   initData(): DSRData {
     return {
-      meteorite: [],
+      trim_meteorite: [],
       marked: false,
       tower: [],
       p5Lightning: [],
@@ -353,6 +353,7 @@ export default defineTrigger<DSRData, BaseData>({
     },
     {
       id: 'P7顺逆删除',
+      disabled: true,
       type: 'StartsUsing',
       netRegex: NetRegexes.startsUsing({ id: ['6D9A', '6DD2'] }),
       suppressSeconds: 2,
@@ -363,6 +364,7 @@ export default defineTrigger<DSRData, BaseData>({
     },
     {
       id: 'P7顺逆',
+      disabled: true,
       type: 'StartsUsing',
       netRegex: NetRegexes.startsUsing({ id: ['6D9A', '6DD2'] }),
       delaySeconds: 15,
