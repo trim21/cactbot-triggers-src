@@ -51,7 +51,7 @@ export default defineTrigger<DSRData, BaseData>({
   zoneId: ZoneId.DragonsongsRepriseUltimate,
   initData(): DSRData {
     return {
-      trim_meteorite: [],
+      meteorite: [],
       marked: false,
       tower: [],
       p5Lightning: [],
