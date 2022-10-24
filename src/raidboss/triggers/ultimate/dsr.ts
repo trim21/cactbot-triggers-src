@@ -360,25 +360,19 @@ export default defineTrigger<DSRData, BaseData>({
     {
       id: 'P7顺逆',
       type: 'StartsUsing',
-      netRegex: NetRegexes.startsUsing({ id: ['6D9A', '6DD2', '6DD3'] }),
+      netRegex: NetRegexes.startsUsing({ id: ['6D9A', '6DD2'] }),
       delaySeconds: 15,
-      alertText(data, matches: NetMatches['StartsUsing']): string | undefined {
-        if (data.meteorite === undefined) {
-          data.meteorite = [];
-        }
+      alertText(data, matches: NetMatches['StartsUsing']) {
+        let location = (Math.atan2(parseFloat(matches.x) - 100, parseFloat(matches.y) - 100) / Math.PI + 1) % 1;
 
-        let location =
-          Math.round(4 - (4 * Math.atan2(parseFloat(matches.x) - 100, parseFloat(matches.y) - 100)) / Math.PI) % 8;
         if (matches.id === '6D9A') {
           data.meteorite[0] = location;
-        }
-        if (matches.id === '6DD2') {
-          data.meteorite[1] = location;
+          return;
         }
 
-        if (data.meteorite.length === 2) {
-          let direction = data.meteorite[1] - data.meteorite[0];
-          if (direction > 0 || direction === -5) {
+        if (matches.id === '6DD2') {
+          let direction = location - data.meteorite[0];
+          if (direction > 0) {
             c(Command('/e 顺时针(左)陨石'));
             return '陨石往左';
           } else {
@@ -386,21 +380,6 @@ export default defineTrigger<DSRData, BaseData>({
             return '陨石往右';
           }
         }
-
-        return;
-      },
-    },
-  ],
-  timelineReplace: [
-    {
-      locale: 'cn',
-      replaceText: {
-        // "Exaflare's Edge": '地火',
-        // "Akh Morn's Edge": '分摊',
-        // Trinity: '三平A',
-        // 'Flames of Ascalon': '钢铁',
-        // 'Ice of Ascalon': '月环',
-        // "Morn Afah's Edge": '狂暴',
       },
     },
   ],
