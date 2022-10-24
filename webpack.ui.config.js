@@ -15,7 +15,7 @@ module.exports = {
   devtool: 'source-map',
   mode: 'production',
   optimization: {
-    minimize: false,
+    minimize: true,
     chunkIds: 'named',
   },
   resolve: {

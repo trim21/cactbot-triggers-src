@@ -1,11 +1,9 @@
 import enable_replace_name_with_job from './name_to_job';
-import test from './triggers/test';
 import dsr from './triggers/ultimate/dsr';
 
 void enable_replace_name_with_job();
 console.log('adding user triggers');
 void Options.Triggers.push(dsr);
-void Options.Triggers.push(test);
 
 Options.Triggers.push({
   zoneId: ZoneId.DragonsongsRepriseUltimate,
