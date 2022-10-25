@@ -1,4 +1,4 @@
-import { UnreachableCode } from '@trim21/cactbot/resources/not_reached';
+import { UnreachableCode } from 'cactbot/resources/not_reached';
 
 export function getHeadmarkerId(data: { decOffset?: number }, matches: { id: string }) {
   if (data.decOffset === undefined) {

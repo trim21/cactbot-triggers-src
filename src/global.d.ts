@@ -1,14 +1,14 @@
-import type _Conditions from '@trim21/cactbot/resources/conditions';
-import type _ContentType from '@trim21/cactbot/resources/content_type';
-import type _NetRegexes from '@trim21/cactbot/resources/netregexes';
-import type _Outputs from '@trim21/cactbot/resources/outputs';
-import type _Regexes from '@trim21/cactbot/resources/regexes';
-import type { Responses as _Responses } from '@trim21/cactbot/resources/responses';
-import type _Util from '@trim21/cactbot/resources/util';
-import type _ZoneId from '@trim21/cactbot/resources/zone_id';
-import type _ZoneInfo from '@trim21/cactbot/resources/zone_info';
-import type { RaidbossData } from '@trim21/cactbot/types/data';
-import type { EventMap, EventType, IOverlayHandler } from '@trim21/cactbot/types/event';
+import type _Conditions from 'cactbot/resources/conditions';
+import type _ContentType from 'cactbot/resources/content_type';
+import type _NetRegexes from 'cactbot/resources/netregexes';
+import type _Outputs from 'cactbot/resources/outputs';
+import type _Regexes from 'cactbot/resources/regexes';
+import type { Responses as _Responses } from 'cactbot/resources/responses';
+import type _Util from 'cactbot/resources/util';
+import type _ZoneId from 'cactbot/resources/zone_id';
+import type _ZoneInfo from 'cactbot/resources/zone_info';
+import type { RaidbossData } from 'cactbot/types/data';
+import type { EventMap, EventType, IOverlayHandler } from 'cactbot/types/event';
 
 import type { UserTriggerSet } from '@/raidboss/triggers/user_trigger';
 

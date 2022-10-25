@@ -5,7 +5,7 @@ void enable_replace_name_with_job();
 console.log('adding user triggers');
 void Options.Triggers.push(dsr);
 
-Options.Triggers.push({
+Options.Triggers.push<{ trim_meteorite: number[] }>({
   zoneId: ZoneId.DragonsongsRepriseUltimate,
   initData() {
     return {
@@ -14,11 +14,11 @@ Options.Triggers.push({
   },
   triggers: [
     {
-      id: 'P7 陨石 重置数据',
+      id: 'P7 陨石 重置',
+      netRegex: NetRegexes.startsUsing({ id: ['6D9A', '6DD2', '6DD3'] }),
       type: 'StartsUsing',
-      netRegex: NetRegexes.startsUsing({ id: ['6D9A', '6DD2'] }),
-      suppressSeconds: 2,
-      delaySeconds: 10,
+      suppressSeconds: 3,
+      delaySeconds: 15,
       run(data) {
         data.trim_meteorite = [];
       },
@@ -26,17 +26,12 @@ Options.Triggers.push({
     {
       id: 'P7 陨石 顺逆',
       type: 'StartsUsing',
-      netRegex: NetRegexes.startsUsing({ id: ['6D9A', '6DD2'] }),
-      delaySeconds: 15,
+      netRegex: NetRegexes.startsUsing({ id: ['6D9A', '6DD2', '6DD3'] }),
+      durationSeconds: 15,
       alertText(data, matches) {
         let location = (Math.atan2(parseFloat(matches.x) - 100, parseFloat(matches.y) - 100) / Math.PI + 1) % 1;
-
-        if (matches.id === '6D9A') {
-          data.trim_meteorite[0] = location;
-          return;
-        }
-
-        if (matches.id === '6DD2') {
+        data.trim_meteorite.push(location);
+        if (data.trim_meteorite.length === 2) {
           if (location - data.trim_meteorite[0] > 0) {
             return '陨石往左';
           } else {
