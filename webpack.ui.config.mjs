@@ -1,9 +1,12 @@
-const path = require('path');
+import * as path from 'path';
+import * as url from 'url';
 
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { VueLoaderPlugin } = require('vue-loader');
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { VueLoaderPlugin } from 'vue-loader';
 
-module.exports = {
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
+export default {
   performance: {
     hints: false,
   },

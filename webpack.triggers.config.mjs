@@ -1,8 +1,11 @@
-const path = require('path');
+import * as path from 'path';
+import * as url from 'url';
 
-const CopyPlugin = require('copy-webpack-plugin');
+import CopyPlugin from 'copy-webpack-plugin';
 
-module.exports = {
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
+export default {
   mode: 'production',
   entry: {
     raidboss: './src/raidboss/index.ts',

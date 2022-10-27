@@ -11,13 +11,13 @@
   },
   "private": true,
   "scripts": {
-    "lint": "eslint --ext ts,js,vue .",
+    "lint": "eslint --ext ts,js,vue,mjs,cjs .",
     "format": "prettier -w ./",
     "triggers": "yarn workspace triggers",
     "prebuild": "rimraf ./dist/",
-    "build": "webpack --config webpack.triggers.config.js --config webpack.ui.config.js",
+    "build": "webpack --config webpack.triggers.config.mjs --config webpack.ui.config.mjs",
     "start": "yarn build --watch",
-    "start:ui": "webpack --config webpack.ui.config.js --watch",
+    "start:ui": "webpack --config webpack.ui.config.mjs --watch",
     "update-submodules": "git submodule foreach git pull",
     "prepare": "husky install"
   },
