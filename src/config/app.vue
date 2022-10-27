@@ -61,7 +61,7 @@
 </template>
 
 <script lang="ts">
-import util from '@trim21/cactbot/resources/util';
+import util from 'cactbot/resources/util';
 import { defineComponent } from 'vue';
 import draggable from 'vuedraggable';
 

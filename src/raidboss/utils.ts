@@ -1,4 +1,5 @@
 import { UnreachableCode } from 'cactbot/resources/not_reached';
+import type { Role } from 'cactbot/types/job';
 
 export function getHeadmarkerId(data: { decOffset?: number }, matches: { id: string }) {
   if (data.decOffset === undefined) {
@@ -30,4 +31,12 @@ export function shuffleArray<T>(array: Array<T>) {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
   }
+}
+
+export function tankTimeline(s: string): (data: { role: Role }) => string | undefined {
+  return (data) => {
+    if (data.role === 'tank') {
+      return s;
+    }
+  };
 }

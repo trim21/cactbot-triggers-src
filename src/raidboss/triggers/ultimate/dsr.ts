@@ -9,7 +9,7 @@ import { getNameToJobID, jobIDToShow, nameToJobID } from '@/config/job';
 import type { MarkType } from '@/raidboss/namazu';
 import { clearMark, Command, Commands, Mark } from '@/raidboss/namazu';
 import { defineTrigger } from '@/raidboss/triggers/user_trigger';
-import { c, p, sleep } from '@/raidboss/utils';
+import { c, p, sleep, tankTimeline } from '@/raidboss/utils';
 
 /*
 
@@ -64,21 +64,21 @@ export default defineTrigger<DSRData, BaseData>({
   },
   timeline: [
     // p6 2冰火
-    '3646.9 "say: 黑盾"',
-    '3646.9 "say: 铁壁"',
-    '3652.9 "say: 30减"',
+    tankTimeline('3646.9 "say: 黑盾"'),
+    tankTimeline('3646.9 "say: 铁壁"'),
+    tankTimeline('3652.9 "say: 30减"'),
     // '3663.4 "say: 弃明投暗"',
     // p7
-    '4048.4 "say: 铁壁"',
-    '4063.9 "say: 30减"',
-    '4130 "say: 活死人"',
-    '4141 "say: 黑盾"',
-    '4142 "say: 奉献"',
-    '4143 "say: 弃明投暗"',
-    '4176 "say: 黑盾 奉献"',
-    `${4202 - 7} "say: 黑盾"`,
-    `4203.2 "say: 铁壁"`,
-    `4210 "say: 减伤全开"`,
+    tankTimeline('4048.4 "say: 铁壁"'),
+    tankTimeline('4063.9 "say: 30减"'),
+    tankTimeline('4130 "say: 活死人"'),
+    tankTimeline('4141 "say: 黑盾"'),
+    tankTimeline('4142 "say: 奉献"'),
+    tankTimeline('4143 "say: 弃明投暗"'),
+    tankTimeline('4176 "say: 黑盾 奉献"'),
+    tankTimeline(`${4202 - 7} "say: 黑盾"`),
+    tankTimeline(`4203.2 "say: 铁壁"`),
+    tankTimeline(`4210 "say: 减伤全开"`),
   ],
   timelineTriggers: [
     {
