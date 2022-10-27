@@ -1,3 +1,6 @@
+import NetRegexes from 'cactbot/resources/netregexes';
+import ZoneId from 'cactbot/resources/zone_id';
+
 import enable_replace_name_with_job from './name_to_job';
 import dsr from './triggers/ultimate/dsr';
 

@@ -30,12 +30,28 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(mjs|js|ts)$/,
+        test: /\.ts$/,
+        use: {
+          loader: 'ts-loader',
+          options: {
+            compilerOptions: {
+              declaration: false,
+              sourceMap: true,
+            },
+          },
+        },
+        resolve: {
+          fullySpecified: false,
+        },
+      },
+      {
+        test: /\.(mjs|js)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
             presets: [['@babel/preset-env', { targets: { chrome: '103' } }], ['@babel/preset-typescript']],
+            sourceMaps: 'inline',
           },
         },
         resolve: {

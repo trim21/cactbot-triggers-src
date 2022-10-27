@@ -42,6 +42,7 @@
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
+    "ts-loader": "^9.4.1",
     "typescript": "^4.8.4",
     "vue-eslint-parser": "^9.1.0",
     "vue-loader": "^17.0.0",
@@ -51,7 +52,6 @@
   },
   "dependencies": {
     "cactbot": "0.27.19",
-    "plain-object-is-equal": "^2.0.0",
     "vue": "^3.2.41",
     "vuedraggable": "^4.1.0"
   }
