@@ -1,4 +1,6 @@
+import Conditions from 'cactbot/resources/conditions';
 import NetRegexes from 'cactbot/resources/netregexes';
+import ZoneId from 'cactbot/resources/zone_id';
 import type { PluginCombatantState } from 'cactbot/types/event';
 import type { NetMatches } from 'cactbot/types/net_matches';
 import type { TargetedMatches } from 'cactbot/types/trigger';

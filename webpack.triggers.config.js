@@ -9,7 +9,7 @@ module.exports = {
   },
   devtool: 'inline-source-map',
   optimization: {
-    minimize: true,
+    minimize: false,
     chunkIds: 'named',
   },
   output: {
@@ -17,7 +17,9 @@ module.exports = {
     path: path.resolve(__dirname, 'dist', 'raidboss'),
   },
   externals: {
-    '@trim21/cactbot/resources/netregexes': 'NetRegexes',
+    'cactbot/resources/netregexes': 'NetRegexes',
+    'cactbot/resources/conditions': 'Conditions',
+    'cactbot/resources/zone_id': 'ZoneId',
   },
   resolve: {
     extensions: ['.ts', '.mjs', '.js'],
