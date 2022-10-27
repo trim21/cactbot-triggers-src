@@ -32,7 +32,7 @@ Options.Triggers.push<{ trim_meteorite: number[] }>({
       netRegex: NetRegexes.startsUsing({ id: ['6D9A', '6DD2', '6DD3'] }),
       durationSeconds: 15,
       alertText(data, matches) {
-        let location = (Math.atan2(parseFloat(matches.x) - 100, parseFloat(matches.y) - 100) / Math.PI + 1) % 1;
+        const location = (Math.atan2(parseFloat(matches.x) - 100, parseFloat(matches.y) - 100) / Math.PI + 1) % 1;
         data.trim_meteorite.push(location);
         if (data.trim_meteorite.length === 2) {
           if (location - data.trim_meteorite[0] > 0) {

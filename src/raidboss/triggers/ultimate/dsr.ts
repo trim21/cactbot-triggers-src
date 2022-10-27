@@ -322,7 +322,7 @@ export default defineTrigger<DSRData, BaseData>({
             c(Command('/e 圣龙数据为空'));
             return;
           }
-          let posX = data.WhiteDragon.PosX;
+          const posX = data.WhiteDragon.PosX;
 
           // 二火位置
           const y = parseFloat(matches.y);
@@ -371,7 +371,7 @@ export default defineTrigger<DSRData, BaseData>({
       netRegex: NetRegexes.startsUsing({ id: ['6D9A', '6DD2'] }),
       delaySeconds: 15,
       alertText(data, matches: NetMatches['StartsUsing']) {
-        let location = (Math.atan2(parseFloat(matches.x) - 100, parseFloat(matches.y) - 100) / Math.PI + 1) % 1;
+        const location = (Math.atan2(parseFloat(matches.x) - 100, parseFloat(matches.y) - 100) / Math.PI + 1) % 1;
 
         if (matches.id === '6D9A') {
           data.meteorite[0] = location;
@@ -379,7 +379,7 @@ export default defineTrigger<DSRData, BaseData>({
         }
 
         if (matches.id === '6DD2') {
-          let direction = location - data.meteorite[0];
+          const direction = location - data.meteorite[0];
           if (direction > 0) {
             c(Command('/e 顺时针(左)陨石'));
             return '陨石往左';

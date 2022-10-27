@@ -20,6 +20,7 @@ export default {
     path: path.resolve(__dirname, 'dist', 'raidboss'),
   },
   externals: {
+    'cactbot/resources/util': 'Util',
     'cactbot/resources/netregexes': 'NetRegexes',
     'cactbot/resources/conditions': 'Conditions',
     'cactbot/resources/zone_id': 'ZoneId',

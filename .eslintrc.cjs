@@ -27,6 +27,7 @@ module.exports = {
     'no-unreachable': 'error',
     'object-shorthand': [1, 'always', { avoidExplicitReturnArrows: true }],
     'unused-imports/no-unused-imports': 'error',
+    'prefer-const': 'error',
     '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
     'import/order': [
       'error',
