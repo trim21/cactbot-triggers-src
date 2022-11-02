@@ -1,10 +1,9 @@
 import NetRegexes from 'cactbot/resources/netregexes';
 import ZoneId from 'cactbot/resources/zone_id';
+import type { NetMatches } from 'cactbot/types/net_matches';
 
 import enable_replace_name_with_job from './name_to_job';
 import dsr from './triggers/ultimate/dsr';
-
-import { NetMatches } from 'cactbot/types/net_matches';
 
 void enable_replace_name_with_job();
 console.log('adding user triggers');

@@ -22,7 +22,12 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.{ts,js,cjs,mjs,json}": "prettier -w"
+    "*.{ts,js,cjs,mjs}": [
+      "eslint --fix"
+    ],
+    "*.{ts,js,cjs,mjs,json}": [
+      "prettier -w"
+    ]
   },
   "devDependencies": {
     "@babel/core": "^7.19.6",
