@@ -4,11 +4,13 @@ import ZoneId from 'cactbot/resources/zone_id';
 import enable_replace_name_with_job from './name_to_job';
 import dsr from './triggers/ultimate/dsr';
 
+import { NetMatches } from 'cactbot/types/net_matches';
+
 void enable_replace_name_with_job();
 console.log('adding user triggers');
 void Options.Triggers.push(dsr);
 
-Options.Triggers.push<{ trim_meteorite: number[] }>({
+Options.Triggers.push({
   zoneId: ZoneId.DragonsongsRepriseUltimate,
   initData() {
     return {
@@ -31,11 +33,18 @@ Options.Triggers.push<{ trim_meteorite: number[] }>({
       type: 'StartsUsing',
       netRegex: NetRegexes.startsUsing({ id: ['6D9A', '6DD2', '6DD3'] }),
       durationSeconds: 15,
-      alertText(data, matches) {
+      alertText(data, matches: NetMatches['StartsUsing']) {
         const location = (Math.atan2(parseFloat(matches.x) - 100, parseFloat(matches.y) - 100) / Math.PI + 1) % 1;
-        data.trim_meteorite.push(location);
-        if (data.trim_meteorite.length === 2) {
-          if (location - data.trim_meteorite[0] > 0) {
+
+        if (matches.id === '6D9A') {
+          data.trim_meteorite[0] = location;
+        }
+        if (matches.id === '6DD2') {
+          data.trim_meteorite[1] = location;
+        }
+
+        if (data.trim_meteorite[0] ?? data.trim_meteorite[1] ?? true) {
+          if (data.trim_meteorite[1] > data.trim_meteorite[0]) {
             return '陨石往左';
           } else {
             return '陨石往右';
