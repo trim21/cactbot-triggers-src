@@ -106,4 +106,8 @@ loadRawConfigFromOverlayPlugin().then((remoteRaw) => {
   if (config.partyNotification) {
     console.log('启用小队指挥');
   }
+
+  if (config.enablePostNamazu) {
+    console.log('启用头顶标点');
+  }
 });
