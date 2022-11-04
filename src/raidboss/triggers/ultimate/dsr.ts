@@ -100,6 +100,11 @@ export default defineTrigger<DSRData, BaseData>({
   ],
   triggers: [
     {
+      id: 'qq',
+      type: 'StartsUsing',
+      netRegex: NetRegexes.map({}),
+    },
+    {
       id: 'DSR p3 八人塔',
       type: 'StartsUsing',
       netRegex: NetRegexes.startsUsing({ id: ['6717', '6718', '6719', '671A'] }),
@@ -249,8 +254,8 @@ export default defineTrigger<DSRData, BaseData>({
     },
     {
       id: 'DSR p6 十字火 点名',
-      type: 'GainsEffect',
       disabled: !(config.headMark && config.enablePostNamazu),
+      type: 'GainsEffect',
       netRegex: NetRegexes.gainsEffect({
         effectId: [
           'AC6', // 分散
@@ -305,7 +310,7 @@ export default defineTrigger<DSRData, BaseData>({
       id: 'DSR p6 十字火 起跑点',
       type: 'AddedCombatant',
       disabled: !config.enablePostNamazu,
-      netRegex: NetRegexes.addedCombatantFull({ npcBaseId: '13238' }),
+      netRegex: { npcBaseId: '13238' },
       suppressSeconds: 1,
       async promise(data) {
         await sleep(100);

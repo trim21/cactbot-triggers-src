@@ -7,9 +7,10 @@ import dsr from './triggers/ultimate/dsr';
 
 void enable_replace_name_with_job();
 console.log('adding user triggers');
+
 void Options.Triggers.push(dsr);
 
-Options.Triggers.push({
+void Options.Triggers.push({
   zoneId: ZoneId.DragonsongsRepriseUltimate,
   initData() {
     return {
