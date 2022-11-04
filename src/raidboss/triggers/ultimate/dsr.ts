@@ -353,42 +353,5 @@ export default defineTrigger<DSRData, BaseData>({
         }
       },
     },
-    {
-      id: 'P7顺逆删除',
-      disabled: true,
-      type: 'StartsUsing',
-      netRegex: NetRegexes.startsUsing({ id: ['6D9A', '6DD2'] }),
-      suppressSeconds: 2,
-      delaySeconds: 10,
-      run(data) {
-        data.meteorite = [];
-      },
-    },
-    {
-      id: 'P7顺逆',
-      disabled: true,
-      type: 'StartsUsing',
-      netRegex: NetRegexes.startsUsing({ id: ['6D9A', '6DD2'] }),
-      delaySeconds: 15,
-      alertText(data, matches: NetMatches['StartsUsing']) {
-        const location = (Math.atan2(parseFloat(matches.x) - 100, parseFloat(matches.y) - 100) / Math.PI + 1) % 1;
-
-        if (matches.id === '6D9A') {
-          data.meteorite[0] = location;
-          return;
-        }
-
-        if (matches.id === '6DD2') {
-          const direction = location - data.meteorite[0];
-          if (direction > 0) {
-            c(Command('/e 顺时针(左)陨石'));
-            return '陨石往左';
-          } else {
-            c(Command('/e 逆时针(右)陨石'));
-            return '陨石往右';
-          }
-        }
-      },
-    },
   ],
 });
