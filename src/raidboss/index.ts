@@ -43,7 +43,7 @@ void Options.Triggers.push({
         }
 
         if (data.trim_meteorite[0] ?? data.trim_meteorite[1] ?? true) {
-          if (data.trim_meteorite[1] > data.trim_meteorite[0]) {
+          if (data.trim_meteorite[1] < data.trim_meteorite[0]) {
             return '陨石往左';
           } else {
             return '陨石往右';
