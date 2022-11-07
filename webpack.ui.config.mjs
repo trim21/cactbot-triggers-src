@@ -21,6 +21,7 @@ export default {
     minimize: true,
     chunkIds: 'named',
   },
+  experiments: { topLevelAwait: true },
   resolve: {
     extensions: ['.ts', '.mjs', '.js'],
     alias: {

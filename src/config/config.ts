@@ -1,10 +1,4 @@
 export const overlayPluginKey = 'trim21-triggers-config-1';
-const localStorageKey = 'trim21-triggers-config-1';
-
-const localRawConfig = loadRawConfigFromLocalStorage();
-const config: Readonly<Config> = JSON.parse(localRawConfig);
-export default config;
-export const echoPrefix = config.partyNotification ? '/p' : '/e';
 
 export type Config = {
   enablePostNamazu: boolean;
@@ -54,30 +48,24 @@ export function defaultConfig(): Config {
   return { partyNotification: true, enablePostNamazu: true, jobOrder, headMark: false };
 }
 
-function loadRawConfigFromLocalStorage(): string {
-  const raw = localStorage.getItem(localStorageKey);
-
-  if (!raw) {
-    return JSON.stringify(defaultConfig());
-  }
-
-  try {
-    JSON.parse(raw);
-  } catch {
-    localStorage.removeItem(localStorageKey);
-    return JSON.stringify(defaultConfig());
-  }
-
-  return raw;
-}
-
-export async function loadRawConfigFromOverlayPlugin(): Promise<string> {
+/**
+ * load config from overlay plugin.
+ * If remote config is not set, return default config.
+ * If remove config is not valid JSON, reset remote config to default config.
+ *
+ */
+export async function loadConfig(): Promise<Config> {
   const data = await callOverlayHandler({ call: 'loadData', key: overlayPluginKey });
   if (data?.data) {
-    return data.data as unknown as string;
+    try {
+      return JSON.parse(data.data as string);
+    } catch {
+      await callOverlayHandler({ call: 'saveData', key: overlayPluginKey, data: JSON.stringify(defaultConfig()) });
+      return defaultConfig();
+    }
   }
 
-  return JSON.stringify(defaultConfig());
+  return defaultConfig();
 }
 
 export async function StoreConfig(v: Config) {
@@ -86,28 +74,20 @@ export async function StoreConfig(v: Config) {
   console.log('data change', JSON.stringify(v, null, 2));
 }
 
-loadRawConfigFromOverlayPlugin().then((remoteRaw) => {
-  try {
-    JSON.parse(remoteRaw);
-  } catch {
-    return callOverlayHandler({ call: 'saveData', key: overlayPluginKey, data: null });
-  }
+const config: Readonly<Config> = await loadConfig();
 
-  if (remoteRaw !== localRawConfig) {
-    console.log('config change, reload page');
-    localStorage.setItem(localStorageKey, remoteRaw);
-    Object.assign(config, JSON.parse(remoteRaw));
-  }
+if (config.enablePostNamazu) {
+  console.log('启用鲶鱼精');
+}
 
-  if (config.enablePostNamazu) {
-    console.log('启用鲶鱼精');
-  }
+if (config.partyNotification) {
+  console.log('启用小队指挥');
+}
 
-  if (config.partyNotification) {
-    console.log('启用小队指挥');
-  }
+if (config.enablePostNamazu) {
+  console.log('启用头顶标点');
+}
 
-  if (config.enablePostNamazu) {
-    console.log('启用头顶标点');
-  }
-});
+export const echoPrefix = config.partyNotification ? '/p' : '/e';
+
+export default config;

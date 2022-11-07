@@ -12,13 +12,14 @@ export default {
   },
   devtool: 'inline-source-map',
   optimization: {
-    minimize: true,
+    minimize: false,
     chunkIds: 'named',
   },
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist', 'raidboss'),
   },
+  experiments: { topLevelAwait: true },
   externals: {
     'cactbot/resources/util': 'Util',
     'cactbot/resources/netregexes': 'NetRegexes',

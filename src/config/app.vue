@@ -66,7 +66,7 @@ import { defineComponent } from 'vue';
 import draggable from 'vuedraggable';
 
 import type { Config } from './config';
-import { defaultConfig, loadRawConfigFromOverlayPlugin, sortByJobID, StoreConfig } from './config';
+import { defaultConfig, loadConfig, sortByJobID, StoreConfig } from './config';
 import { jobIDToCN } from './job';
 
 type vueJobData = {
@@ -94,16 +94,13 @@ export default defineComponent({
     };
   },
   created() {
-    loadRawConfigFromOverlayPlugin().then((raw) => {
-      console.log(raw);
-      const c = JSON.parse(raw) as Config;
-
+    loadConfig().then((c) => {
       [{ jobID: 1 }, { jobID: 2 }].sort(sortByJobID);
       this.jobOrder = jobConfigToVueJobData(c.jobOrder);
       this.config = c;
       setTimeout(() => {
         this.loaded = true;
-      }, 100);
+      });
     });
   },
   watch: {
