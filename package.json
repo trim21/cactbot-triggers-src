@@ -57,7 +57,7 @@
   },
   "dependencies": {
     "cactbot": "0.27.22",
-    "vue": "^3.2.41",
+    "vue": "^3.2.42",
     "vuedraggable": "^4.1.0"
   }
 }
