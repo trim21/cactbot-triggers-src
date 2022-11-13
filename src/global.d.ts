@@ -1,7 +1,6 @@
-import type { RaidbossData } from 'cactbot/types/data';
 import type { EventMap, EventType, IOverlayHandler } from 'cactbot/types/event';
 
-import type { UserTriggerSet, BaseTriggerSet } from '@/raidboss/triggers/user_trigger';
+import type { BaseTriggerSet } from '@/raidboss/triggers/user_trigger';
 
 type IAddOverlayListener = <T extends EventType>(event: T, cb: EventMap[T]) => void;
 
@@ -27,8 +26,7 @@ declare global {
   const Options: {
     PlayerNicks: Record<string, string>;
     Triggers: {
-      push<T>(item: T extends Helper<T> ? T : never): void;
-      push<T = {}, Base extends RaidbossData = RaidbossData>(trigger: UserTriggerSet<T, Base>): void;
+      push(item: any): void;
     };
   };
 }

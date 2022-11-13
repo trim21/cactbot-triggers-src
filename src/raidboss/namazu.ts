@@ -24,6 +24,7 @@ type Mark = {
 } & ({ ActorID: number } | { Name: string });
 
 export async function Mark(data: Mark): Promise<void> {
+  console.log('head mark', JSON.stringify(data));
   await call('mark', JSON.stringify(data));
 }
 

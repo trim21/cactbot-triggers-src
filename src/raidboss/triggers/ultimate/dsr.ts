@@ -7,7 +7,7 @@ import type { TargetedMatches } from 'cactbot/types/trigger';
 import type { Data as BaseData } from 'cactbot/ui/raidboss/data/06-ew/ultimate/dragonsongs_reprise_ultimate';
 
 import config, { echoPrefix, sortByJobID, sortNameByJob } from '@/config/config';
-import { getNameToJobID, jobIDToShow, nameToJobID } from '@/config/job';
+import { getNameToJobID, jobIDToCN, jobIDToShow, nameToJobID } from '@/config/job';
 import type { MarkType } from '@/raidboss/namazu';
 import { clearMark, Command, Commands, Mark } from '@/raidboss/namazu';
 import { defineTrigger } from '@/raidboss/triggers/user_trigger';
@@ -188,7 +188,9 @@ export default defineTrigger<DSRData, BaseData>({
 
             await Commands([
               `${echoPrefix}     雷点名`,
-              `${echoPrefix} ${nameToJobID[data.p5Lightning[0].name]} ${nameToJobID[data.p5Lightning[1].name]}`,
+              `${echoPrefix} ${jobIDToCN[nameToJobID[data.p5Lightning[0].name]]} ${
+                jobIDToCN[nameToJobID[data.p5Lightning[1].name]]
+              }`,
             ]);
           });
 
@@ -288,6 +290,7 @@ export default defineTrigger<DSRData, BaseData>({
         namesNoCall.sort(sortNameByJob(nameToJobID)).reverse();
 
         p(async function () {
+          await sleep(1000);
           for (let index = 0; index < data.p6FireSeparation.length; index++) {
             await Mark({
               Name: data.p6FireSeparation[index],
