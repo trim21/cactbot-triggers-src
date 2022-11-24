@@ -15,11 +15,11 @@ void Options.Triggers.push(dsr);
 void Options.Triggers.push(ucu);
 
 void Options.Triggers.push(
-  defineTrigger({
+  defineTrigger<{ trim_meteorite: number[] }>({
     zoneId: ZoneId.DragonsongsRepriseUltimate,
     initData() {
       return {
-        trim_meteorite: [] as number[],
+        trim_meteorite: [],
       };
     },
     triggers: [
