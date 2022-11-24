@@ -4,7 +4,7 @@ import type { NetParams } from 'cactbot/types/net_props';
 import type { TriggerTypes } from 'cactbot/types/net_trigger';
 import type { TimelineField, ResponseField, TriggerField, TriggerOutput } from 'cactbot/types/trigger';
 
-export type BaseTrigger<Data extends RaidbossData, T extends TriggerTypes> = {
+export interface BaseTrigger<Data extends RaidbossData, T extends TriggerTypes> {
   id: string;
   disabled?: boolean;
   condition?: TriggerField<Data, NetMatches[T], boolean | undefined>;
@@ -19,17 +19,17 @@ export type BaseTrigger<Data extends RaidbossData, T extends TriggerTypes> = {
   alertText?: TriggerField<Data, NetMatches[T], TriggerOutput<Data, NetMatches[T]>>;
   infoText?: TriggerField<Data, NetMatches[T], TriggerOutput<Data, NetMatches[T]>>;
   run?: TriggerField<Data, NetMatches[T], void>;
-};
+}
 
 export type BaseNetRegexTrigger<Data extends RaidbossData, T extends TriggerTypes> = BaseTrigger<Data, T> & {
   type: T;
   netRegex: NetParams[T];
 };
 
-type DisabledTrigger = {
+interface DisabledTrigger {
   id: string;
   disabled: true;
-};
+}
 
 export type NetRegexTrigger<Data extends RaidbossData> =
   | BaseNetRegexTrigger<Data, 'StartsUsing'>
@@ -42,13 +42,13 @@ export type TimelineTrigger<Data extends RaidbossData> = BaseTrigger<Data, 'None
   beforeSeconds?: number;
 };
 
-export type BaseTriggerSet<Data extends RaidbossData> = {
+export interface BaseTriggerSet<Data extends RaidbossData> {
   zoneId: number[] | number | null;
 
   timeline?: TimelineField;
   triggers?: (NetRegexTrigger<Data> | DisabledTrigger)[];
   timelineTriggers?: TimelineTrigger<Data>[];
-};
+}
 
 // T and Base are not allowed to have same properties.
 export type UserTriggerSet<T, Base extends RaidbossData> = keyof T & keyof Base extends never

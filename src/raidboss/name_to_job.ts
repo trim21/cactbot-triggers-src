@@ -5,13 +5,12 @@ export default () => {
 
   addOverlayListener('PartyChanged', (e) => {
     for (const [key] of Object.entries(playerNicks)) {
+      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
       delete playerNicks[key];
     }
 
     // default nickname should be here
     for (const party of e.party) {
-      // console.log(party.name, party.job, jobIDToCN[party.job]);
-
       const v = jobIDToCN[party.job];
       if (v) {
         playerNicks[party.name] = v;

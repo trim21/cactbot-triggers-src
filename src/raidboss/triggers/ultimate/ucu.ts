@@ -21,7 +21,7 @@ export default defineTrigger<{}, BaseData>({
         return 9;
       },
       suppressSeconds: 20,
-      alarmText(_data, matches, output) {
+      alarmText(_data, matches) {
         if (parseFloat(matches.duration) <= 6) return '死宣一号点名';
         if (parseFloat(matches.duration) <= 10) return '死宣二号点名';
         return '死宣三号点名';

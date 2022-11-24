@@ -2,16 +2,16 @@ export const overlayPluginKey = 'trim21-triggers-config-1';
 const localStorageKey = 'trim21-triggers-config-1';
 
 const localRawConfig = loadRawConfigFromLocalStorage();
-const config: Readonly<Config> = JSON.parse(localRawConfig);
+const config: Readonly<Config> = JSON.parse(localRawConfig) as Config;
 export default config;
 export const echoPrefix = config.partyNotification ? '/p' : '/e';
 
-export type Config = {
+export interface Config {
   enablePostNamazu: boolean;
   jobOrder: Record<string, number>;
   headMark: boolean;
   partyNotification: boolean;
-};
+}
 
 export function sortNameByJob(nameToJobID: Record<string, number>): (a: string, b: string) => number {
   return (a, b) => config.jobOrder[nameToJobID[a]] - config.jobOrder[nameToJobID[b]];
@@ -86,28 +86,32 @@ export async function StoreConfig(v: Config) {
   console.log('data change', JSON.stringify(v, null, 2));
 }
 
-loadRawConfigFromOverlayPlugin().then((remoteRaw) => {
-  try {
-    JSON.parse(remoteRaw);
-  } catch {
-    return callOverlayHandler({ call: 'saveData', key: overlayPluginKey, data: null });
-  }
+loadRawConfigFromOverlayPlugin()
+  .then((remoteRaw) => {
+    try {
+      JSON.parse(remoteRaw);
+    } catch {
+      return callOverlayHandler({ call: 'saveData', key: overlayPluginKey, data: null });
+    }
 
-  if (remoteRaw !== localRawConfig) {
-    console.log('config change, reload page');
-    localStorage.setItem(localStorageKey, remoteRaw);
-    Object.assign(config, JSON.parse(remoteRaw));
-  }
+    if (remoteRaw !== localRawConfig) {
+      console.log('config change, reload page');
+      localStorage.setItem(localStorageKey, remoteRaw);
+      Object.assign(config, JSON.parse(remoteRaw));
+    }
 
-  if (config.enablePostNamazu) {
-    console.log('启用鲶鱼精');
-  }
+    if (config.enablePostNamazu) {
+      console.log('启用鲶鱼精');
+    }
 
-  if (config.partyNotification) {
-    console.log('启用小队指挥');
-  }
+    if (config.partyNotification) {
+      console.log('启用小队指挥');
+    }
 
-  if (config.enablePostNamazu) {
-    console.log('启用头顶标点');
-  }
-});
+    if (config.enablePostNamazu) {
+      console.log('启用头顶标点');
+    }
+  })
+  .catch((e) => {
+    throw e;
+  });

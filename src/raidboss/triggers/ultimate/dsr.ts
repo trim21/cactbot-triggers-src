@@ -32,12 +32,12 @@ const sep = '       ';
 export interface DSRData {
   marked: boolean;
   nameToJobID?: Record<string, number>;
-  p5Lightning: Array<{ name: string; jobID: number }>;
+  p5Lightning: { name: string; jobID: number }[];
   p5DeadCall: Record<string, boolean>;
-  tower: Array<{
+  tower: {
     num: number;
     target: number;
-  }>;
+  }[];
 
   WhiteDragon: undefined | PluginCombatantState;
 

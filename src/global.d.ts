@@ -4,9 +4,7 @@ import type { BaseTriggerSet } from '@/raidboss/triggers/user_trigger';
 
 type IAddOverlayListener = <T extends EventType>(event: T, cb: EventMap[T]) => void;
 
-interface Namazu {
-  (payload: { call: 'PostNamazu'; c: 'command' | 'mark'; p: string }): Promise<void>;
-}
+type Namazu = (payload: { call: 'PostNamazu'; c: 'command' | 'mark'; p: string }) => Promise<void>;
 
 interface OverlayPlugin {
   (msg: { call: 'saveData'; key: string; data: unknown }): Promise<void>;
@@ -26,7 +24,7 @@ declare global {
   const Options: {
     PlayerNicks: Record<string, string>;
     Triggers: {
-      push(item: any): void;
+      push(item: unknown): void;
     };
   };
 }

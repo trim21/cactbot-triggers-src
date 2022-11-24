@@ -8,14 +8,14 @@ import ucu from './triggers/ultimate/ucu';
 
 import { defineTrigger } from '@/raidboss/triggers/user_trigger';
 
-void enable_replace_name_with_job();
+enable_replace_name_with_job();
 console.log('adding user triggers');
 
-void Options.Triggers.push(dsr);
-void Options.Triggers.push(ucu);
+Options.Triggers.push(dsr);
+Options.Triggers.push(ucu);
 
-void Options.Triggers.push(
-  defineTrigger<{ trim_meteorite: number[] }>({
+Options.Triggers.push(
+  defineTrigger<{ trim_meteorite: (number | undefined)[] }>({
     zoneId: ZoneId.DragonsongsRepriseUltimate,
     initData() {
       return {

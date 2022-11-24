@@ -1,7 +1,6 @@
 module.exports = {
   extends: ['plugin:import/recommended', 'plugin:import/typescript'],
-  parser: '@typescript-eslint/parser',
-  plugins: ['import', '@typescript-eslint', 'unused-imports'],
+  plugins: ['import', 'unused-imports'],
   root: true,
   ignorePatterns: ['**/dist/**'],
   env: {
@@ -13,6 +12,32 @@ module.exports = {
     sourceType: 'module',
   },
   overrides: [
+    {
+      files: '*.ts',
+      parser: '@typescript-eslint/parser',
+      plugins: ['@typescript-eslint'],
+      extends: [
+        'plugin:@typescript-eslint/recommended',
+        'plugin:@typescript-eslint/recommended-requiring-type-checking',
+        'plugin:@typescript-eslint/strict',
+      ],
+      parserOptions: {
+        project: './tsconfig.json',
+      },
+      rules: {
+        '@typescript-eslint/ban-types': [
+          'error',
+          {
+            types: {
+              // un-ban a type that's banned by default
+              Object: false,
+              '{}': false,
+            },
+            extendDefaults: true,
+          },
+        ],
+      },
+    },
     {
       files: '**.vue',
       parser: 'vue-eslint-parser',
