@@ -47,7 +47,7 @@ void Options.Triggers.push(
             data.trim_meteorite[1] = location;
           }
 
-          if (data.trim_meteorite[0] ?? data.trim_meteorite[1] ?? true) {
+          if (data.trim_meteorite[0] !== undefined && data.trim_meteorite[1] !== undefined) {
             if (data.trim_meteorite[1] < data.trim_meteorite[0]) {
               return '陨石往左';
             } else {
