@@ -57,15 +57,24 @@ module.exports = {
     'import/order': [
       'error',
       {
+        distinctGroup: false,
         alphabetize: {
           order: 'asc' /* sort in ascending order. Options: ['ignore', 'asc', 'desc'] */,
+          orderImportKind: 'asc',
           caseInsensitive: true /* ignore case. Options: [true, false] */,
         },
+        pathGroups: [
+          {
+            pattern: '@/.*',
+            group: 'internal',
+          },
+        ],
         'newlines-between': 'always',
         groups: [
           'builtin', // Built-in types are first
           'external',
           ['sibling', 'parent'], // Then sibling and parent types. They can be mingled together
+          'internal',
           'index', // Then the index file
           'object',
         ],
