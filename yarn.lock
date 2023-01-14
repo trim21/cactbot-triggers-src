@@ -1626,10 +1626,10 @@ buffer-from@^1.0.0:
   resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.1.2.tgz#2b146a6fd72e80b4f55d255f35ed59a3a9a41bd5"
   integrity sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==
 
-cactbot@0.27.24:
-  version "0.27.24"
-  resolved "https://registry.yarnpkg.com/cactbot/-/cactbot-0.27.24.tgz#133a18196796d9f8d69e3f30520cea759117bfaf"
-  integrity sha512-wlF+/ynuifTCmgYYY8Jl5yUIQIkNTAjn+TxAJQkIqs3hBWwaorrs/OvI9ojNTJEtRAxKq+8RmubcsncDMQAQQw==
+cactbot@0.28.1:
+  version "0.28.1"
+  resolved "https://registry.yarnpkg.com/cactbot/-/cactbot-0.28.1.tgz#1d5da08e16ba32e0f645e7b4a572183f12bd263f"
+  integrity sha512-/mg1miH711DpTHoWgZGMk6jPoVipQetllF5shJBblejbwmVoEFDDH1c1vzFKTtsqEsQ/+Q8Mg1JZJMCVxlqeug==
 
 call-bind@^1.0.0, call-bind@^1.0.2:
   version "1.0.2"
