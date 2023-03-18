@@ -30,10 +30,10 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.21.0",
+    "@babel/core": "^7.21.3",
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-typescript": "^7.21.0",
-    "@babel/types": "^7.21.2",
+    "@babel/types": "^7.21.3",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
     "babel-loader": "^9.1.2",
@@ -52,7 +52,7 @@
     "vue-eslint-parser": "^9.1.0",
     "vue-loader": "^17.0.1",
     "vue-template-compiler": "^2.7.14",
-    "webpack": "^5.76.1",
+    "webpack": "^5.76.2",
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
