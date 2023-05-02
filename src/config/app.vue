@@ -95,7 +95,6 @@ export default defineComponent({
   },
   created() {
     loadRawConfigFromOverlayPlugin().then((raw) => {
-      console.log(raw);
       const c = JSON.parse(raw) as Config;
 
       [{ jobID: 1 }, { jobID: 2 }].sort(sortByJobID);
@@ -104,6 +103,8 @@ export default defineComponent({
       setTimeout(() => {
         this.loaded = true;
       }, 100);
+    }).catch(e => {
+      console.error(e);
     });
   },
   watch: {
