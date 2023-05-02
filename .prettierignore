@@ -2,3 +2,4 @@ cactbot/
 dist/
 .vscode/
 .idea/
+.yarn/

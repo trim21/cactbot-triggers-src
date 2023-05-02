@@ -25,7 +25,7 @@
     "*.{ts,js,cjs,mjs}": [
       "eslint --fix"
     ],
-    "*.{ts,js,cjs,mjs,json}": [
+    "*.{ts,js,cjs,mjs,json,yml,vue}": [
       "prettier -w"
     ]
   },
