@@ -2372,7 +2372,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.59.1
     "@typescript-eslint/parser": ^5.59.1
     babel-loader: ^9.1.2
-    cactbot: 0.28.18
+    cactbot: 0.29.5
     copy-webpack-plugin: ^11.0.0
     eslint: ^8.39.0
     eslint-import-resolver-typescript: ^3.5.5
@@ -2395,10 +2395,10 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"cactbot@npm:0.28.18":
-  version: 0.28.18
-  resolution: "cactbot@npm:0.28.18"
-  checksum: eee38a99e87fffed646e0049d622be24acb822d20ec4bbb637021145307029f04ae928eb4ad382348831757e2e4d0c1c32f91c911cb2eae6e16164fd76824541
+"cactbot@npm:0.29.5":
+  version: 0.29.5
+  resolution: "cactbot@npm:0.29.5"
+  checksum: d18e43fa0169d66ed7cf499691e1b73f3561ae0f9db8c91c4bac14edd1e09d0fc89f5b6cad04725eda7daf5b497bf8f6d22fa30a9b971d8b95b623885776a68c
   languageName: node
   linkType: hard
 
