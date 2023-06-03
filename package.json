@@ -14,12 +14,11 @@
     "lint": "eslint --ext ts,js,vue,mjs,cjs .",
     "format": "prettier -w ./",
     "triggers": "yarn workspace triggers",
-    "prebuild": "rimraf ./dist/",
     "build": "webpack --config webpack.triggers.config.mjs --config webpack.ui.config.mjs",
     "start": "yarn build --watch",
     "start:ui": "webpack --config webpack.ui.config.mjs --watch",
     "update-submodules": "git submodule foreach git pull",
-    "prepare": "husky install"
+    "postinstall": "husky install"
   },
   "lint-staged": {
     "*.{ts,js,cjs,mjs}": [
