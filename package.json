@@ -55,7 +55,7 @@
     "webpack-cli": "^5.1.1"
   },
   "dependencies": {
-    "cactbot": "0.29.5",
+    "cactbot": "0.29.16",
     "vue": "^3.3.4",
     "vuedraggable": "^4.1.0"
   },
